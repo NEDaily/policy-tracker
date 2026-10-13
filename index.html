@@ -72,7 +72,9 @@ a{color:var(--navy)}
 
 /* ============ 工具条 ============ */
 .toolbar{position:sticky;top:0;z-index:100;background:rgba(255,253,247,.96);backdrop-filter:blur(6px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:30px}
-.toolbar-inner{display:flex;align-items:center;gap:12px;padding:12px 0;flex-wrap:wrap}
+.toolbar-inner{display:flex;flex-direction:column;gap:9px;padding:10px 0}
+.toolbar-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.toolbar-row.selects{gap:8px}
 .search{
   flex:1;min-width:220px;display:flex;align-items:center;gap:8px;
   border:1px solid var(--line);background:#fff;padding:7px 12px;border-radius:2px;
@@ -226,29 +228,33 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
 <!-- 工具条 -->
 <div class="toolbar">
   <div class="wrap toolbar-inner">
-    <div class="tabs">
-      <button class="tab-btn active" id="tabFeed" onclick="switchView('feed')">政策与线索流</button>
-      <button class="tab-btn" id="tabDigest" onclick="switchView('digest')">核心研判</button>
-    </div>
-    <div class="search feed-only">
-      <span class="icon">⌕</span>
-      <input type="text" id="q" placeholder="搜索标题、文号、机构、要点…" oninput="render()">
+    <div class="toolbar-row">
+      <div class="tabs">
+        <button class="tab-btn active" id="tabFeed" onclick="switchView('feed')">政策与线索流</button>
+        <button class="tab-btn" id="tabDigest" onclick="switchView('digest')">核心研判</button>
+      </div>
+      <div class="search feed-only">
+        <span class="icon">⌕</span>
+        <input type="text" id="q" placeholder="搜索标题、文号、机构、要点…" oninput="render()">
+      </div>
     </div>
     <div class="chips feed-only" id="fieldChips"></div>
-    <select class="filter feed-only" id="levelSel" onchange="render()">
-      <option value="">全部层级</option>
-      <option value="national">国家</option>
-      <option value="liaoning">辽宁省</option>
-    </select>
-    <select class="filter feed-only" id="statusSel" onchange="render()">
-      <option value="">全部条目</option>
-      <option value="key">重点关注</option>
-    </select>
-    <select class="filter feed-only" id="sortSel" onchange="render()">
-      <option value="dateDesc">最新发布优先</option>
-      <option value="dateAsc">最早发布优先</option>
-      <option value="starred">星标优先</option>
-    </select>
+    <div class="toolbar-row feed-only selects">
+      <select class="filter" id="levelSel" onchange="render()">
+        <option value="">全部层级</option>
+        <option value="national">国家</option>
+        <option value="liaoning">辽宁省</option>
+      </select>
+      <select class="filter" id="statusSel" onchange="render()">
+        <option value="">全部条目</option>
+        <option value="key">重点关注</option>
+      </select>
+      <select class="filter" id="sortSel" onchange="render()">
+        <option value="dateDesc">最新发布优先</option>
+        <option value="dateAsc">最早发布优先</option>
+        <option value="starred">星标优先</option>
+      </select>
+    </div>
   </div>
 </div>
 
