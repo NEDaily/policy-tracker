@@ -165,7 +165,6 @@ body[data-view="digest"] #digestSection{display:block}
 .pg-btn:hover{border-color:var(--navy);color:var(--navy)}
 .pg-btn.on{background:var(--navy);border-color:var(--navy);color:#fff}
 .pg-btn.dis{opacity:.4;pointer-events:none}
-select.filter option:disabled{color:#c5c0b2}
 
 /* 侧栏 */
 .side{display:flex;flex-direction:column;gap:16px}
@@ -407,7 +406,7 @@ const LEVELS = {national:'国家',liaoning:'辽宁省'};
 
 let items = [];
 let curField = '';
-let curMonth = 'latest';
+let curMonth = 'all';
 let pageIdx = 1;
 const PAGE_SIZE = 30;
 
@@ -447,7 +446,7 @@ function render(){
     if(curField && it.field!==curField) return false;
     if(lv && it.level!==lv) return false;
     if(st && it.status!==st) return false;
-    if(curMonth && curMonth!=='latest' && !(it.date||'').startsWith(curMonth)) return false;
+    if(curMonth && curMonth!=='all' && !(it.date||'').startsWith(curMonth)) return false;
     if(q){
       const hay = [it.title,it.docno,it.org,it.digest,it.impact].join(' ').toLowerCase();
       if(!hay.includes(q)) return false;
@@ -535,22 +534,22 @@ function setPage(p){
   pageIdx = p; render();
   window.scrollTo({top:0, behavior:'smooth'});
 }
-/* 年月下拉：有数据的月份可选并显示条数，无数据的月份灰显不可选 */
+/* 年月下拉：仅列出 2025 年 1 月至今有收录的月份，未来月份不显示 */
 function buildMonthOptions(){
   const months = {};
   items.forEach(it=>{
     const d = (it.date||'');
     if(/^\d{4}-\d{2}/.test(d)){ const k = d.slice(0,7); months[k] = (months[k]||0)+1; }
   });
-  const years = [...new Set(Object.keys(months).map(m=>m.slice(0,4)))].sort().reverse();
-  let html = '<option value="latest">最新 30 条</option>';
+  const now = new Date();
+  const ceil = now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+  const years = [...new Set(Object.keys(months).filter(m=>m>='2025-01'&&m<=ceil).map(m=>m.slice(0,4)))].sort().reverse();
+  let html = '<option value="all">全部时间</option>';
   years.forEach(y=>{
     html += `<optgroup label="${y} 年">`;
     for(let m=12;m>=1;m--){
       const key = y+'-'+String(m).padStart(2,'0');
-      html += months[key]
-        ? `<option value="${key}">${y}年${m}月 · ${months[key]}条</option>`
-        : `<option value="${key}" disabled>${y}年${m}月 · 无收录</option>`;
+      if(months[key]) html += `<option value="${key}">${y}年${m}月 · ${months[key]}条</option>`;
     }
     html += '</optgroup>';
   });
