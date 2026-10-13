@@ -124,21 +124,21 @@ body[data-view="digest"] #digestSection{display:block}
 .item:hover{border-color:var(--navy)}
 .item::before{
   content:"";position:absolute;left:-18px;top:24px;width:9px;height:9px;border-radius:50%;
-  background:var(--card);border:2px solid var(--navy);
+  background:var(--card);border:2px solid var(--red);
 }
-.item.liaoning::before{border-color:var(--red)}
+.item.liaoning::before{border-color:var(--navy)}
 @keyframes riseIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
 .date-block{text-align:center;padding-top:2px}
-.date-block .d{font-family:var(--serif);font-size:26px;font-weight:900;color:var(--navy-deep);line-height:1.2}
-.item.liaoning .date-block .d{color:var(--red-deep)}
+.date-block .d{font-family:var(--serif);font-size:26px;font-weight:900;color:var(--red-deep);line-height:1.2}
+.item.liaoning .date-block .d{color:var(--navy-deep)}
 .date-block .dd{font-size:11.5px;letter-spacing:.1em;color:var(--ink-soft);margin-top:2px}
 .date-block .y{font-size:10.5px;color:var(--ink-faint);letter-spacing:.08em;margin-top:1px}
 
 .item-body .badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
 .badge{font-size:10.5px;letter-spacing:.08em;padding:2px 8px;border-radius:2px;color:#fff;font-weight:600}
-.badge.level{background:var(--navy)}
-.badge.level.liaoning{background:var(--red)}
+.badge.level{background:var(--red)}
+.badge.level.liaoning{background:var(--navy)}
 .badge.status-key{background:var(--gold);color:#fff}
 .item h3.title{font-family:var(--serif);font-size:16.5px;font-weight:900;color:var(--ink);line-height:1.55;letter-spacing:.02em}
 .item h3.title a{color:inherit;text-decoration:none}
@@ -329,10 +329,10 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
 <script>
 /* ================= 基础配置 ================= */
 const FIELDS = {
-  competitive:{name:'风光竞争性配置',color:'#173a5e'},
+  competitive:{name:'风光竞争性配置',color:'#b25822'},
   retrofit:   {name:'老旧机组改造',color:'#8a5a2b'},
   distribution:{name:'增量配电',color:'#1f6b4a'},
-  pricing:    {name:'电价市场化',color:'#b23a2f'},
+  pricing:    {name:'电价市场化',color:'#7d3b5e'},
   storage:    {name:'储能与消纳',color:'#3d6b7d'},
   other:      {name:'其他',color:'#6b6558'},
 };
