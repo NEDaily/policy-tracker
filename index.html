@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>新能源政策跟踪 · 国家与辽宁省政策动态</title>
+<style>
+:root{
+  --paper:#f5f2ea;
+  --card:#fffdf7;
+  --ink:#2b333d;
+  --ink-soft:#5c6470;
+  --ink-faint:#8b8f96;
+  --navy:#173a5e;
+  --navy-deep:#0e2a45;
+  --red:#b23a2f;
+  --red-deep:#8f2e25;
+  --gold:#c9a227;
+  --line:#ddd5c2;
+  --line-soft:#e8e2d2;
+  --shadow:0 1px 2px rgba(30,40,50,.06),0 6px 18px -6px rgba(30,40,50,.10);
+  --serif:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,serif;
+  --sans:"Noto Sans SC","Source Han Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);
+  color:var(--ink);
+  background:var(--paper);
+  background-image:
+    repeating-linear-gradient(0deg,rgba(0,0,0,.012) 0 1px,transparent 1px 3px),
+    radial-gradient(1200px 500px at 50% -100px,rgba(23,58,94,.05),transparent 70%);
+  font-size:15px;
+  line-height:1.75;
+}
+a{color:var(--navy)}
+::selection{background:rgba(178,58,47,.18)}
+
+.wrap{max-width:1280px;margin:0 auto;padding:0 28px}
+
+/* ============ 刊头 ============ */
+.masthead{background:var(--card);border-bottom:1px solid var(--line)}
+.masthead .top-rule{height:6px;background:linear-gradient(90deg,var(--red) 0 60%,var(--gold) 60% 62%,var(--navy) 62% 100%)}
+.masthead-inner{padding:30px 0;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.brand h1{font-family:var(--serif);font-weight:900;font-size:clamp(32px,4.6vw,46px);letter-spacing:.14em;color:var(--navy-deep);line-height:1.15}
+.masthead-right{text-align:center}
+.masthead-right .date-line{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--navy-deep);letter-spacing:.08em}
+.masthead-right .week{font-size:12.5px;color:var(--ink-faint);margin-top:2px;letter-spacing:.2em}
+
+/* ============ 解读专区（独立模块） ============ */
+.digest{margin-top:30px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);padding:22px 24px 24px}
+.section-head{display:flex;align-items:baseline;gap:14px;margin-bottom:18px}
+.tag{font-size:12px;letter-spacing:.3em;color:#fff;background:var(--red);padding:4px 12px 4px 14px;font-weight:700;white-space:nowrap}
+.section-head h2{font-family:var(--serif);font-size:22px;font-weight:900;letter-spacing:.1em;color:var(--navy-deep)}
+.section-head .rule{flex:1;height:1px;background:var(--line)}
+.digest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.digest-card{
+  background:var(--card);border:1px solid var(--line);border-top:3px solid var(--navy);
+  padding:20px 22px 16px;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:.2s;
+}
+.digest-card:hover{transform:translateY(-2px);border-top-color:var(--red)}
+.digest-card .no{font-family:var(--serif);font-size:13px;color:var(--gold);font-weight:700;letter-spacing:.2em;margin-bottom:6px}
+.digest-card h3{font-family:var(--serif);font-size:17.5px;font-weight:900;color:var(--navy-deep);letter-spacing:.04em;margin-bottom:10px;line-height:1.5}
+.digest-card .body{font-size:13.5px;color:var(--ink-soft);line-height:1.85;flex:1}
+.digest-card .body p+p{margin-top:7px}
+.digest-card .body b{color:var(--ink);font-weight:700}
+.digest-card .watch{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--red-deep);line-height:1.7}
+.digest-card .watch b{letter-spacing:.1em}
+.digest-card .more{display:inline-block;margin-top:11px;font-size:12px;letter-spacing:.08em;color:var(--navy);text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:1px}
+.digest-card .more:hover{color:var(--red)}
+
+/* ============ 工具条 ============ */
+.toolbar{position:sticky;top:0;z-index:100;background:rgba(255,253,247,.96);backdrop-filter:blur(6px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:30px}
+.toolbar-inner{display:flex;align-items:center;gap:12px;padding:12px 0;flex-wrap:wrap}
+.search{
+  flex:1;min-width:220px;display:flex;align-items:center;gap:8px;
+  border:1px solid var(--line);background:#fff;padding:7px 12px;border-radius:2px;
+}
+.search input{border:none;outline:none;background:transparent;font-family:var(--sans);font-size:13.5px;width:100%;color:var(--ink)}
+.search .icon{color:var(--ink-faint);font-size:14px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{
+  font-size:12px;padding:5px 12px;border:1px solid var(--line);border-radius:999px;
+  cursor:pointer;color:var(--ink-soft);background:#fff;letter-spacing:.04em;transition:.15s;user-select:none;
+}
+.chip:hover{border-color:var(--navy);color:var(--navy)}
+.chip.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.chip.on.red{background:var(--red);border-color:var(--red)}
+select.filter{
+  font-family:var(--sans);font-size:12.5px;color:var(--ink);border:1px solid var(--line);
+  background:#fff;padding:6px 8px;border-radius:2px;outline:none;cursor:pointer;
+}
+.tabs{display:flex;gap:8px}
+.tab-btn{
+  font-family:var(--sans);font-size:12.5px;letter-spacing:.08em;font-weight:700;
+  padding:6px 14px;border:1px solid var(--navy);color:var(--navy);background:#fff;
+  border-radius:2px;cursor:pointer;transition:.15s;white-space:nowrap;
+}
+.tab-btn:not(.active):hover{background:rgba(23,58,94,.08)}
+.tab-btn.active{background:var(--red);border-color:var(--red);color:#fff}
+body[data-view="digest"] .feed-only{display:none}
+body[data-view="digest"] #feedMain{display:none}
+#digestSection{display:none}
+body[data-view="digest"] #digestSection{display:block}
+
+/* ============ 主区布局 ============ */
+.layout{display:grid;grid-template-columns:1fr 320px;gap:24px;padding:26px 0 40px;align-items:start}
+
+/* 政策流 */
+.feed-head{display:flex;align-items:baseline;justify-content:flex-end;margin-bottom:14px}
+.feed-head .count{font-size:12.5px;color:var(--ink-faint);letter-spacing:.08em}
+.feed{position:relative;padding-left:18px}
+.feed::before{content:"";position:absolute;left:4px;top:8px;bottom:8px;width:1px;background:var(--line)}
+.item{
+  position:relative;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);
+  margin-bottom:14px;padding:16px 18px 12px 16px;display:grid;grid-template-columns:64px 1fr;gap:14px;
+  opacity:0;animation:riseIn .45s cubic-bezier(.2,.7,.3,1) forwards;transition:.18s;
+}
+.item:hover{border-color:var(--navy)}
+.item::before{
+  content:"";position:absolute;left:-18px;top:24px;width:9px;height:9px;border-radius:50%;
+  background:var(--card);border:2px solid var(--navy);
+}
+.item.liaoning::before{border-color:var(--red)}
+.item.starred{border-left:3px solid var(--gold)}
+@keyframes riseIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+.date-block{text-align:center;padding-top:2px}
+.date-block .d{font-family:var(--serif);font-size:26px;font-weight:900;color:var(--navy-deep);line-height:1.2}
+.item.liaoning .date-block .d{color:var(--red-deep)}
+.date-block .dd{font-size:11.5px;letter-spacing:.1em;color:var(--ink-soft);margin-top:2px}
+.date-block .y{font-size:10.5px;color:var(--ink-faint);letter-spacing:.08em;margin-top:1px}
+
+.item-body .badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+.badge{font-size:10.5px;letter-spacing:.08em;padding:2px 8px;border-radius:2px;color:#fff;font-weight:600}
+.badge.level{background:var(--navy)}
+.badge.level.liaoning{background:var(--red)}
+.badge.status-key{background:var(--gold);color:#fff}
+.item h3.title{font-family:var(--serif);font-size:16.5px;font-weight:900;color:var(--ink);line-height:1.55;letter-spacing:.02em}
+.item h3.title a{color:inherit;text-decoration:none}
+.item h3.title a:hover{color:var(--navy)}
+.item .meta{font-size:12px;color:var(--ink-faint);margin:5px 0 8px;letter-spacing:.04em}
+.item .meta .docno{color:var(--navy);font-weight:600}
+.ops .op{text-decoration:none}
+.item .digest{font-size:13.5px;color:var(--ink-soft);line-height:1.8}
+.item .impact{margin-top:9px;padding:9px 12px;background:rgba(23,58,94,.045);border-left:3px solid var(--navy);font-size:13px;color:var(--ink-soft);line-height:1.75}
+.item .impact b{color:var(--navy-deep)}
+.item .impact .ref,.digest-card .watch .ref{display:block;margin-top:4px;font-size:11.5px;color:var(--ink-faint);letter-spacing:.02em}
+.ops{display:flex;gap:4px;flex-wrap:wrap;margin-top:10px;padding-top:8px;border-top:1px solid var(--line-soft)}
+.op{
+  font-size:11.5px;color:var(--ink-faint);background:transparent;border:none;cursor:pointer;
+  padding:3px 8px;border-radius:2px;letter-spacing:.05em;transition:.15s;font-family:var(--sans);
+}
+.op:hover{background:rgba(23,58,94,.08);color:var(--navy)}
+.empty{padding:60px 0;text-align:center;color:var(--ink-faint);font-size:14px;letter-spacing:.1em}
+
+/* 侧栏 */
+.side{display:flex;flex-direction:column;gap:16px;position:sticky;top:70px}
+.side-card{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow)}
+.side-card .sc-head{padding:12px 16px 0;display:flex;align-items:center;gap:8px}
+.side-card .sc-head::before{content:"";width:3px;height:14px;background:var(--red)}
+.side-card .sc-head h4{font-family:var(--serif);font-size:15px;font-weight:900;letter-spacing:.1em;color:var(--navy-deep)}
+.side-card .sc-body{padding:10px 16px 14px}
+.src{display:block;text-decoration:none;padding:8px 0;border-bottom:1px dashed var(--line-soft);transition:.15s}
+.src:last-child{border-bottom:none}
+.src .n{font-size:13.5px;font-weight:700;color:var(--navy);display:flex;align-items:center;justify-content:space-between}
+.src .n .arrow{color:var(--gold);font-weight:400;transition:.15s}
+.src:hover .n .arrow{transform:translateX(3px)}
+.src .d{font-size:11.5px;color:var(--ink-faint);margin-top:1px}
+.stat-row{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:10px}
+.stat-cell{text-align:center;padding:9px 4px;background:#fff;border:1px solid var(--line-soft)}
+.stat-cell .v{font-family:var(--serif);font-size:22px;font-weight:900;color:var(--navy-deep)}
+.stat-cell.hot .v{color:var(--red)}
+.stat-cell .k{font-size:10.5px;color:var(--ink-faint);letter-spacing:.1em;margin-top:1px}
+.dist{display:flex;flex-direction:column;gap:6px}
+.dist-row{display:grid;grid-template-columns:86px 1fr 22px;align-items:center;gap:8px;font-size:11.5px;color:var(--ink-soft)}
+.dist-row .bar{height:7px;background:var(--line-soft);position:relative;overflow:hidden}
+.dist-row .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--navy)}
+.dist-row .c{text-align:right;font-family:var(--serif);font-weight:700;color:var(--navy)}
+
+/* 页脚 */
+footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;background:var(--card)}
+.foot-note{font-size:11.5px;color:var(--ink-faint);line-height:1.9;text-align:center;letter-spacing:.03em}
+.foot-note b{color:var(--ink-soft)}
+
+/* toast */
+.toast{
+  position:fixed;bottom:34px;left:50%;transform:translate(-50%,20px);opacity:0;
+  background:var(--navy-deep);color:#fff;font-size:13px;letter-spacing:.06em;
+  padding:10px 22px;border-radius:2px;box-shadow:0 8px 30px rgba(0,0,0,.25);
+  transition:.28s;z-index:1200;pointer-events:none;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (max-width:1020px){
+  .digest-grid{grid-template-columns:1fr 1fr}
+  .layout{grid-template-columns:1fr}
+  .side{position:static}
+}
+@media (max-width:680px){
+  .digest-grid{grid-template-columns:1fr}
+  .masthead-inner{flex-direction:column;align-items:flex-start}
+  .masthead-right{text-align:left}
+  .item{grid-template-columns:1fr;gap:6px}
+  .date-block{display:flex;align-items:baseline;gap:8px;text-align:left}
+  .date-block .d{font-size:20px}
+}
+</style>
+</head>
+<body>
+
+<!-- 刊头 -->
+<header class="masthead">
+  <div class="top-rule"></div>
+  <div class="wrap masthead-inner">
+    <div class="brand">
+      <h1>新能源政策跟踪</h1>
+    </div>
+    <div class="masthead-right">
+      <div class="date-line" id="todayDate">—</div>
+      <div class="week" id="todayWeek">—</div>
+    </div>
+  </div>
+</header>
+
+<!-- 工具条 -->
+<div class="toolbar">
+  <div class="wrap toolbar-inner">
+    <div class="tabs">
+      <button class="tab-btn active" id="tabFeed" onclick="switchView('feed')">政策与线索流</button>
+      <button class="tab-btn" id="tabDigest" onclick="switchView('digest')">核心研判</button>
+    </div>
+    <div class="search feed-only">
+      <span class="icon">⌕</span>
+      <input type="text" id="q" placeholder="搜索标题、文号、机构、要点…" oninput="render()">
+    </div>
+    <div class="chips feed-only" id="fieldChips"></div>
+    <select class="filter feed-only" id="levelSel" onchange="render()">
+      <option value="">全部层级</option>
+      <option value="national">国家</option>
+      <option value="liaoning">辽宁省</option>
+    </select>
+    <select class="filter feed-only" id="statusSel" onchange="render()">
+      <option value="">全部条目</option>
+      <option value="key">重点关注</option>
+    </select>
+    <select class="filter feed-only" id="sortSel" onchange="render()">
+      <option value="dateDesc">最新发布优先</option>
+      <option value="dateAsc">最早发布优先</option>
+      <option value="starred">星标优先</option>
+    </select>
+  </div>
+</div>
+
+<!-- 解读专区 -->
+<section class="digest wrap" id="digestSection">
+  <div class="section-head">
+    <span class="tag">政策解读</span>
+    <h2>核心政策要点研判</h2>
+    <div class="rule"></div>
+  </div>
+  <div class="digest-grid" id="digestGrid"></div>
+</section>
+
+<!-- 主区 -->
+<main class="wrap layout" id="feedMain">
+  <section>
+    <div class="feed-head">
+      <div class="count" id="countLine"></div>
+    </div>
+    <div class="feed" id="feed"></div>
+  </section>
+
+  <aside class="side">
+    <div class="side-card">
+      <div class="sc-head"><h4>官方信息源</h4></div>
+      <div class="sc-body">
+        <a class="src" href="https://www.ndrc.gov.cn" target="_blank" rel="noopener">
+          <div class="n">国家发展改革委<span class="arrow">→</span></div>
+          <div class="d">宏观与价格政策 · 体改司 · 能源司</div>
+        </a>
+        <a class="src" href="https://www.nea.gov.cn" target="_blank" rel="noopener">
+          <div class="n">国家能源局<span class="arrow">→</span></div>
+          <div class="d">规范性文件 · 新能源司 · 派出机构动态</div>
+        </a>
+        <a class="src" href="https://www.ln.gov.cn" target="_blank" rel="noopener">
+          <div class="n">辽宁省人民政府<span class="arrow">→</span></div>
+          <div class="d">省政府文件 · 政策解读栏目</div>
+        </a>
+        <a class="src" href="https://fgw.ln.gov.cn" target="_blank" rel="noopener">
+          <div class="n">辽宁省发展改革委<span class="arrow">→</span></div>
+          <div class="d">省级风光资源配置 · 机制电价竞价通知发布口</div>
+        </a>
+        <a class="src" href="https://dbj.nea.gov.cn" target="_blank" rel="noopener">
+          <div class="n">东北能源监管局<span class="arrow">→</span></div>
+          <div class="d">区域电力监管 · 市场规则与监管动态</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="side-card">
+      <div class="sc-head"><h4>跟踪概览</h4></div>
+      <div class="sc-body">
+        <div class="stat-row" id="statRow"></div>
+        <div class="dist" id="distBox"></div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<!-- 页脚 -->
+<footer>
+  <div class="wrap">
+    <div class="foot-note">
+      本页条目为检索各官方网站后筛选更新的政策要点存档，请以各机构官方发布原文为准。
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="policy-data.js"></script>
+<script>
+/* ================= 基础配置 ================= */
+const FIELDS = {
+  competitive:{name:'风光竞争性配置',color:'#173a5e'},
+  retrofit:   {name:'老旧机组改造',color:'#8a5a2b'},
+  distribution:{name:'增量配电',color:'#1f6b4a'},
+  pricing:    {name:'电价市场化',color:'#b23a2f'},
+  storage:    {name:'储能与消纳',color:'#3d6b7d'},
+  other:      {name:'其他',color:'#6b6558'},
+};
+const LEVELS = {national:'国家',liaoning:'辽宁省'};
+
+let items = [];
+let curField = '';
+
+/* ================= 数据加载：以 policy-data.js 为唯一数据源 ================= */
+function load(){
+  const seed = window.POLICY_SEED;
+  items = Array.isArray(seed) ? seed : [];
+}
+
+/* ================= 渲染 ================= */
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function fmtDate(d){
+  if(!d) return '';
+  const parts = d.split('-');
+  if(parts.length===1) return d;
+  const y=parts[0], m=parseInt(parts[1],10);
+  if(parts.length===2) return {m, y, text:`${m}月`, day:null};
+  const day=parseInt(parts[2],10);
+  return {m, y, text:String(day), day};
+}
+
+function render(){
+  // 领域 chips
+  const chipsBox = document.getElementById('fieldChips');
+  chipsBox.innerHTML = `<span class="chip ${curField===''?'on':''}" onclick="setField('')">全部</span>` +
+    Object.entries(FIELDS).map(([k,v])=>
+      `<span class="chip ${curField===k?'on red':''}" onclick="setField('${k}')">${v.name}</span>`).join('');
+
+  // 筛选
+  const q = document.getElementById('q').value.trim().toLowerCase();
+  const lv = document.getElementById('levelSel').value;
+  const st = document.getElementById('statusSel').value;
+  const sort = document.getElementById('sortSel').value;
+
+  let list = items.filter(it=>{
+    if(curField && it.field!==curField) return false;
+    if(lv && it.level!==lv) return false;
+    if(st && it.status!==st) return false;
+    if(q){
+      const hay = [it.title,it.docno,it.org,it.digest,it.impact].join(' ').toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+  const sortKey = d => (d||'').padEnd(10,'0');
+  if(sort==='dateDesc') list.sort((a,b)=>sortKey(b.date).localeCompare(sortKey(a.date)));
+  else if(sort==='dateAsc') list.sort((a,b)=>sortKey(a.date).localeCompare(sortKey(b.date)));
+  else if(sort==='starred') list.sort((a,b)=>(b.starred-a.starred)||sortKey(b.date).localeCompare(sortKey(a.date)));
+
+  document.getElementById('countLine').textContent =
+    `共 ${list.length} 条` + (list.length!==items.length ? ` / 库内 ${items.length} 条` : '');
+
+  // 政策流
+  const feed = document.getElementById('feed');
+  if(!list.length){
+    feed.innerHTML = `<div class="empty">暂无符合条件的条目</div>`;
+  }else{
+    feed.innerHTML = list.map((it,i)=>{
+      const d = fmtDate(it.date);
+      const f = FIELDS[it.field]||FIELDS.other;
+      const dateHtml = d ? `<div class="date-block">
+          ${d.day?`<div class="dd">${d.day}日</div>`:''}
+          <div class="d">${(d.m||'')+'月'}</div>
+          <div class="y">${d.y||''}</div>
+        </div>` : `<div class="date-block"></div>`;
+      const titleHtml = it.url
+        ? `<a href="${esc(it.url)}" target="_blank" rel="noopener">${esc(it.title)}</a>`
+        : esc(it.title);
+      return `<article class="item ${it.level==='liaoning'?'liaoning':''} ${it.starred?'starred':''}" style="animation-delay:${Math.min(i*45,450)}ms">
+        ${dateHtml}
+        <div class="item-body">
+          <div class="badges">
+            <span class="badge level ${it.level==='liaoning'?'liaoning':''}">${LEVELS[it.level]||'其他'}</span>
+            <span class="badge" style="background:${f.color}">${f.name}</span>
+            ${it.status==='key'?'<span class="badge status-key">重点关注</span>':''}
+          </div>
+          <h3 class="title">${titleHtml}</h3>
+          <div class="meta">${it.docno?`<span class="docno">${esc(it.docno)}</span>`:''}${it.docno&&it.org?' ｜ ':''}${esc(it.org||'')}</div>
+          <div class="digest">${esc(it.digest||'')}</div>
+          ${it.impact?`<div class="impact"><b>研判：</b>${esc(it.impact)}${it.ref?`<span class="ref">（${esc(it.ref)}）</span>`:''}</div>`:''}
+          <div class="ops">
+            <button class="op" onclick="copyBrief('${it.id}')">⎘ 复制通报</button>
+            ${it.url?`<a class="op" href="${esc(it.url)}" target="_blank" rel="noopener">原文全文 ↗</a>`:''}
+          </div>
+        </div>
+      </article>`;
+    }).join('');
+  }
+
+  // 统计
+  const key = items.filter(i=>i.status==='key').length;
+  document.getElementById('statRow').innerHTML = `
+    <div class="stat-cell"><div class="v">${items.length}</div><div class="k">条目总数</div></div>
+    <div class="stat-cell hot"><div class="v">${key}</div><div class="k">重点关注</div></div>`;
+  const maxC = Math.max(1,...Object.keys(FIELDS).map(k=>items.filter(i=>i.field===k).length));
+  document.getElementById('distBox').innerHTML = Object.entries(FIELDS).map(([k,v])=>{
+    const c = items.filter(i=>i.field===k).length;
+    return `<div class="dist-row"><span>${v.name}</span><div class="bar"><i style="width:${c/maxC*100}%;background:${v.color}"></i></div><span class="c">${c}</span></div>`;
+  }).join('');
+}
+
+function setField(k){ curField = k; render(); }
+
+/* ================= 视图切换 ================= */
+function switchView(v){
+  document.body.dataset.view = v;
+  document.getElementById('tabFeed').classList.toggle('active', v==='feed');
+  document.getElementById('tabDigest').classList.toggle('active', v==='digest');
+  window.scrollTo({top:0});
+}
+
+/* ================= 条目操作 ================= */
+function copyBrief(id){
+  const it = items.find(i=>i.id===id); if(!it) return;
+  const d = (it.date||'').replace(/^(\d+)-(\d+)-?(\d+)?$/,(_,m,dd)=>`${m}月${dd?dd+'日':''}`);
+  const lines = [
+    `【政策速递】${it.title}`,
+    `层级领域：${LEVELS[it.level]||''} · ${(FIELDS[it.field]||{}).name||''}`,
+    `发布：${it.org||''}${it.docno?'（'+it.docno+'）':''}`,
+    it.date?`时间：${d}`:'',
+    it.digest?`要点：${it.digest}`:'',
+    it.url?`原文：${it.url}`:''
+  ].filter(Boolean).join('\n');
+  (navigator.clipboard?.writeText(lines)||Promise.reject()).then(
+    ()=>toast('通报文本已复制，可直接粘贴转发'),
+    ()=>{ const ta=document.createElement('textarea'); ta.value=lines; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); toast('通报文本已复制'); }
+  );
+}
+
+/* ================= 初始化 ================= */
+const DIGEST_NUMS = ['壹','贰','叁','肆','伍'];
+function renderDigests(){
+  const tops = items.filter(i=>i.top).slice(0,3);
+  const grid = document.getElementById('digestGrid');
+  if(!tops.length){ grid.innerHTML=''; return; }
+  grid.innerHTML = tops.map((it,i)=>{
+    const body = it.topBody || (it.digest?`<p>${esc(it.digest)}</p>`:'');
+    const watch = it.topImpact || it.impact || '';
+    return `<div class="digest-card">
+      <div class="no">解读 · ${DIGEST_NUMS[i]}</div>
+      <h3>${esc(it.topTitle||it.title)}</h3>
+      <div class="body">${body}</div>
+      ${watch?`<div class="watch"><b>跟踪要点</b>：${esc(watch)}${it.ref?`<span class="ref">（${esc(it.ref)}）</span>`:''}</div>`:''}
+      ${it.url?`<a class="more" href="${esc(it.url)}" target="_blank" rel="noopener">阅读全文 →</a>`:''}
+    </div>`;
+  }).join('');
+}
+function initDate(){
+  const now = new Date();
+  const wd = ['日','一','二','三','四','五','六'][now.getDay()];
+  document.getElementById('todayDate').textContent =
+    `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日`;
+  document.getElementById('todayWeek').textContent = `星期${wd}`;
+}
+let toastTimer=null;
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'),2200);
+}
+initDate(); load(); renderDigests(); render();
+</script>
+</body>
+</html>
