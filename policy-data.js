@@ -8,6 +8,7 @@
         缺省时回退 title/digest/impact），最多展示 3 张，由每日检索维护轮换。
    ============================================================ */
 window.POLICY_UPDATED_AT = '2026-10-13 23:20';
+window.POLICY_UPDATED_COUNT = 8;
 window.POLICY_SEED = [
   {
     id:'s1', level:'national', field:'pricing', top:true,
