@@ -49,6 +49,7 @@ a{color:var(--navy)}
 .masthead-right{text-align:center}
 .masthead-right .date-line{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--navy-deep);letter-spacing:.08em}
 .masthead-right .week{font-size:12.5px;color:var(--ink-faint);margin-top:2px;letter-spacing:.2em}
+.masthead-right .updated{font-size:11.5px;color:var(--ink-faint);margin-top:5px;letter-spacing:.1em}
 
 /* ============ 解读专区（独立模块） ============ */
 .digest{margin-top:30px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);padding:22px 24px 24px}
@@ -230,6 +231,7 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
     <div class="masthead-right">
       <div class="date-line" id="todayDate">—</div>
       <div class="week" id="todayWeek">—</div>
+      <div class="updated" id="updatedAt"></div>
     </div>
   </div>
 </header>
@@ -606,6 +608,8 @@ function initDate(){
   document.getElementById('todayDate').textContent =
     `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日`;
   document.getElementById('todayWeek').textContent = `星期${wd}`;
+  const u = window.POLICY_UPDATED_AT;
+  if(u) document.getElementById('updatedAt').textContent = `最近更新 ${u}`;
 }
 let toastTimer=null;
 function toast(msg){
