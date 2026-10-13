@@ -124,21 +124,21 @@ body[data-view="digest"] #digestSection{display:block}
 .item:hover{border-color:var(--navy)}
 .item::before{
   content:"";position:absolute;left:-18px;top:24px;width:9px;height:9px;border-radius:50%;
-  background:var(--card);border:2px solid var(--red);
+  background:var(--card);border:2px solid var(--navy);
 }
-.item.liaoning::before{border-color:var(--navy)}
+.item.liaoning::before{border-color:var(--red)}
 @keyframes riseIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
 .date-block{text-align:center;padding-top:2px}
-.date-block .d{font-family:var(--serif);font-size:26px;font-weight:900;color:var(--red-deep);line-height:1.2}
-.item.liaoning .date-block .d{color:var(--navy-deep)}
+.date-block .d{font-family:var(--serif);font-size:26px;font-weight:900;color:var(--navy-deep);line-height:1.2}
+.item.liaoning .date-block .d{color:var(--red-deep)}
 .date-block .dd{font-size:11.5px;letter-spacing:.1em;color:var(--ink-soft);margin-top:2px}
 .date-block .y{font-size:10.5px;color:var(--ink-faint);letter-spacing:.08em;margin-top:1px}
 
 .item-body .badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
 .badge{font-size:10.5px;letter-spacing:.08em;padding:2px 8px;border-radius:2px;color:#fff;font-weight:600}
-.badge.level{background:var(--red)}
-.badge.level.liaoning{background:var(--navy)}
+.badge.level{background:var(--navy)}
+.badge.level.liaoning{background:var(--red)}
 .badge.status-key{background:var(--gold);color:#fff}
 .item h3.title{font-family:var(--serif);font-size:16.5px;font-weight:900;color:var(--ink);line-height:1.55;letter-spacing:.02em}
 .item h3.title a{color:inherit;text-decoration:none}
