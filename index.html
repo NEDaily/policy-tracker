@@ -157,6 +157,15 @@ body[data-view="digest"] #digestSection{display:block}
 }
 .op:hover{background:rgba(23,58,94,.08);color:var(--navy)}
 .empty{padding:60px 0;text-align:center;color:var(--ink-faint);font-size:14px;letter-spacing:.1em}
+.pager{display:none;justify-content:center;align-items:center;gap:8px;margin:20px 0 4px}
+.pg-btn{
+  font-size:12px;letter-spacing:.05em;padding:5px 13px;border:1px solid var(--line);border-radius:999px;
+  cursor:pointer;color:var(--ink-soft);background:#fff;user-select:none;transition:.15s;
+}
+.pg-btn:hover{border-color:var(--navy);color:var(--navy)}
+.pg-btn.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.pg-btn.dis{opacity:.4;pointer-events:none}
+select.filter option:disabled{color:#c5c0b2}
 
 /* 侧栏 */
 .side{display:flex;flex-direction:column;gap:16px}
@@ -236,21 +245,22 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
       </div>
       <div class="search feed-only">
         <span class="icon">⌕</span>
-        <input type="text" id="q" placeholder="搜索标题、文号、机构、要点…" oninput="render()">
+        <input type="text" id="q" placeholder="搜索标题、文号、机构、要点…" oninput="filterReset()">
       </div>
     </div>
     <div class="chips feed-only" id="fieldChips"></div>
     <div class="toolbar-row feed-only selects">
-      <select class="filter" id="levelSel" onchange="render()">
+      <select class="filter" id="monthSel" onchange="setMonth(this.value)"></select>
+      <select class="filter" id="levelSel" onchange="filterReset()">
         <option value="">全部层级</option>
         <option value="national">国家</option>
         <option value="liaoning">辽宁省</option>
       </select>
-      <select class="filter" id="statusSel" onchange="render()">
+      <select class="filter" id="statusSel" onchange="filterReset()">
         <option value="">全部条目</option>
         <option value="key">重点关注</option>
       </select>
-      <select class="filter" id="sortSel" onchange="render()">
+      <select class="filter" id="sortSel" onchange="filterReset()">
         <option value="dateDesc">最新发布优先</option>
         <option value="dateAsc">最早发布优先</option>
       </select>
@@ -275,6 +285,7 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
       <div class="count" id="countLine"></div>
     </div>
     <div class="feed" id="feed"></div>
+    <div class="pager" id="pager"></div>
   </section>
 
   <aside class="side">
@@ -396,6 +407,9 @@ const LEVELS = {national:'国家',liaoning:'辽宁省'};
 
 let items = [];
 let curField = '';
+let curMonth = 'latest';
+let pageIdx = 1;
+const PAGE_SIZE = 30;
 
 /* ================= 数据加载：以 policy-data.js 为唯一数据源 ================= */
 function load(){
@@ -433,6 +447,7 @@ function render(){
     if(curField && it.field!==curField) return false;
     if(lv && it.level!==lv) return false;
     if(st && it.status!==st) return false;
+    if(curMonth && curMonth!=='latest' && !(it.date||'').startsWith(curMonth)) return false;
     if(q){
       const hay = [it.title,it.docno,it.org,it.digest,it.impact].join(' ').toLowerCase();
       if(!hay.includes(q)) return false;
@@ -443,15 +458,21 @@ function render(){
   if(sort==='dateDesc') list.sort((a,b)=>sortKey(b.date).localeCompare(sortKey(a.date)));
   else if(sort==='dateAsc') list.sort((a,b)=>sortKey(a.date).localeCompare(sortKey(b.date)));
 
+  // 分页（每页 30 条）
+  const PAGES = Math.max(1, Math.ceil(list.length/PAGE_SIZE));
+  if(pageIdx>PAGES) pageIdx = PAGES;
+  if(pageIdx<1) pageIdx = 1;
+  const pageList = list.slice((pageIdx-1)*PAGE_SIZE, pageIdx*PAGE_SIZE);
+
   document.getElementById('countLine').textContent =
-    `共 ${list.length} 条` + (list.length!==items.length ? ` / 库内 ${items.length} 条` : '');
+    `共 ${list.length} 条` + (PAGES>1?` · 第 ${pageIdx}/${PAGES} 页`:'') + (list.length!==items.length ? ` / 库内 ${items.length} 条` : '');
 
   // 政策流
   const feed = document.getElementById('feed');
   if(!list.length){
     feed.innerHTML = `<div class="empty">暂无符合条件的条目</div>`;
   }else{
-    feed.innerHTML = list.map((it,i)=>{
+    feed.innerHTML = pageList.map((it,i)=>{
       const d = fmtDate(it.date);
       const f = FIELDS[it.field]||FIELDS.other;
       const dateHtml = d ? `<div class="date-block">
@@ -483,6 +504,18 @@ function render(){
     }).join('');
   }
 
+  // 分页控件
+  const pager = document.getElementById('pager');
+  if(PAGES>1){
+    pager.style.display = 'flex';
+    let btns = `<span class="pg-btn ${pageIdx<=1?'dis':''}" onclick="setPage(${pageIdx-1})">‹ 上一页</span>`;
+    for(let p=1;p<=PAGES;p++) btns += `<span class="pg-btn ${p===pageIdx?'on':''}" onclick="setPage(${p})">${p}</span>`;
+    btns += `<span class="pg-btn ${pageIdx>=PAGES?'dis':''}" onclick="setPage(${pageIdx+1})">下一页 ›</span>`;
+    pager.innerHTML = btns;
+  }else{
+    pager.style.display = 'none';
+  }
+
   // 统计
   const key = items.filter(i=>i.status==='key').length;
   document.getElementById('statRow').innerHTML = `
@@ -495,7 +528,34 @@ function render(){
   }).join('');
 }
 
-function setField(k){ curField = k; render(); }
+function setField(k){ curField = k; pageIdx = 1; render(); }
+function filterReset(){ pageIdx = 1; render(); }
+function setMonth(v){ curMonth = v; pageIdx = 1; render(); }
+function setPage(p){
+  pageIdx = p; render();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+/* 年月下拉：有数据的月份可选并显示条数，无数据的月份灰显不可选 */
+function buildMonthOptions(){
+  const months = {};
+  items.forEach(it=>{
+    const d = (it.date||'');
+    if(/^\d{4}-\d{2}/.test(d)){ const k = d.slice(0,7); months[k] = (months[k]||0)+1; }
+  });
+  const years = [...new Set(Object.keys(months).map(m=>m.slice(0,4)))].sort().reverse();
+  let html = '<option value="latest">最新 30 条</option>';
+  years.forEach(y=>{
+    html += `<optgroup label="${y} 年">`;
+    for(let m=12;m>=1;m--){
+      const key = y+'-'+String(m).padStart(2,'0');
+      html += months[key]
+        ? `<option value="${key}">${y}年${m}月 · ${months[key]}条</option>`
+        : `<option value="${key}" disabled>${y}年${m}月 · 无收录</option>`;
+    }
+    html += '</optgroup>';
+  });
+  document.getElementById('monthSel').innerHTML = html;
+}
 
 /* ================= 视图切换 ================= */
 function switchView(v){
@@ -555,7 +615,7 @@ function toast(msg){
   clearTimeout(toastTimer);
   toastTimer = setTimeout(()=>t.classList.remove('show'),2200);
 }
-initDate(); load(); renderDigests(); render();
+initDate(); load(); buildMonthOptions(); renderDigests(); render();
 </script>
 </body>
 </html>
