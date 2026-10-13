@@ -156,7 +156,7 @@ body[data-view="digest"] #digestSection{display:block}
 .empty{padding:60px 0;text-align:center;color:var(--ink-faint);font-size:14px;letter-spacing:.1em}
 
 /* 侧栏 */
-.side{display:flex;flex-direction:column;gap:16px;position:sticky;top:70px}
+.side{display:flex;flex-direction:column;gap:16px}
 .side-card{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow)}
 .side-card .sc-head{padding:12px 16px 0;display:flex;align-items:center;gap:8px}
 .side-card .sc-head::before{content:"";width:3px;height:14px;background:var(--red)}
@@ -196,7 +196,6 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
 @media (max-width:1020px){
   .digest-grid{grid-template-columns:1fr 1fr}
   .layout{grid-template-columns:1fr}
-  .side{position:static}
 }
 @media (max-width:680px){
   .digest-grid{grid-template-columns:1fr}
