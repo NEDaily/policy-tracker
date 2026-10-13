@@ -125,7 +125,6 @@ body[data-view="digest"] #digestSection{display:block}
   background:var(--card);border:2px solid var(--navy);
 }
 .item.liaoning::before{border-color:var(--red)}
-.item.starred{border-left:3px solid var(--gold)}
 @keyframes riseIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
 .date-block{text-align:center;padding-top:2px}
@@ -252,7 +251,6 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
       <select class="filter" id="sortSel" onchange="render()">
         <option value="dateDesc">最新发布优先</option>
         <option value="dateAsc">最早发布优先</option>
-        <option value="starred">星标优先</option>
       </select>
     </div>
   </div>
@@ -386,7 +384,6 @@ function render(){
   const sortKey = d => (d||'').padEnd(10,'0');
   if(sort==='dateDesc') list.sort((a,b)=>sortKey(b.date).localeCompare(sortKey(a.date)));
   else if(sort==='dateAsc') list.sort((a,b)=>sortKey(a.date).localeCompare(sortKey(b.date)));
-  else if(sort==='starred') list.sort((a,b)=>(b.starred-a.starred)||sortKey(b.date).localeCompare(sortKey(a.date)));
 
   document.getElementById('countLine').textContent =
     `共 ${list.length} 条` + (list.length!==items.length ? ` / 库内 ${items.length} 条` : '');
@@ -407,7 +404,7 @@ function render(){
       const titleHtml = it.url
         ? `<a href="${esc(it.url)}" target="_blank" rel="noopener">${esc(it.title)}</a>`
         : esc(it.title);
-      return `<article class="item ${it.level==='liaoning'?'liaoning':''} ${it.starred?'starred':''}" style="animation-delay:${Math.min(i*45,450)}ms">
+      return `<article class="item ${it.level==='liaoning'?'liaoning':''}" style="animation-delay:${Math.min(i*45,450)}ms">
         ${dateHtml}
         <div class="item-body">
           <div class="badges">
