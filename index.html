@@ -609,7 +609,11 @@ function initDate(){
     `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日`;
   document.getElementById('todayWeek').textContent = `星期${wd}`;
   const u = window.POLICY_UPDATED_AT;
-  if(u) document.getElementById('updatedAt').textContent = `最近更新 ${u}`;
+  if(u){
+    const c = window.POLICY_UPDATED_COUNT;
+    document.getElementById('updatedAt').textContent =
+      `最近更新 ${u}` + (c ? ` · 新增 ${c} 条` : '');
+  }
 }
 let toastTimer=null;
 function toast(msg){
