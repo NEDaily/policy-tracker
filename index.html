@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="favicon.png?v=2">
 <link rel="shortcut icon" href="favicon.ico?v=2">
-<title>新能源政策跟踪 · 国家与辽宁省政策动态</title>
+<title>辽宁省新能源政策跟踪</title>
 <style>
 :root{
   --paper:#f5f2ea;
@@ -248,7 +248,7 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
   <div class="top-rule"></div>
   <div class="wrap masthead-inner">
     <div class="brand">
-      <h1>新能源政策跟踪</h1>
+      <h1>辽宁省新能源政策跟踪</h1>
     </div>
     <div class="masthead-right">
       <div class="date-line" id="todayDate">—</div>
@@ -277,10 +277,10 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
       <select class="filter" id="levelSel" onchange="onLevelChange()">
         <option value="">全部层级</option>
         <option value="national">国家</option>
-        <option value="liaoning">辽宁省</option>
+        <option value="liaoning">省级</option>
         <option value="city">市级</option>
       </select>
-      <select class="filter" id="citySel" onchange="onCityChange(this.value)">
+      <select class="filter" id="citySel" onchange="onCityChange(this.value)" hidden>
         <option value="">全部城市</option>
       </select>
       <select class="filter" id="stageSel" onchange="filterReset()">
@@ -755,7 +755,7 @@ const FIELDS = {
   procedure:  {name:'前期手续',color:'#4f4a7d'},
   other:      {name:'其他',color:'#6b6558'},
 };
-const LEVELS = {national:'国家',liaoning:'辽宁省',city:'市级'};
+const LEVELS = {national:'国家',liaoning:'省级',city:'市级'};
 const CITIES = ['沈阳','大连','鞍山','抚顺','本溪','丹东','锦州','营口','阜新','辽阳','盘锦','铁岭','朝阳','葫芦岛'];
 const STAGES = {
   approval:'核准备案', land:'用地', sea:'用海', forest:'用林用草', eia:'环评',
@@ -912,7 +912,9 @@ function filterReset(){ pageIdx = 1; render(); }
 function setMonth(v){ curMonth = v; pageIdx = 1; render(); }
 function onLevelChange(){
   const lv = document.getElementById('levelSel').value;
-  if(lv!=='city') document.getElementById('citySel').value = '';
+  const citySel = document.getElementById('citySel');
+  if(lv==='city'){ citySel.hidden = false; }
+  else { citySel.hidden = true; citySel.value = ''; }
   filterReset();
 }
 function onCityChange(v){
