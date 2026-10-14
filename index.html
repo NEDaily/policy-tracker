@@ -110,7 +110,6 @@ a{color:var(--navy)}
 }
 .chip.has-menu:hover .chip-menu,.chip.has-menu.open .chip-menu,.chip-menu:hover{display:block}
 .chip-menu::before{content:'';position:absolute;top:-12px;left:-12px;right:-12px;height:12px}
-.chip-menu b{display:block;font-size:10.5px;letter-spacing:.2em;color:var(--ink-faint);padding:6px 14px 4px;font-weight:700}
 .chip-menu a{display:block;font-size:12px;color:var(--ink-soft);padding:6px 14px;cursor:pointer;letter-spacing:.03em}
 .chip-menu a:hover{background:rgba(22,50,79,.06);color:var(--navy)}
 .chip-menu a.sel{color:var(--red);font-weight:700}
@@ -814,7 +813,7 @@ function fmtDate(d){
 function render(){
   // 领域 chips（「前期手续」chip 内嵌环节悬停菜单）
   const chipsBox = document.getElementById('fieldChips');
-  const procMenu = '<span class="chip-menu" onclick="event.stopPropagation()"><b>手续环节</b>' +
+  const procMenu = '<span class="chip-menu" onclick="event.stopPropagation()">' +
     `<a class="${curStage===''?'sel':''}" onclick="setStage('')">全部环节</a>` +
     Object.entries(STAGES).map(([k,v])=>`<a class="${curStage===k?'sel':''}" onclick="setStage('${k}')">${v}</a>`).join('') +
     '</span>';
