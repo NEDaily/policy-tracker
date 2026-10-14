@@ -82,13 +82,10 @@ a{color:var(--navy)}
 .toolbar-inner{display:flex;flex-direction:column;gap:12px;padding:0 0 14px}
 .toolbar-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .toolbar-row.selects{gap:8px}
-.toolbar-row.chips-row{align-items:flex-start}
-.row-tag{flex:none;font-size:11px;letter-spacing:.25em;color:var(--ink-faint);font-weight:700;line-height:1;padding-top:7px}
-.row-tag::before{content:"";display:inline-block;width:8px;height:1px;background:var(--gold);margin-right:7px;vertical-align:3px}
 .toolbar-row.tab-row{background:var(--paper);margin:0 -28px;padding:12px 28px 11px;border-bottom:1px solid var(--line-soft)}
 .search{
   flex:1;min-width:220px;display:flex;align-items:center;gap:8px;
-  border:1px solid var(--line);background:#fff;padding:7px 12px;border-radius:0;
+  border:1px solid var(--line);background:#fff;padding:7px 12px;border-radius:2px;
   transition:border-color .15s, box-shadow .15s;
 }
 .search:focus-within{border-color:var(--navy);box-shadow:0 0 0 2px rgba(22,50,79,.06)}
@@ -120,7 +117,7 @@ a{color:var(--navy)}
 .chip-menu a.sel::after{content:'✓';float:right;font-size:11px;font-weight:400}
 select.filter{
   font-family:var(--sans);font-size:12.5px;color:var(--ink);border:1px solid var(--line);
-  background:#fff;padding:6px 10px;border-radius:0;outline:none;cursor:pointer;
+  background:#fff;padding:6px 10px;border-radius:2px;outline:none;cursor:pointer;
   transition:border-color .15s;
 }
 select.filter:hover{border-color:var(--navy)}
@@ -168,7 +165,7 @@ body[data-view="digest"] #digestSection{display:block}
 .date-block .y{font-size:10.5px;color:var(--ink-faint);letter-spacing:.08em;margin-top:1px}
 
 .item-body .badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
-.badge{font-size:10.5px;letter-spacing:.08em;padding:2px 8px;border-radius:0;color:#fff;font-weight:600}
+.badge{font-size:10.5px;letter-spacing:.08em;padding:2px 8px;border-radius:2px;color:#fff;font-weight:600}
 .badge.level{background:var(--red)}
 .badge.level.liaoning{background:var(--navy)}
 .badge.level.city{background:var(--green)}
@@ -186,7 +183,7 @@ body[data-view="digest"] #digestSection{display:block}
 .ops{display:flex;gap:4px;flex-wrap:wrap;margin-top:10px;padding-top:8px;border-top:1px solid var(--line-soft)}
 .op{
   font-size:11.5px;color:var(--ink-faint);background:transparent;border:none;cursor:pointer;
-  padding:3px 8px;border-radius:0;letter-spacing:.05em;transition:.15s;font-family:var(--sans);
+  padding:3px 8px;border-radius:2px;letter-spacing:.05em;transition:.15s;font-family:var(--sans);
 }
 .op:hover{background:rgba(22,50,79,.08);color:var(--navy)}
 .empty{padding:60px 0;text-align:center;color:var(--ink-faint);font-size:14px;letter-spacing:.1em}
@@ -249,7 +246,7 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
 .toast{
   position:fixed;bottom:34px;left:50%;transform:translate(-50%,20px);opacity:0;
   background:var(--navy-deep);color:#fff;font-size:13px;letter-spacing:.06em;
-  padding:10px 22px;border-radius:0;box-shadow:0 8px 30px rgba(0,0,0,.25);
+  padding:10px 22px;border-radius:2px;box-shadow:0 8px 30px rgba(0,0,0,.25);
   transition:.28s;z-index:1200;pointer-events:none;
 }
 .toast.show{opacity:1;transform:translate(-50%,0)}
@@ -299,12 +296,8 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
         <input type="text" id="q" placeholder="搜索标题、文号、机构、要点…" oninput="filterReset()">
       </div>
     </div>
-    <div class="toolbar-row feed-only chips-row">
-      <span class="row-tag">领域</span>
-      <div class="chips" id="fieldChips"></div>
-    </div>
+    <div class="chips feed-only" id="fieldChips"></div>
     <div class="toolbar-row feed-only selects">
-      <span class="row-tag">筛选</span>
       <select class="filter" id="monthSel" onchange="setMonth(this.value)"></select>
       <select class="filter" id="levelSel" onchange="onLevelChange()">
         <option value="">全部层级</option>
