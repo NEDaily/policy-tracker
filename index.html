@@ -8,21 +8,21 @@
 <title>辽宁省新能源政策跟踪</title>
 <style>
 :root{
-  --paper:#f5f2ea;
+  --paper:#f4f1e8;
   --card:#fffdf7;
   --ink:#2b333d;
   --ink-soft:#5c6470;
   --ink-faint:#8b8f96;
-  --navy:#173a5e;
-  --navy-deep:#0e2a45;
-  --red:#b23a2f;
-  --red-deep:#8f2e25;
-  --green:#3f7d4e;
-  --green-deep:#2c5e38;
-  --gold:#c9a227;
-  --line:#ddd5c2;
-  --line-soft:#e8e2d2;
-  --shadow:0 1px 2px rgba(30,40,50,.06),0 6px 18px -6px rgba(30,40,50,.10);
+  --navy:#16324f;
+  --navy-deep:#0b2340;
+  --red:#9e2a25;
+  --red-deep:#7c221c;
+  --green:#3a6e46;
+  --green-deep:#27512f;
+  --gold:#a98b3d;
+  --line:#d8d0bd;
+  --line-soft:#e6e0d0;
+  --shadow:0 1px 2px rgba(30,40,50,.05),0 5px 14px -6px rgba(30,40,50,.08);
   --serif:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,serif;
   --sans:"Noto Sans SC","Source Han Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
 }
@@ -34,7 +34,7 @@ body{
   background:var(--paper);
   background-image:
     repeating-linear-gradient(0deg,rgba(0,0,0,.012) 0 1px,transparent 1px 3px),
-    radial-gradient(1200px 500px at 50% -100px,rgba(23,58,94,.05),transparent 70%);
+    radial-gradient(1200px 500px at 50% -100px,rgba(22,50,79,.05),transparent 70%);
   font-size:15px;
   line-height:1.75;
 }
@@ -65,7 +65,7 @@ a{color:var(--navy)}
   background:var(--card);border:1px solid var(--line);border-top:3px solid var(--navy);
   padding:20px 22px 16px;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:.2s;
 }
-.digest-card:hover{transform:translateY(-2px);border-top-color:var(--red)}
+.digest-card:hover{border-top-color:var(--red)}
 .digest-card .no{font-family:var(--serif);font-size:13px;color:var(--gold);font-weight:700;letter-spacing:.2em;margin-bottom:6px}
 .digest-card h3{font-family:var(--serif);font-size:17.5px;font-weight:900;color:var(--navy-deep);letter-spacing:.04em;margin-bottom:10px;line-height:1.5}
 .digest-card .body{font-size:13.5px;color:var(--ink-soft);line-height:1.85;flex:1}
@@ -87,31 +87,31 @@ a{color:var(--navy)}
   border:1px solid var(--line);background:#fff;padding:7px 12px;border-radius:2px;
   transition:border-color .15s, box-shadow .15s;
 }
-.search:focus-within{border-color:var(--navy);box-shadow:0 0 0 2px rgba(23,58,94,.06)}
+.search:focus-within{border-color:var(--navy);box-shadow:0 0 0 2px rgba(22,50,79,.06)}
 .search input{border:none;outline:none;background:transparent;font-family:var(--sans);font-size:13.5px;width:100%;color:var(--ink)}
 .search .icon{color:var(--ink-faint);font-size:14px}
 .chips{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
 .chip{
   position:relative;
-  font-size:12px;padding:5px 13px;border:1px solid var(--line);border-radius:999px;
-  cursor:pointer;color:var(--ink-soft);background:#fff;letter-spacing:.04em;transition:.15s;user-select:none;
+  font-size:12px;padding:5px 14px;border:1px solid var(--line);border-radius:0;
+  cursor:pointer;color:var(--ink-soft);background:#fff;letter-spacing:.08em;transition:.15s;user-select:none;
   line-height:1.5;
 }
-.chip:hover{border-color:var(--navy);color:var(--navy);box-shadow:0 1px 4px rgba(23,58,94,.10)}
+.chip:hover{border-color:var(--navy);color:var(--navy);box-shadow:0 1px 2px rgba(22,50,79,.08)}
 .chip.on{background:var(--navy);border-color:var(--navy);color:#fff}
 .chip.on.red{background:var(--red);border-color:var(--red)}
 .chip .caret{font-style:normal;font-size:9px;margin-left:5px;opacity:.8}
 .chip.has-menu{padding-right:10px}
 .chip.has-menu .chip-menu{
   display:none;position:absolute;top:calc(100% + 6px);left:0;z-index:60;min-width:150px;
-  background:#fff;border:1px solid var(--line);border-radius:2px;box-shadow:0 8px 22px rgba(43,51,61,.16);
+  background:#fff;border:1px solid var(--line);border-radius:0;box-shadow:0 6px 16px rgba(43,51,61,.12);
   padding:5px 0;color:var(--ink-soft);text-align:left;
 }
 .chip.has-menu:hover .chip-menu,.chip.has-menu.open .chip-menu,.chip-menu:hover{display:block}
 .chip-menu::before{content:'';position:absolute;top:-12px;left:-12px;right:-12px;height:12px}
 .chip-menu b{display:block;font-size:10.5px;letter-spacing:.2em;color:var(--ink-faint);padding:6px 14px 4px;font-weight:700}
 .chip-menu a{display:block;font-size:12px;color:var(--ink-soft);padding:6px 14px;cursor:pointer;letter-spacing:.03em}
-.chip-menu a:hover{background:rgba(23,58,94,.06);color:var(--navy)}
+.chip-menu a:hover{background:rgba(22,50,79,.06);color:var(--navy)}
 .chip-menu a.sel{color:var(--red);font-weight:700}
 .chip-menu a.sel::after{content:'✓';float:right;font-size:11px;font-weight:400}
 select.filter{
@@ -175,7 +175,7 @@ body[data-view="digest"] #digestSection{display:block}
 .item .meta .docno{color:var(--navy);font-weight:600}
 .ops .op{text-decoration:none}
 .item .digest{font-size:13.5px;color:var(--ink-soft);line-height:1.8}
-.item .impact{margin-top:9px;padding:9px 12px;background:rgba(23,58,94,.045);border-left:3px solid var(--navy);font-size:13px;color:var(--ink-soft);line-height:1.75}
+.item .impact{margin-top:9px;padding:9px 12px;background:rgba(22,50,79,.045);border-left:3px solid var(--navy);font-size:13px;color:var(--ink-soft);line-height:1.75}
 .item .impact b{color:var(--navy-deep)}
 .item .impact .ref,.digest-card .watch .ref{display:block;margin-top:4px;font-size:11.5px;color:var(--ink-faint);letter-spacing:.02em}
 .ops{display:flex;gap:4px;flex-wrap:wrap;margin-top:10px;padding-top:8px;border-top:1px solid var(--line-soft)}
@@ -183,11 +183,11 @@ body[data-view="digest"] #digestSection{display:block}
   font-size:11.5px;color:var(--ink-faint);background:transparent;border:none;cursor:pointer;
   padding:3px 8px;border-radius:2px;letter-spacing:.05em;transition:.15s;font-family:var(--sans);
 }
-.op:hover{background:rgba(23,58,94,.08);color:var(--navy)}
+.op:hover{background:rgba(22,50,79,.08);color:var(--navy)}
 .empty{padding:60px 0;text-align:center;color:var(--ink-faint);font-size:14px;letter-spacing:.1em}
 .pager{display:none;justify-content:center;align-items:center;gap:8px;margin:20px 0 4px}
 .pg-btn{
-  font-size:12px;letter-spacing:.05em;padding:5px 13px;border:1px solid var(--line);border-radius:999px;
+  font-size:12px;letter-spacing:.08em;padding:5px 13px;border:1px solid var(--line);border-radius:0;
   cursor:pointer;color:var(--ink-soft);background:#fff;user-select:none;transition:.15s;
 }
 .pg-btn:hover{border-color:var(--navy);color:var(--navy)}
@@ -920,7 +920,7 @@ function render(){
     return `<div class="dist-row"><span>${k}</span><div class="bar"><i style="width:${c/m*100}%;background:${colorFn(k)}"></i></div><span class="c">${c}</span></div>`;
   }).join('');
   const maxC = Math.max(1,...Object.keys(FIELDS).map(k=>items.filter(i=>i.field===k).length));
-  let distHtml = `<div class="dist-sub">按领域</div><div class="dist">` +
+  let distHtml = `<div class="dist-sub">领域</div><div class="dist">` +
     Object.entries(FIELDS).map(([k,v])=>{
       const c = items.filter(i=>i.field===k).length;
       return `<div class="dist-row"><span>${v.name}</span><div class="bar"><i style="width:${c/maxC*100}%;background:${v.color}"></i></div><span class="c">${c}</span></div>`;
@@ -929,11 +929,11 @@ function render(){
   const stageCnt = {}; items.forEach(i=>{ if(i.stage) stageCnt[i.stage]=(stageCnt[i.stage]||0)+1; });
   if(Object.keys(cityCnt).length){
     const pairs = Object.entries(cityCnt).sort((a,b)=>b[1]-a[1]);
-    distHtml += `<div class="dist-sub">按市</div><div class="dist">` + distRows(pairs,()=> 'var(--green)') + `</div>`;
+    distHtml += `<div class="dist-sub">城市</div><div class="dist">` + distRows(pairs,()=> 'var(--green)') + `</div>`;
   }
   if(Object.keys(stageCnt).length){
     const pairs = Object.entries(stageCnt).sort((a,b)=>b[1]-a[1]).map(([k,c])=>[STAGES[k]||k,c]);
-    distHtml += `<div class="dist-sub">按手续环节</div><div class="dist">` + distRows(pairs,()=> 'var(--navy)') + `</div>`;
+    distHtml += `<div class="dist-sub">手续环节</div><div class="dist">` + distRows(pairs,()=> 'var(--navy)') + `</div>`;
   }
   document.getElementById('distBox').innerHTML = distHtml;
 }
