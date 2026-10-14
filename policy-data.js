@@ -18,8 +18,8 @@
    研判卡：top:true 的条目自动生成顶部研判卡（topTitle/topBody/topImpact，
         缺省时回退 title/digest/impact），最多展示 3 张，由每日检索维护轮换。
    ============================================================ */
-window.POLICY_UPDATED_AT = '2026-10-14 16:45';
-window.POLICY_UPDATED_COUNT = 2;
+window.POLICY_UPDATED_AT = '2026-10-15 01:18';
+window.POLICY_UPDATED_COUNT = 51;
 window.POLICY_SEED = [
   {
     id:'s1', level:'national', field:'pricing', top:true,
