@@ -17,6 +17,8 @@
   --navy-deep:#0e2a45;
   --red:#b23a2f;
   --red-deep:#8f2e25;
+  --green:#3f7d4e;
+  --green-deep:#2c5e38;
   --gold:#c9a227;
   --line:#ddd5c2;
   --line-soft:#e8e2d2;
@@ -128,11 +130,13 @@ body[data-view="digest"] #digestSection{display:block}
   background:var(--card);border:2px solid var(--red);
 }
 .item.liaoning::before{border-color:var(--navy)}
+.item.city::before{border-color:var(--green)}
 @keyframes riseIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
 .date-block{text-align:center;padding-top:2px}
 .date-block .d{font-family:var(--serif);font-size:26px;font-weight:900;color:var(--red-deep);line-height:1.2}
 .item.liaoning .date-block .d{color:var(--navy-deep)}
+.item.city .date-block .d{color:var(--green-deep)}
 .date-block .dd{font-size:11.5px;letter-spacing:.1em;color:var(--ink-soft);margin-top:2px}
 .date-block .y{font-size:10.5px;color:var(--ink-faint);letter-spacing:.08em;margin-top:1px}
 
@@ -140,6 +144,7 @@ body[data-view="digest"] #digestSection{display:block}
 .badge{font-size:10.5px;letter-spacing:.08em;padding:2px 8px;border-radius:2px;color:#fff;font-weight:600}
 .badge.level{background:var(--red)}
 .badge.level.liaoning{background:var(--navy)}
+.badge.level.city{background:var(--green)}
 .badge.status-key{background:var(--gold);color:#fff}
 .item h3.title{font-family:var(--serif);font-size:16.5px;font-weight:900;color:var(--ink);line-height:1.55;letter-spacing:.02em}
 .item h3.title a{color:inherit;text-decoration:none}
@@ -180,6 +185,21 @@ body[data-view="digest"] #digestSection{display:block}
 .src .n .arrow{color:var(--gold);font-weight:400;transition:.15s}
 .src:hover .n .arrow{transform:translateX(3px)}
 .src .d{font-size:11.5px;color:var(--ink-faint);margin-top:1px}
+.src-group{border-bottom:1px dashed var(--line-soft)}
+.src-group:last-of-type{border-bottom:none}
+.src-group summary{
+  cursor:pointer;list-style:none;user-select:none;display:flex;align-items:center;justify-content:space-between;
+  font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--ink-soft);padding:8px 0;transition:.15s;
+}
+.src-group summary::-webkit-details-marker{display:none}
+.src-group summary:hover{color:var(--navy)}
+.src-group summary .t .cnt{font-style:normal;font-size:10.5px;font-weight:400;color:var(--ink-faint);margin-left:8px;letter-spacing:.05em}
+.src-group summary::after{content:"+";color:var(--gold);font-weight:400;font-size:15px;line-height:1}
+.src-group[open] summary::after{content:"−"}
+.src-group .src{padding:7px 0}
+.dist-sub{display:flex;align-items:center;gap:6px;font-size:10.5px;letter-spacing:.2em;color:var(--ink-faint);font-weight:700;margin:12px 0 7px}
+.dist-sub::before{content:"";width:8px;height:1px;background:var(--gold)}
+.dist-sub:first-child{margin-top:2px}
 .stat-row{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:10px}
 .stat-cell{text-align:center;padding:9px 4px;background:#fff;border:1px solid var(--line-soft)}
 .stat-cell .v{font-family:var(--serif);font-size:22px;font-weight:900;color:var(--navy-deep)}
@@ -252,10 +272,17 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
     <div class="chips feed-only" id="fieldChips"></div>
     <div class="toolbar-row feed-only selects">
       <select class="filter" id="monthSel" onchange="setMonth(this.value)"></select>
-      <select class="filter" id="levelSel" onchange="filterReset()">
+      <select class="filter" id="levelSel" onchange="onLevelChange()">
         <option value="">全部层级</option>
         <option value="national">国家</option>
         <option value="liaoning">辽宁省</option>
+        <option value="city">市级</option>
+      </select>
+      <select class="filter" id="citySel" onchange="onCityChange(this.value)">
+        <option value="">全部城市</option>
+      </select>
+      <select class="filter" id="stageSel" onchange="filterReset()">
+        <option value="">全部环节</option>
       </select>
       <select class="filter" id="statusSel" onchange="filterReset()">
         <option value="">全部条目</option>
@@ -293,82 +320,91 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
     <div class="side-card">
       <div class="sc-head"><h4>官方信息源</h4></div>
       <div class="sc-body">
-        <a class="src" href="https://www.ndrc.gov.cn" target="_blank" rel="noopener">
-          <div class="n">国家发展改革委<span class="arrow">→</span></div>
-          <div class="d">宏观与价格政策 · 体改司 · 能源司</div>
-        </a>
-        <a class="src" href="https://www.nea.gov.cn" target="_blank" rel="noopener">
-          <div class="n">国家能源局<span class="arrow">→</span></div>
-          <div class="d">规范性文件 · 新能源司 · 派出机构动态</div>
-        </a>
-        <a class="src" href="https://www.ln.gov.cn" target="_blank" rel="noopener">
-          <div class="n">辽宁省人民政府<span class="arrow">→</span></div>
-          <div class="d">省政府文件 · 政策解读栏目</div>
-        </a>
-        <a class="src" href="https://fgw.ln.gov.cn" target="_blank" rel="noopener">
-          <div class="n">辽宁省发展改革委<span class="arrow">→</span></div>
-          <div class="d">省级风光资源配置 · 机制电价竞价通知发布口</div>
-        </a>
-        <a class="src" href="https://dbj.nea.gov.cn" target="_blank" rel="noopener">
-          <div class="n">东北能源监管局<span class="arrow">→</span></div>
-          <div class="d">区域电力监管 · 市场规则与监管动态</div>
-        </a>
-        <a class="src" href="https://www.mnr.gov.cn" target="_blank" rel="noopener">
-          <div class="n">自然资源部<span class="arrow">→</span></div>
-          <div class="d">海上风电用海管理 · 海域分层立体利用</div>
-        </a>
-        <a class="src" href="https://www.forestry.gov.cn" target="_blank" rel="noopener">
-          <div class="n">国家林业和草原局<span class="arrow">→</span></div>
-          <div class="d">风电场改造升级林草地使用手续</div>
-        </a>
-        <a class="src" href="https://zrzy.ln.gov.cn" target="_blank" rel="noopener">
-          <div class="n">辽宁省自然资源厅<span class="arrow">→</span></div>
-          <div class="d">海域使用审批 · 用海公示</div>
-        </a>
-        <a class="src" href="https://sthj.ln.gov.cn" target="_blank" rel="noopener">
-          <div class="n">辽宁省生态环境厅<span class="arrow">→</span></div>
-          <div class="d">环评受理与批复公示 · 项目落地信号</div>
-        </a>
-        <a class="src" href="https://lyt.ln.gov.cn" target="_blank" rel="noopener">
-          <div class="n">辽宁省林业和草原局<span class="arrow">→</span></div>
-          <div class="d">使用林草地行政许可 · 手续办理公示</div>
-        </a>
-        <a class="src" href="http://www.pc.dl.gov.cn" target="_blank" rel="noopener">
-          <div class="n">大连市发展改革委<span class="arrow">→</span></div>
-          <div class="d">海上风电竞配与项目核准动态</div>
-        </a>
-        <a class="src" href="https://hyfz.dl.gov.cn" target="_blank" rel="noopener">
-          <div class="n">大连市海洋发展局<span class="arrow">→</span></div>
-          <div class="d">大连海域用海管理 · 海上风电项目用海动态</div>
-        </a>
-        <a class="src" href="http://fgw.anshan.gov.cn" target="_blank" rel="noopener">
-          <div class="n">鞍山市发展改革委<span class="arrow">→</span></div>
-          <div class="d">陆上风电竞配公告与结果公示（含岫岩区域）</div>
-        </a>
-        <a class="src" href="https://fgw.fuxin.gov.cn" target="_blank" rel="noopener">
-          <div class="n">阜新市发展改革委<span class="arrow">→</span></div>
-          <div class="d">阜新区域风光竞配与核准动态</div>
-        </a>
-        <a class="src" href="https://fgw.hld.gov.cn" target="_blank" rel="noopener">
-          <div class="n">葫芦岛市发展改革委<span class="arrow">→</span></div>
-          <div class="d">葫芦岛区域风光竞配与核准动态</div>
-        </a>
-        <a class="src" href="http://www.xiuyan.gov.cn" target="_blank" rel="noopener">
-          <div class="n">岫岩满族自治县人民政府<span class="arrow">→</span></div>
-          <div class="d">县域项目公示公告 · 核准动态</div>
-        </a>
-        <a class="src" href="https://www.szx.gov.cn" target="_blank" rel="noopener">
-          <div class="n">绥中县人民政府<span class="arrow">→</span></div>
-          <div class="d">县域项目公示公告 · 核准动态</div>
-        </a>
-        <a class="src" href="https://www.ln.msa.gov.cn" target="_blank" rel="noopener">
-          <div class="n">辽宁海事局<span class="arrow">→</span></div>
-          <div class="d">海上交通安全 · 水上水下活动许可</div>
-        </a>
-        <a class="src" href="http://www.ln.sgcc.cn" target="_blank" rel="noopener">
-          <div class="n">国网辽宁电力<span class="arrow">→</span></div>
-          <div class="d">机制电价竞价专区 · 竞价公示与公布</div>
-        </a>
+        <details class="src-group" open>
+          <summary><span class="t">国家部委<em class="cnt">6</em></span></summary>
+          <a class="src" href="https://www.ndrc.gov.cn" target="_blank" rel="noopener">
+            <div class="n">国家发展改革委<span class="arrow">→</span></div>
+            <div class="d">宏观与价格政策 · 体改司 · 能源司</div>
+          </a>
+          <a class="src" href="https://www.nea.gov.cn" target="_blank" rel="noopener">
+            <div class="n">国家能源局<span class="arrow">→</span></div>
+            <div class="d">规范性文件 · 新能源司 · 派出机构动态</div>
+          </a>
+          <a class="src" href="https://dbj.nea.gov.cn" target="_blank" rel="noopener">
+            <div class="n">东北能源监管局<span class="arrow">→</span></div>
+            <div class="d">区域电力监管 · 市场规则与监管动态</div>
+          </a>
+          <a class="src" href="https://www.mnr.gov.cn" target="_blank" rel="noopener">
+            <div class="n">自然资源部<span class="arrow">→</span></div>
+            <div class="d">海上风电用海管理 · 海域分层立体利用</div>
+          </a>
+          <a class="src" href="https://www.forestry.gov.cn" target="_blank" rel="noopener">
+            <div class="n">国家林业和草原局<span class="arrow">→</span></div>
+            <div class="d">风电场改造升级林草地使用手续</div>
+          </a>
+          <a class="src" href="https://www.ln.msa.gov.cn" target="_blank" rel="noopener">
+            <div class="n">辽宁海事局<span class="arrow">→</span></div>
+            <div class="d">海上交通安全 · 水上水下活动许可</div>
+          </a>
+        </details>
+        <details class="src-group" open>
+          <summary><span class="t">省级部门<em class="cnt">6</em></span></summary>
+          <a class="src" href="https://www.ln.gov.cn" target="_blank" rel="noopener">
+            <div class="n">辽宁省人民政府<span class="arrow">→</span></div>
+            <div class="d">省政府文件 · 政策解读栏目</div>
+          </a>
+          <a class="src" href="https://fgw.ln.gov.cn" target="_blank" rel="noopener">
+            <div class="n">辽宁省发展改革委<span class="arrow">→</span></div>
+            <div class="d">省级风光资源配置 · 机制电价竞价通知发布口</div>
+          </a>
+          <a class="src" href="https://zrzy.ln.gov.cn" target="_blank" rel="noopener">
+            <div class="n">辽宁省自然资源厅<span class="arrow">→</span></div>
+            <div class="d">海域使用审批 · 用海公示</div>
+          </a>
+          <a class="src" href="https://sthj.ln.gov.cn" target="_blank" rel="noopener">
+            <div class="n">辽宁省生态环境厅<span class="arrow">→</span></div>
+            <div class="d">环评受理与批复公示 · 项目落地信号</div>
+          </a>
+          <a class="src" href="https://lyt.ln.gov.cn" target="_blank" rel="noopener">
+            <div class="n">辽宁省林业和草原局<span class="arrow">→</span></div>
+            <div class="d">使用林草地行政许可 · 手续办理公示</div>
+          </a>
+          <a class="src" href="http://www.ln.sgcc.cn" target="_blank" rel="noopener">
+            <div class="n">国网辽宁电力<span class="arrow">→</span></div>
+            <div class="d">机制电价竞价专区 · 竞价公示与公布</div>
+          </a>
+        </details>
+        <details class="src-group">
+          <summary><span class="t">市级与县域<em class="cnt">7</em></span></summary>
+          <a class="src" href="http://www.pc.dl.gov.cn" target="_blank" rel="noopener">
+            <div class="n">大连市发展改革委<span class="arrow">→</span></div>
+            <div class="d">海上风电竞配与项目核准动态</div>
+          </a>
+          <a class="src" href="https://hyfz.dl.gov.cn" target="_blank" rel="noopener">
+            <div class="n">大连市海洋发展局<span class="arrow">→</span></div>
+            <div class="d">大连海域用海管理 · 海上风电项目用海动态</div>
+          </a>
+          <a class="src" href="http://fgw.anshan.gov.cn" target="_blank" rel="noopener">
+            <div class="n">鞍山市发展改革委<span class="arrow">→</span></div>
+            <div class="d">陆上风电竞配公告与结果公示（含岫岩区域）</div>
+          </a>
+          <a class="src" href="https://fgw.fuxin.gov.cn" target="_blank" rel="noopener">
+            <div class="n">阜新市发展改革委<span class="arrow">→</span></div>
+            <div class="d">阜新区域风光竞配与核准动态</div>
+          </a>
+          <a class="src" href="https://fgw.hld.gov.cn" target="_blank" rel="noopener">
+            <div class="n">葫芦岛市发展改革委<span class="arrow">→</span></div>
+            <div class="d">葫芦岛区域风光竞配与核准动态</div>
+          </a>
+          <a class="src" href="http://www.xiuyan.gov.cn" target="_blank" rel="noopener">
+            <div class="n">岫岩满族自治县人民政府<span class="arrow">→</span></div>
+            <div class="d">县域项目公示公告 · 核准动态</div>
+          </a>
+          <a class="src" href="https://www.szx.gov.cn" target="_blank" rel="noopener">
+            <div class="n">绥中县人民政府<span class="arrow">→</span></div>
+            <div class="d">县域项目公示公告 · 核准动态</div>
+          </a>
+        </details>
       </div>
     </div>
 
@@ -402,9 +438,15 @@ const FIELDS = {
   distribution:{name:'增量配电',color:'#1f6b4a'},
   pricing:    {name:'电价市场化',color:'#7d3b5e'},
   storage:    {name:'储能与消纳',color:'#3d6b7d'},
+  procedure:  {name:'前期手续',color:'#4f4a7d'},
   other:      {name:'其他',color:'#6b6558'},
 };
-const LEVELS = {national:'国家',liaoning:'辽宁省'};
+const LEVELS = {national:'国家',liaoning:'辽宁省',city:'市级'};
+const CITIES = ['沈阳','大连','鞍山','抚顺','本溪','丹东','锦州','营口','阜新','辽阳','盘锦','铁岭','朝阳','葫芦岛'];
+const STAGES = {
+  approval:'核准备案', land:'用地', sea:'用海', forest:'用林用草', eia:'环评',
+  navigation:'通航', mineral:'压覆矿产', water:'水土保持', grid:'电网接入', other:'其他手续',
+};
 
 let items = [];
 let curField = '';
@@ -441,16 +483,20 @@ function render(){
   // 筛选
   const q = document.getElementById('q').value.trim().toLowerCase();
   const lv = document.getElementById('levelSel').value;
+  const cy = document.getElementById('citySel').value;
+  const sg = document.getElementById('stageSel').value;
   const st = document.getElementById('statusSel').value;
   const sort = document.getElementById('sortSel').value;
 
   let list = items.filter(it=>{
     if(curField && it.field!==curField) return false;
     if(lv && it.level!==lv) return false;
+    if(cy && !(it.level==='city' && it.city===cy)) return false;
+    if(sg && it.stage!==sg) return false;
     if(st && it.status!==st) return false;
     if(curMonth && curMonth!=='all' && !(it.date||'').startsWith(curMonth)) return false;
     if(q){
-      const hay = [it.title,it.docno,it.org,it.digest,it.impact].join(' ').toLowerCase();
+      const hay = [it.title,it.docno,it.org,it.digest,it.impact,it.city].join(' ').toLowerCase();
       if(!hay.includes(q)) return false;
     }
     return true;
@@ -484,11 +530,13 @@ function render(){
       const titleHtml = it.url
         ? `<a href="${esc(it.url)}" target="_blank" rel="noopener">${esc(it.title)}</a>`
         : esc(it.title);
-      return `<article class="item ${it.level==='liaoning'?'liaoning':''}" style="animation-delay:${Math.min(i*45,450)}ms">
+      const lvCls = it.level==='liaoning'?'liaoning':it.level==='city'?'city':'';
+      const levelText = it.level==='city'&&it.city ? esc(it.city) : (LEVELS[it.level]||'其他');
+      return `<article class="item ${lvCls}" style="animation-delay:${Math.min(i*45,450)}ms">
         ${dateHtml}
         <div class="item-body">
           <div class="badges">
-            <span class="badge level ${it.level==='liaoning'?'liaoning':''}">${LEVELS[it.level]||'其他'}</span>
+            <span class="badge level ${lvCls}">${levelText}</span>
             <span class="badge" style="background:${f.color}">${f.name}</span>
             ${it.status==='key'?'<span class="badge status-key">重点关注</span>':''}
           </div>
@@ -522,16 +570,48 @@ function render(){
   document.getElementById('statRow').innerHTML = `
     <div class="stat-cell"><div class="v">${items.length}</div><div class="k">条目总数</div></div>
     <div class="stat-cell hot"><div class="v">${key}</div><div class="k">重点关注</div></div>`;
-  const maxC = Math.max(1,...Object.keys(FIELDS).map(k=>items.filter(i=>i.field===k).length));
-  document.getElementById('distBox').innerHTML = Object.entries(FIELDS).map(([k,v])=>{
-    const c = items.filter(i=>i.field===k).length;
-    return `<div class="dist-row"><span>${v.name}</span><div class="bar"><i style="width:${c/maxC*100}%;background:${v.color}"></i></div><span class="c">${c}</span></div>`;
+  const distRows = (pairs,colorFn)=>pairs.map(([k,c])=>{
+    const m = Math.max(...pairs.map(p=>p[1]));
+    return `<div class="dist-row"><span>${k}</span><div class="bar"><i style="width:${c/m*100}%;background:${colorFn(k)}"></i></div><span class="c">${c}</span></div>`;
   }).join('');
+  const maxC = Math.max(1,...Object.keys(FIELDS).map(k=>items.filter(i=>i.field===k).length));
+  let distHtml = `<div class="dist-sub">按领域</div><div class="dist">` +
+    Object.entries(FIELDS).map(([k,v])=>{
+      const c = items.filter(i=>i.field===k).length;
+      return `<div class="dist-row"><span>${v.name}</span><div class="bar"><i style="width:${c/maxC*100}%;background:${v.color}"></i></div><span class="c">${c}</span></div>`;
+    }).join('') + `</div>`;
+  const cityCnt = {}; items.forEach(i=>{ if(i.level==='city'&&i.city) cityCnt[i.city]=(cityCnt[i.city]||0)+1; });
+  const stageCnt = {}; items.forEach(i=>{ if(i.stage) stageCnt[i.stage]=(stageCnt[i.stage]||0)+1; });
+  if(Object.keys(cityCnt).length){
+    const pairs = Object.entries(cityCnt).sort((a,b)=>b[1]-a[1]);
+    distHtml += `<div class="dist-sub">按市</div><div class="dist">` + distRows(pairs,()=> 'var(--green)') + `</div>`;
+  }
+  if(Object.keys(stageCnt).length){
+    const pairs = Object.entries(stageCnt).sort((a,b)=>b[1]-a[1]).map(([k,c])=>[STAGES[k]||k,c]);
+    distHtml += `<div class="dist-sub">按手续环节</div><div class="dist">` + distRows(pairs,()=> 'var(--navy)') + `</div>`;
+  }
+  document.getElementById('distBox').innerHTML = distHtml;
 }
 
 function setField(k){ curField = k; pageIdx = 1; render(); }
 function filterReset(){ pageIdx = 1; render(); }
 function setMonth(v){ curMonth = v; pageIdx = 1; render(); }
+function onLevelChange(){
+  const lv = document.getElementById('levelSel').value;
+  if(lv!=='city') document.getElementById('citySel').value = '';
+  filterReset();
+}
+function onCityChange(v){
+  if(v) document.getElementById('levelSel').value = 'city';
+  filterReset();
+}
+/* 城市与手续环节下拉：城市 14 市静态列出，环节 10 类静态列出 */
+function buildCityStageOptions(){
+  document.getElementById('citySel').innerHTML =
+    '<option value="">全部城市</option>' + CITIES.map(c=>`<option value="${c}">${c}</option>`).join('');
+  document.getElementById('stageSel').innerHTML =
+    '<option value="">全部环节</option>' + Object.entries(STAGES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('');
+}
 function setPage(p){
   pageIdx = p; render();
   window.scrollTo({top:0, behavior:'smooth'});
@@ -572,7 +652,7 @@ function copyBrief(id){
   const d = (it.date||'').replace(/^(\d+)-(\d+)-?(\d+)?$/,(_,m,dd)=>`${m}月${dd?dd+'日':''}`);
   const lines = [
     `【政策速递】${it.title}`,
-    `层级领域：${LEVELS[it.level]||''} · ${(FIELDS[it.field]||{}).name||''}`,
+    `层级领域：${it.level==='city'&&it.city?it.city+'（市级）':(LEVELS[it.level]||'')} · ${(FIELDS[it.field]||{}).name||''}`,
     `发布：${it.org||''}${it.docno?'（'+it.docno+'）':''}`,
     it.date?`时间：${d}`:'',
     it.digest?`要点：${it.digest}`:'',
@@ -622,7 +702,7 @@ function toast(msg){
   clearTimeout(toastTimer);
   toastTimer = setTimeout(()=>t.classList.remove('show'),2200);
 }
-initDate(); load(); buildMonthOptions(); renderDigests(); render();
+initDate(); load(); buildMonthOptions(); buildCityStageOptions(); renderDigests(); render();
 </script>
 </body>
 </html>
