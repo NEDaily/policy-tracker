@@ -283,7 +283,7 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
       <select class="filter" id="citySel" onchange="onCityChange(this.value)" hidden>
         <option value="">全部城市</option>
       </select>
-      <select class="filter" id="stageSel" onchange="filterReset()">
+      <select class="filter" id="stageSel" onchange="filterReset()" hidden>
         <option value="">全部环节</option>
       </select>
       <select class="filter" id="statusSel" onchange="filterReset()">
@@ -907,7 +907,13 @@ function render(){
   document.getElementById('distBox').innerHTML = distHtml;
 }
 
-function setField(k){ curField = k; pageIdx = 1; render(); }
+function setField(k){
+  curField = k; pageIdx = 1;
+  const stageSel = document.getElementById('stageSel');
+  if(k==='procedure'){ stageSel.hidden = false; }
+  else { stageSel.hidden = true; stageSel.value = ''; }
+  render();
+}
 function filterReset(){ pageIdx = 1; render(); }
 function setMonth(v){ curMonth = v; pageIdx = 1; render(); }
 function onLevelChange(){
