@@ -741,5 +741,69 @@ window.POLICY_SEED = [
     url:'https://fgw.yingkou.gov.cn/govxxgk/fgw/2025-09-04/d59e22a5-de95-4fb2-980f-012d8b27358f.html',
     digest:'市发改委对营口市盛屹能源科技有限公司0.15MW屋顶分布式光伏发电项目予以备案，审批文号营发改备〔2025〕60号，批复时间2025年9月4日。',
     createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-25', level:'city', city:'营口', field:'procedure', stage:'land', top:false,
+    title:'华能营口200MW储能调峰电站项目《建设项目用地预审与选址意见书》批后公布',
+    docno:'', org:'大石桥市自然资源局', date:'2025-05-28',
+    url:'http://www.dsq.gov.cn/govxxgk/dsqs/2025-05-28/e5c520b5-a950-408b-834a-bb8f4fae84a2.html',
+    digest:'华能（大石桥）电力新能源有限责任公司200MW储能调峰电站项目取得《建设项目用地预审与选址意见书》并批后公布，项目位于营口大石桥市。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-26', level:'city', city:'朝阳', field:'procedure', stage:'land', top:false,
+    title:'中电投朝阳北票北塔子风电场49.5MW发电工程项目批后公开',
+    docno:'用字第2113812025XS0004512号', org:'北票市自然资源局', date:'2025-12-18',
+    url:'https://www.bp.gov.cn/html/BPSZF/202512/0176602029414966.html',
+    digest:'中电投东北新能源发展有限公司北票北塔子风力发电厂风电场改造升级项目（依据辽发改新能字〔2025〕86号）核发用地预审与选址意见书，批准日期2025年12月16日，项目位于北票市北塔镇、台吉营乡，用地总面积0.2536公顷。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-27', level:'city', city:'朝阳', field:'procedure', stage:'land', top:false,
+    title:'建平县《建设项目用地预审和选址意见书》批后公开',
+    docno:'', org:'建平县自然资源局', date:'2026-05-28',
+    url:'https://lnjp.gov.cn/html/JPXZF/202605/0177995590229610.html',
+    digest:'批后公开台账含华润新能源朝阳烧锅营子300MW、喀喇沁300MW、八家国营农场250MW、罗福沟150MW风电项目配套储能工程（2025年9月批准，选址证书编号2113222025XS0007565等），分列建平县黑水镇、罗福沟乡、奎德素镇、马场镇；另含华电建平县"千乡万村驭风行动"20MW分散式风电项目（2026年5月14日批准）。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-28', level:'liaoning', field:'procedure', stage:'sea', top:false,
+    title:'辽宁省人民政府关于东港市海上风电陆上运维管理中心项目用海的批复',
+    docno:'辽政海域字〔2025〕24号', org:'辽宁省人民政府', date:'2025-09-08',
+    url:'https://zrzy.ln.gov.cn/zrzy/zfgkzdgz/-tdgy--zfhy--spjg--zcps--jytabljggk/2025091009390615018/index.shtml',
+    digest:'批复同意东港市海上风电陆上运维管理中心项目（丹东东港海上风电项目的陆上配套运维设施）用海，位于东港市菩萨庙镇鳝鱼岛滨海公路南侧，用海类型为工业用海，面积30.4934公顷，用海方式为建设填海造地（历史遗留围填海），期限50年。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-29', level:'city', city:'锦州', field:'procedure', stage:'water', top:false,
+    title:'关于锦州黑山常兴300兆瓦风电项目水土保持方案变更报告书的批复',
+    docno:'锦水审批〔2025〕1号', org:'锦州市水利局', date:'2025-01-16',
+    url:'https://slj.jz.gov.cn/info/1064/5440.htm',
+    digest:'锦州黑山常兴300兆瓦风电项目水土保持方案变更报告书经市水利局组织技术审查后获批复，同意该方案变更。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-30', level:'city', city:'阜新', field:'procedure', stage:'water', top:false,
+    title:'三峡能源阜新市250MW陆上风电项目水土保持方案审批准予行政许可决定书',
+    docno:'阜水审〔2025〕27号', org:'阜新市水利局', date:'2025-07-30',
+    url:'https://slj.fuxin.gov.cn/mob/newsdetail.thtml?id=1037823',
+    digest:'三峡新能源阜蒙县发电有限公司所属三峡能源阜新市250MW陆上风电项目水土保持方案获阜新市水利局准予行政许可。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-31', level:'city', city:'阜新', field:'procedure', stage:'water', top:false,
+    title:'彰武县平安150MW风电项目水土保持方案报告书审批准予行政许可决定书',
+    docno:'阜水审〔2025〕31号', org:'阜新市水利局', date:'2025-08-28',
+    url:'https://slj.fuxin.gov.cn/mob/newsdetail.thtml?id=1037824',
+    digest:'彰武县荣晟新能源有限公司建设的彰武县平安150MW风电项目水土保持方案报告书获阜新市水利局审批准予行政许可。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-32', level:'city', city:'阜新', field:'procedure', stage:'water', top:false,
+    title:'彰武县四堡子150MW风电项目水土保持方案报告书审批准予行政许可决定书',
+    docno:'阜水审〔2025〕48号', org:'阜新市水利局', date:'2025-11-26',
+    url:'https://slj.fuxin.gov.cn/mob/newsdetail.thtml?id=1037825',
+    digest:'哈尔套南（彰武县）新能源有限公司建设的彰武县四堡子150MW风电项目水土保持方案报告书获阜新市水利局审批准予行政许可。',
+    createdAt:'2026-10-15'
   }
 ];
