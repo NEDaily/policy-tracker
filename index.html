@@ -60,6 +60,7 @@ a{color:var(--navy)}
 .section-head h2{font-family:var(--serif);font-size:22px;font-weight:900;letter-spacing:.1em;color:var(--navy-deep)}
 .section-head .rule{flex:1;height:1px;background:var(--line)}
 .digest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.digest-empty{grid-column:1/-1;text-align:center;padding:30px 0;color:var(--ink-faint);font-size:13px;letter-spacing:.05em}
 .digest-card{
   background:var(--card);border:1px solid var(--line);border-top:3px solid var(--navy);
   padding:20px 22px 16px;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:.2s;
@@ -77,9 +78,10 @@ a{color:var(--navy)}
 
 /* ============ 工具条 ============ */
 .toolbar{position:sticky;top:0;z-index:100;background:rgba(255,253,247,.96);backdrop-filter:blur(6px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:30px}
-.toolbar-inner{display:flex;flex-direction:column;gap:12px;padding:12px 0 14px}
+.toolbar-inner{display:flex;flex-direction:column;gap:12px;padding:0 0 14px}
 .toolbar-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .toolbar-row.selects{gap:8px}
+.toolbar-row.tab-row{background:var(--paper);margin:0 -28px;padding:12px 28px 11px;border-bottom:1px solid var(--line-soft)}
 .search{
   flex:1;min-width:220px;display:flex;align-items:center;gap:8px;
   border:1px solid var(--line);background:#fff;padding:7px 12px;border-radius:2px;
@@ -282,12 +284,12 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
 <!-- 工具条 -->
 <div class="toolbar">
   <div class="wrap toolbar-inner">
-    <div class="toolbar-row">
+    <div class="toolbar-row tab-row">
       <div class="tabs">
         <button class="tab-btn active" id="tabFeed" onclick="switchView('feed')">政策与线索流</button>
         <button class="tab-btn" id="tabDigest" onclick="switchView('digest')">核心研判</button>
       </div>
-      <div class="search feed-only">
+      <div class="search">
         <span class="icon">⌕</span>
         <input type="text" id="q" placeholder="搜索标题、文号、机构、要点…" oninput="filterReset()">
       </div>
@@ -950,7 +952,7 @@ function setStage(v){
 document.addEventListener('click', e=>{
   if(stageMenuOpen && !e.target.closest('.chip.has-menu')){ stageMenuOpen = false; render(); }
 });
-function filterReset(){ pageIdx = 1; render(); }
+function filterReset(){ pageIdx = 1; render(); renderDigests(); }
 function setMonth(v){ curMonth = v; pageIdx = 1; render(); }
 function onLevelChange(){
   const lv = document.getElementById('levelSel').value;
@@ -1023,9 +1025,17 @@ function copyBrief(id){
 /* ================= 初始化 ================= */
 const DIGEST_NUMS = ['壹','贰','叁','肆','伍'];
 function renderDigests(){
-  const tops = items.filter(i=>i.top).slice(0,3);
+  const q = document.getElementById('q').value.trim().toLowerCase();
+  let tops = items.filter(i=>i.top).slice(0,3);
+  if(q){
+    tops = tops.filter(it=>[it.topTitle||it.title,it.topBody||it.digest||'',it.topImpact||it.impact||'',it.org||'',it.docno||'']
+      .join(' ').toLowerCase().includes(q));
+  }
   const grid = document.getElementById('digestGrid');
-  if(!tops.length){ grid.innerHTML=''; return; }
+  if(!tops.length){
+    grid.innerHTML = `<div class="digest-empty">${q?'没有匹配的研判卡，可切换到「政策与线索流」视图搜索全部条目':'暂无研判卡'}</div>`;
+    return;
+  }
   grid.innerHTML = tops.map((it,i)=>{
     const body = it.topBody || (it.digest?`<p>${esc(it.digest)}</p>`:'');
     const watch = it.topImpact || it.impact || '';
