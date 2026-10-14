@@ -35,7 +35,7 @@ window.POLICY_SEED = [
     status:'key',  createdAt:'2025-02-09'
   },
   {
-    id:'s5', level:'national', field:'competitive',
+    id:'s5', level:'national', field:'other',
     title:'分布式光伏发电开发建设管理办法',
     docno:'国能发新能规〔2025〕7号', org:'国家能源局', date:'2025-01-17',
     url:'https://www.nea.gov.cn/20250123/112c5b199c5f45dd8e7ac93c9f5e4eaf/c.html',
@@ -61,14 +61,6 @@ window.POLICY_SEED = [
     impact:'与《辽宁省新能源增量项目竞价方案》（辽发改价格〔2025〕736号）配套，构成全省新能源电价体系主干文件；竞价参数与机制电量规模的年度调整直接决定省内项目收益测算口径。',
     ref:'辽发改价格〔2025〕734号三（一）3',
     status:'key',  createdAt:'2025-09-26'
-  },
-  {
-    id:'s9', level:'liaoning', field:'retrofit',
-    title:'辽宁省老旧风电场改造升级申报动态',
-    docno:'', org:'辽宁省发展和改革委员会', date:'2025-04-01',
-    url:'https://fgw.ln.gov.cn/fgw/index/tzgg/index.shtml',
-    digest:'45号文框架下，省内早期风电场改造升级的批次申报、规模安排情况，需通过官方渠道核实。',
-    impact:'改造批次的规模与时序，决定存量风电资产“以大代小”的窗口节奏。',  createdAt:'2025-04-01'
   },
   {
     id:'s10', level:'liaoning', field:'pricing',
@@ -112,7 +104,7 @@ window.POLICY_SEED = [
     ref:'发改能源〔2025〕1144号附件三（五）至（七）、四（九）、五（十一）',  createdAt:'2025-09-12'
   },
   {
-    id:'s14', level:'national', field:'distribution',
+    id:'s14', level:'national', field:'other',
     title:'关于促进电网高质量发展的指导意见',
     docno:'发改能源〔2025〕1710号', org:'国家发展改革委、国家能源局', date:'2025-12-31',
     url:'https://www.ndrc.gov.cn/xwdt/tzgg/202512/t20251231_1402950_ext.html',
@@ -121,7 +113,7 @@ window.POLICY_SEED = [
     ref:'发改能源〔2025〕1710号三（三）、三（六）',  createdAt:'2025-12-31'
   },
   {
-    id:'s15', level:'national', field:'retrofit',
+    id:'s15', level:'national', field:'procedure', stage:'forest',
     title:'关于支持风电开发建设规范使用林地草地有关工作的通知',
     docno:'', org:'国家林业和草原局、国家能源局', date:'2026-01-29',
     url:'https://www.forestry.gov.cn/lyj/1/gkzfwj/20260129/663364.html',
@@ -147,14 +139,6 @@ window.POLICY_SEED = [
     impact:'45号文的适用范围存在扩围可能；若政策落地，更多早期风场将具备改造资格，需持续关注正式文件出台。',  createdAt:'2026-07-24'
   },
   {
-    id:'s18', level:'liaoning', field:'competitive',
-    title:'辽宁多地2026年风光竞争性配置结果陆续公示',
-    docno:'', org:'沈阳、朝阳等市发展改革部门（行业媒体汇总，待官方核实）', date:'',
-    url:'http://fgw.anshan.gov.cn/html/FGW/202609/0179056384553179.html',
-    digest:'行业媒体汇总显示，沈阳市2026年第二批（约133万千瓦风电）、朝阳市2026年第一批（约190万千瓦风电）等辽宁多地竞争性配置结果陆续公示，国家电投、大唐、国家能源集团、华能等企业中标；具体规模与名单需以各市官方公示为准。',
-    impact:'地市级竞配是省内风光资源落地的最前端环节；各市批次节奏与竞配规则差异需逐月跟踪。',  createdAt:'2026-09-30'
-  },
-  {
     id:'s19', level:'liaoning', field:'pricing',
     title:'辽宁燃煤机组容量电价2026年起上调至165元/千瓦·年',
     docno:'', org:'辽宁省发展和改革委员会（省人大建议答复中披露）', date:'2026-01-01',
@@ -173,7 +157,7 @@ window.POLICY_SEED = [
     status:'key',  createdAt:'2025-09-28'
   },
   {
-    id:'d20251202-1', level:'liaoning', field:'retrofit', top:false,
+    id:'d20251202-1', level:'city', city:'沈阳', field:'procedure', stage:'eia', top:false,
     title:'沈阳康平4.95万千瓦风电场“以大代小”等容改造获环评批复',
     docno:'', org:'沈阳市生态环境局', date:'2025-12-02',
     url:'https://sthjj.shenyang.gov.cn/zwgk/fdzdgknr/hjyxpjgs/jsxmhjyxpjwjspjdgg/202512/P020251202497645557085.pdf',
@@ -182,7 +166,7 @@ window.POLICY_SEED = [
     ref:'环评报告表批复（沈阳市生态环境局，2025年12月）',  createdAt:'2025-12-02'
   },
   {
-    id:'d20260723-1', level:'national', field:'competitive', top:false,
+    id:'d20260723-1', level:'national', field:'other', top:false,
     title:'可再生能源发展“十五五”规划印发',
     docno:'发改能源〔2026〕1067号', org:'国家发展改革委、国家能源局', date:'2026-07-23',
     url:'https://www.ndrc.gov.cn/xxgk/zcfb/tz/202607/t20260723_1406641_ext.html',
@@ -199,15 +183,6 @@ window.POLICY_SEED = [
     digest:'印发《东北区域集中式新能源发电企业集中报价工作实施方案（试行）》，规范辽宁、吉林、黑龙江三省集中式风电、光伏企业市场报价行为，明确准入规则、划定申报边界，打通主体协同申报堵点，以制度化监管推动新能源全面入市。',
     impact:'辽宁集中式风光项目参与市场交易的报价行为有了区域统一规范；多投资主体协同申报通道制度化，与机制电价竞价申报、现货市场衔接的实操要求需在交易组织方案中落实。',
     ref:'《东北区域集中式新能源发电企业集中报价工作实施方案（试行）》发布信息（东北能源监管局官网）',  createdAt:'2026-08-06'
-  },
-  {
-    id:'d20260901-1', level:'liaoning', field:'competitive', top:false,
-    title:'鞍山市新增陆上风电项目投资主体优选公告（50万千瓦）',
-    docno:'', org:'鞍山市发展和改革委员会', date:'2026-09',
-    url:'http://fgw.anshan.gov.cn/html/FGW/202609/0178911722667210.html',
-    digest:'台安县域内竞配风电总规模50万千瓦，划分为两个开发主体，按评审排名第一名获30万千瓦、第二名获20万千瓦；具体区域划分待定标后由台安县政府组织中选企业分配。',
-    impact:'省级资源配置方案正分市落地实施（省定规模→市优选业主）；市级投资主体优选公告直接决定新增项目业主与布局，属竞配链条上的末端活跃节点，需持续跟踪各市公告。',
-    ref:'鞍山市发展改革委投资主体优选公告',  createdAt:'2026-09'
   },
   {
     id:'d20260924-1', level:'national', field:'pricing', top:false,
@@ -246,15 +221,6 @@ window.POLICY_SEED = [
     digest:'会议总结2026年1—8月可再生能源发展：可再生能源发电装机24.96亿千瓦、占全国电力总装机60.8%，其中风光累计装机19.92亿千瓦（风电6.93亿千瓦、光伏12.97亿千瓦）、占48.5%，光伏装机历史性超过煤电；部署四项重点工作，要求各省级能源主管部门健全完善新能源可持续发展价格结算机制、切实保障新能源合理收益，委局相关司跟踪指导地方科学组织2027年增量项目机制竞价、及时引导纠偏。',
     impact:'国家层面明确2027年度机制竞价“科学组织、引导纠偏”的监管基调；消纳方面要求梳理送出断面卡点、建设电网补强工程，并全面清理新能源项目开发中的非技术要求，对辽宁竞价落地与竞配组织方式具有直接指导意义。',
     ref:'调度视频会会议要求（国家能源局官网发布稿）',  createdAt:'2026-10-13'
-  },
-  {
-    id:'d20261013-3', level:'liaoning', field:'competitive', top:false,
-    title:'鞍山市50万千瓦集中式风电项目竞争性配置结果公示',
-    docno:'', org:'鞍山市发展和改革委员会', date:'2026-09-28',
-    url:'http://fgw.anshan.gov.cn/html/FGW/202609/0179056384553179.html',
-    digest:'按《辽宁省新能源项目竞争性配置指导意见》有关要求，经第三方机构组织专家评审，推荐国家电投集团东北电力有限公司（对应开发规模30万千瓦）、北京海博思创科技股份有限公司（对应开发规模20万千瓦）为中选企业，公示期2026年9月28日至9月30日。',
-    impact:'与此前50万千瓦投资主体优选公告（划分两个开发主体、第一名30万千瓦、第二名20万千瓦）对应，竞配链条从公告、评审到结果公示完整落地；地市级竞配从公告到定标的节奏与规则差异需逐月跟踪。',
-    ref:'鞍山市发展改革委竞争性配置结果公示',  createdAt:'2026-10-13'
   },
   {
     id:'d20261013-4', level:'liaoning', field:'pricing', top:false,
@@ -303,7 +269,7 @@ window.POLICY_SEED = [
     ref:'省发改委对省十四届人大五次会议第1450078号建议的答复',  createdAt:'2026-10-13'
   },
   {
-    id:'d20261013-9', level:'national', field:'competitive', top:false,
+    id:'d20261013-9', level:'national', field:'procedure', stage:'sea', top:false,
     title:'自然资源部就推进海域分层立体利用有关事项公开征求意见',
     docno:'', org:'自然资源部', date:'2026-09-29',
     url:'https://gi.mnr.gov.cn/202609/t20260929_2939427.html',
@@ -312,7 +278,7 @@ window.POLICY_SEED = [
     ref:'自然资源部征求意见公告',  createdAt:'2026-10-13'
   },
   {
-    id:'d20261013-10', level:'national', field:'competitive', top:false,
+    id:'d20261013-10', level:'national', field:'procedure', stage:'sea', top:false,
     title:'自然资源部关于进一步加强海上风电项目用海管理的通知',
     docno:'', org:'自然资源部', date:'2025-01-02',
     url:'https://gi.mnr.gov.cn/202501/t20250102_2879328.html',
@@ -343,7 +309,7 @@ window.POLICY_SEED = [
     ref:'省发展改革委网上公示页（2026年9月8日）',  createdAt:'2026-10-13'
   },
   {
-    id:'d20260617-1', level:'liaoning', field:'competitive', top:false,
+    id:'d20260617-1', level:'city', city:'葫芦岛', field:'competitive', top:false,
     title:'葫芦岛市50万千瓦陆上风电项目建设指标竞争配置结果公示',
     docno:'', org:'葫芦岛市发展和改革委员会', date:'2026-06-17',
     url:'https://fgw.hld.gov.cn/xwzx/tzgg/202606/t20260617_1240006.html',
@@ -372,23 +338,14 @@ window.POLICY_SEED = [
   {
     id:'d20261013-14', level:'liaoning', field:'competitive',
     title:'辽宁省2025年度第二批风电、光伏发电项目建设方案',
-    docno:'辽发改能源〔2025〕349号', org:'辽宁省发展和改革委员会等三部门（大连市发改委工作方案通知引用，官网未见原文页）', date:'2025-06',
-    url:'https://pc.dl.gov.cn/art/2025/6/11/art_2481_2444524.html',
+    docno:'辽发改能源〔2025〕349号', org:'辽宁省发展和改革委员会等三部门（征求意见稿公告为官方公开页，正式印发件未见原文页）', date:'2025-06',
+    url:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025041818590985186/index.shtml',
     digest:'省发展改革委、省工信厅、省电力公司三部门联合印发，分解下达各市年度风光建设规模，其中下达大连市滩涂光伏300万千瓦，并据此组织大连市2025年度第一批竞配。',
     impact:'2025年省内风光指标安排的源头文件，市县竞配规模均由该方案分解下达。',
     createdAt:'2026-10-13'
   },
   {
-    id:'d20261013-15', level:'liaoning', field:'competitive',
-    title:'大连市2025年度第一批光伏发电项目竞争配置结果公示',
-    docno:'', org:'大连市发展和改革委员会', date:'2025-06-24',
-    url:'https://pc.dl.gov.cn/art/2025/6/24/art_2480_2446884.html',
-    digest:'依据辽发改能源〔2025〕349号与《大连市2025年度第一批光伏发电项目竞争配置工作方案》（大发改能源字〔2025〕316号）组织，经专家组综合打分，推荐中国石油辽河油田分公司为项目业主，配置规模300万千瓦滩涂光伏。',
-    impact:'大连滩涂光伏300万千瓦指标一次性配置到项目业主，后续项目核准、用海手续与开工进度需跟踪。',
-    createdAt:'2026-10-13'
-  },
-  {
-    id:'d20261013-16', level:'liaoning', field:'competitive',
+    id:'d20261013-16', level:'liaoning', field:'other',
     title:'辽宁省分布式光伏发电开发建设管理实施细则',
     docno:'辽发改能源〔2025〕939号', org:'辽宁省发展和改革委员会、省工业和信息化厅、省电力公司', date:'2025-12-12',
     url:'https://www.ln.gov.cn/web/zwgkx/lnsrmzfgb/2026n/qk/2026n_deq/bmwj/2026020614185736340/',
@@ -406,7 +363,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-13'
   },
   {
-    id:'d20261013-18', level:'liaoning', field:'competitive',
+    id:'d20261013-18', level:'liaoning', field:'procedure', stage:'approval',
     title:'中广核80万千瓦海上风电项目获核准（绥中）',
     docno:'', org:'绥中县人民政府（2025年政府工作报告披露）', date:'2026-01-21',
     url:'https://www.szx.gov.cn/xxgk_21446/qtgkxx/gzbg/202601/t20260121_1227884.html',
@@ -415,7 +372,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-13'
   },
   {
-    id:'d20261013-19', level:'liaoning', field:'competitive',
+    id:'d20261013-19', level:'liaoning', field:'procedure', stage:'other',
     title:'三峡岫岩200MW风电场工程获建设工程规划许可',
     docno:'建字第2103232025GG0024558号', org:'岫岩满族自治县人民政府', date:'2025-09-15',
     url:'http://www.xiuyan.gov.cn/html/XYXZF/202509/0175799549228986.html',
@@ -592,5 +549,197 @@ window.POLICY_SEED = [
     url:'http://fushun.gov.cn/ywdt/001007/20250625/9d2130d9-a92d-4346-a21e-6384ecb303be.html',
     digest:'本次竞配共收到11个符合要求的报名申请，6月24日经抚顺市发展和改革委员会委托辽宁省国际工程咨询中心有限公司组织专家评审，经综合打分排序，推荐中国石油天然气股份有限公司辽河油田分公司为FS1和FS2标段项目业主、辽宁省清洁能源有限公司为FS3标段项目业主，公示期2025年6月25日至6月27日。',
     createdAt:'2026-10-14'
+  },
+  {
+    id:'d20261015-1', level:'city', city:'本溪', field:'procedure', stage:'approval', top:false,
+    title:'本溪迎新节能科技有限公司12.5MW分散式风力发电项目核准的批复',
+    docno:'本发改核准〔2025〕1号', org:'本溪市发展和改革委员会', date:'2025-03-12',
+    url:'https://fgw.benxi.gov.cn/publicity/ywgz/hzzfshgk/129881',
+    digest:'市发展改革委2025年度行政许可公示表载明：相对人本溪迎新节能科技有限公司，事由为12.5MW分散式风力发电项目核准，许可类型核准，许可结果予以核准，决定日期2025年3月10日。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-2', level:'city', city:'盘锦', field:'competitive', top:false,
+    title:'盘锦市2025年100万千瓦陆上风电项目竞争性配置公告',
+    docno:'', org:'盘锦市发展和改革委员会', date:'2025-06-18',
+    url:'http://fgw.panjin.gov.cn/2025_06/18_09/content-524729.html',
+    digest:'采取竞争性配置方式一次性确定项目投资主体，规模对应辽宁省2025年第二批建设方案分解盘锦的100万千瓦风电，公告正文PDF及竞配公告附件随文公布。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-3', level:'city', city:'盘锦', field:'procedure', stage:'approval', top:false,
+    title:'盘锦市发展改革委关于盘锦科安隆10MW分散式风力发电项目核准的批复',
+    docno:'盘发改投发〔2025〕29号', org:'盘锦市发展和改革委员会', date:'2025-12-09',
+    url:'https://fgw.panjin.gov.cn/2026_03/23_11/content-556002.html',
+    digest:'同意盘锦科安隆10MW分散式风力发电项目核准（事项形成2025-12-08，批复发布2025-12-09，官网核准目录页列示日期2026-03-23），批复全文以docx附件公开。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-4', level:'city', city:'盘锦', field:'storage', top:false,
+    title:'盘锦市20万千瓦新型储能项目遴选公告',
+    docno:'', org:'盘锦市发展和改革委员会', date:'2026-07-15',
+    url:'http://fgw.panjin.gov.cn/2026_07/15_10/content-568563.html',
+    digest:'按《省发展改革委关于开展"十五五"第一批新型储能项目遴选的通知》（辽发改能源〔2026〕216号），盘锦市配置20万千瓦新型储能项目，公告遴选范围、配置规模及申报有关事项。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-5', level:'city', city:'盘锦', field:'storage', top:false,
+    title:'关于盘锦市20万千瓦新型储能项目遴选结果的公示',
+    docno:'', org:'盘锦市发展和改革委员会', date:'2026-07-29',
+    url:'http://fgw.panjin.gov.cn/2026_07/29_09/content-570057.html',
+    digest:'2026年7月28日市发改委委托第三方专业机构组织专家对20万千瓦新型储能项目申报进行评审，遴选结果予以公示；此前7月15日已发布遴选公告。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-6', level:'city', city:'丹东', field:'competitive', top:false,
+    title:'丹东市"十四五"海上风电项目竞争性配置公告',
+    docno:'', org:'丹东市发展和改革委员会', date:'2025-01-14',
+    url:'https://www.dandong.gov.cn/html/DDSZF/202501/0173681979031398.html',
+    digest:'依据《辽宁省2024年度海上风电建设方案》，对位于丹东的省管海域DD1（150万千瓦）、DD2（200万千瓦）合计350万千瓦海上风电项目组织竞争性配置，明确配置范围、单一投资主体申报资格条件与评审程序。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-7', level:'city', city:'丹东', field:'competitive', top:false,
+    title:'关于丹东市"十四五"海上风电项目竞争性配置结果的公示',
+    docno:'', org:'丹东市发展和改革委员会', date:'2025-01-22',
+    url:'https://www.dandong.gov.cn/html/DDSZF/202501/0173751156445741.html',
+    digest:'2025年1月21日经辽宁省国际工程咨询中心组织专家评审，推荐国家电投集团东北电力有限公司为标段1（DD1-1，50万千瓦）、标段2（DD1-2，50万千瓦）项目业主，中电建新能源集团为标段3（DD1-3，50万千瓦）业主，华电辽宁能源发展为标段4（DD2，共200万千瓦）业主；公示期2025年1月22日至24日。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-8', level:'city', city:'丹东', field:'storage', top:false,
+    title:'丹东市200兆瓦储能项目竞争性配置公告',
+    docno:'', org:'丹东市发展和改革委员会', date:'2026-05-14',
+    url:'https://fgw.dandong.gov.cn/html/DDFGW/202605/0177873467492170.html',
+    digest:'依据发改能源〔2025〕1144号和辽发改能源〔2026〕216号，启动总规模200兆瓦新型储能项目竞争性配置；要求单体项目容量不低于100兆瓦、构网型全容量参与调峰的独立储能电站，省发改委审核通过后2个月内开工、12个月内具备全容量并网条件。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-9', level:'city', city:'丹东', field:'storage', top:false,
+    title:'关于丹东市200兆瓦储能项目竞争性配置结果的公示',
+    docno:'', org:'丹东市发展和改革委员会', date:'2026-06-18',
+    url:'https://fgw.dandong.gov.cn/html/DDFGW/202606/0178174724860343.html',
+    digest:'共收到11个报名申请，5月27日经辽宁省国际工程咨询中心组织专家评审，推荐希格斯（丹东）新能源科技有限公司、中国能源建设集团投资有限公司辽宁分公司各为100兆瓦新型储能项目业主；公示期2026年6月18日至24日。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-10', level:'city', city:'辽阳', field:'competitive', top:false,
+    title:'辽阳市50万千瓦集中式风电项目竞争性配置公告',
+    docno:'', org:'辽阳市发展和改革委员会', date:'2026-06-29',
+    url:'http://fgw.liaoyang.gov.cn/zxdt/20260629/be606f0b-a419-4e4e-ab2d-1927e751dff3.html',
+    digest:'对总规模50万千瓦集中式风电项目分3个标段（位于灯塔市、辽阳县）组织竞争性配置；要求一个集团授权唯一投资主体参与单一标段、不接受联合体申报、依法取得用地/水保/环保等行政许可后方可开工。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-11', level:'city', city:'辽阳', field:'competitive', top:false,
+    title:'关于辽阳市50万千瓦集中式风电项目竞争性配置结果的公示',
+    docno:'', org:'辽阳市发展和改革委员会', date:'2026-07-20',
+    url:'http://fgw.liaoyang.gov.cn/zxdt/20260720/9ba675fb-9758-4f5b-94f2-d5d8b4129c20.html',
+    digest:'依据《辽宁省新能源项目竞争性配置指导意见》，经第三方机构组织专家评审，推荐各标段中选企业：LY-1标段辽阳景毅能源有限责任公司（20万千瓦）、LY-2标段辽宁祥风新能源有限公司（15万千瓦）、LY-3标段中国石油天然气股份有限公司辽河油田分公司（15万千瓦）；公示期2026年7月20日至22日。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-12', level:'city', city:'铁岭', field:'procedure', stage:'eia', top:false,
+    title:'辽宁华电铁岭昌图一期450MW离网风电项目环评获批',
+    docno:'', org:'铁岭市生态环境局', date:'2025-01-07',
+    url:'http://tieling.gov.cn/tieling/zwgk/zfxxgk/fdzdgknr/zdmsxx/hjbh/jsxmhjspqkgs/2025010715212269681/index.html',
+    digest:'市生态环境局12月上旬环评审批决定公示载明：《辽宁华电铁岭昌图一期450MW离网风电项目环境影响报告书》获批，项目位于昌图县两家子农场等乡镇，总装机450MW（63台7150千瓦机组）。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-13', level:'city', city:'铁岭', field:'procedure', stage:'eia', top:false,
+    title:'铁岭昌图润航500MW风电项目220千伏送出工程环评获批',
+    docno:'', org:'铁岭市生态环境局', date:'2025-02-24',
+    url:'http://www.tieling.gov.cn/tieling/zwgk/zfxxgk/fdzdgknr/zdmsxx/hjbh/jsxmhjspqkgs/2025022409313629166/index.html',
+    digest:'市生态环境局2025年1月环评审批决定公示载明：《关于国网辽宁省电力有限公司铁岭供电公司铁岭昌图润航500兆瓦风电项目220千伏送出工程环境影响报告表的批复》作出，送出工程环评获批。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-14', level:'city', city:'铁岭', field:'procedure', stage:'water', top:false,
+    title:'国家电投铁岭县风电项目220kV送出工程（铁岭段）水土保持设施验收报备回执',
+    docno:'验收回执﹝2025﹞3号', org:'铁岭市水利局', date:'2025-08-07',
+    url:'http://www.tieling.gov.cn/tieling/zwgk/zfxxgk/fdzdgknr/zdmsxx/tlsl/2025080710274696977/index.html',
+    digest:'市水利局对国网辽宁省电力有限公司铁岭供电公司报送的国家电投铁岭县风电项目220kV送出工程（铁岭段）水土保持设施自主验收材料予以报备确认。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-15', level:'city', city:'铁岭', field:'procedure', stage:'water', top:false,
+    title:'国家电投清开风电项目220kV送出工程水土保持设施验收报备回执',
+    docno:'', org:'铁岭市水利局', date:'2025-08-07',
+    url:'http://www.tieling.gov.cn/tieling/zwgk/zfxxgk/fdzdgknr/zdmsxx/tlsl/2025080710255980275/index.html',
+    digest:'市水利局对国网辽宁省电力有限公司铁岭供电公司报送的国家电投清开风电项目220kV送出工程水土保持设施自主验收材料予以报备确认。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-16', level:'city', city:'铁岭', field:'procedure', stage:'water', top:false,
+    title:'辽宁大唐国际昌图金山二期150MW风电项目水土保持设施验收报备回执',
+    docno:'验收回执〔2025〕5号', org:'铁岭市水利局', date:'2025-08-07',
+    url:'http://www.tieling.gov.cn/tieling/zwgk/zfxxgk/fdzdgknr/zdmsxx/tlsl/2025080710302140390/index.html',
+    digest:'市水利局对辽宁大唐国际昌图风电有限责任公司报送的昌图金山二期150MW风电项目水土保持设施自主验收材料予以报备确认。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-17', level:'city', city:'铁岭', field:'procedure', stage:'eia', top:false,
+    title:'铁岭恒枫清河区5MW分散式风电项目环评获批',
+    docno:'', org:'铁岭市生态环境局', date:'2025-09-05',
+    url:'http://www.tieling.gov.cn/tieling/zwgk/zfxxgk/fdzdgknr/zdmsxx/hjbh/jsxmhjspqkgs/2025090510561199682/index.html',
+    digest:'市生态环境局2025年9月环评审批公示载明：《铁岭恒枫清河区5MW分散式风电项目环境影响报告表》获批，项目位于清河区，装机5MW（1台5000千瓦机组）。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-18', level:'city', city:'葫芦岛', field:'competitive', top:false,
+    title:'葫芦岛市50万千瓦陆上风电项目建设指标竞争配置公告',
+    docno:'', org:'葫芦岛市发展和改革委员会', date:'2026-06-04',
+    url:'https://fgw.hld.gov.cn/xwzx/tzgg/202606/t20260604_1238882.html',
+    digest:'葫芦岛市50万千瓦陆上风电项目建设指标分3个标段竞争配置：HLD-1标段建昌县20万千瓦、HLD-2标段绥中县15万千瓦、HLD-3标段南票区15万千瓦，明确申报要求与报名安排。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-19', level:'city', city:'葫芦岛', field:'procedure', stage:'eia', top:false,
+    title:'葫芦岛大唐南票风电项目220千伏送出工程环评获批',
+    docno:'葫环审〔2025〕1号', org:'葫芦岛市生态环境局', date:'2025-01-16',
+    url:'https://sthj.hld.gov.cn/zwgk/zfxxgk/fdzdgknr/jsxm/202501/t20250116_1197171.html',
+    digest:'对《葫芦岛大唐南票风电项目220千伏送出工程环境影响报告表》作出审批决定并公告，新建220kV架空输电线路27.6公里、铁塔77基。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-20', level:'city', city:'葫芦岛', field:'procedure', stage:'eia', top:false,
+    title:'国能（绥中）发电厂内分散式风电二期（13.75MW）项目环评获批',
+    docno:'葫环审〔2025〕7号', org:'葫芦岛市生态环境局', date:'2025-04-07',
+    url:'https://sthj.hld.gov.cn/zwgk/zfxxgk/fdzdgknr/jsxm/202504/t20250407_1204113.html',
+    digest:'批复国能（绥中）发电有限责任公司厂内分散式风电二期（13.75MW）项目环境影响报告表。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-21', level:'city', city:'葫芦岛', field:'procedure', stage:'eia', top:false,
+    title:'辽宁虹京实业7.5MW分散式风电项目环评获批',
+    docno:'葫环审〔2025〕44号', org:'葫芦岛市生态环境局', date:'2025-09-26',
+    url:'https://www.hld.gov.cn/zwgk/fdzdgknr/zdxm/xmspqzxx/xmhjpj/202509/t20250926_1218887.html',
+    digest:'批复辽宁虹京实业7.5MW分散式风电项目（南票区虹螺岘镇，1台7.5MW风电机组及配套设施）环境影响报告表。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-22', level:'city', city:'葫芦岛', field:'procedure', stage:'eia', top:false,
+    title:'绥中高领200MW/400MWh储能电站项目环评获批',
+    docno:'葫环审〔2026〕47号', org:'葫芦岛市生态环境局', date:'2026-04-22',
+    url:'https://www.hld.gov.cn/zwgk/fdzdgknr/zdxm/xmspqzxx/xmhjpj/202604/t20260422_1235327.html',
+    digest:'批复绥中高领储能科技有限公司绥中200MW/400MWh储能电站项目（绥中县东戴河高岭工业园区，总投资6亿元）环境影响报告表。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-23', level:'city', city:'葫芦岛', field:'procedure', stage:'eia', top:false,
+    title:'万帮连山100MW/400MWh独立新型储能电站项目环评获批',
+    docno:'葫环审〔2026〕80号', org:'葫芦岛市生态环境局', date:'2026-09-20',
+    url:'https://www.hld.gov.cn/zwgk/fdzdgknr/zdxm/xmspqzxx/xmhjpj/202609/t20260920_1248962.html',
+    digest:'批复万帮连山100MW/400MWh独立新型储能电站项目（连山区打渔山经济开发区，20套5MW/20MWh储能单元）生态环境影响报告表。',
+    createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261015-24', level:'city', city:'营口', field:'procedure', stage:'approval', top:false,
+    title:'营口市盛屹能源科技有限公司0.15MW屋顶分布式光伏发电项目的批复情况',
+    docno:'营发改备〔2025〕60号', org:'营口市发展和改革委员会', date:'2025-09-04',
+    url:'https://fgw.yingkou.gov.cn/govxxgk/fgw/2025-09-04/d59e22a5-de95-4fb2-980f-012d8b27358f.html',
+    digest:'市发改委对营口市盛屹能源科技有限公司0.15MW屋顶分布式光伏发电项目予以备案，审批文号营发改备〔2025〕60号，批复时间2025年9月4日。',
+    createdAt:'2026-10-15'
   }
 ];
