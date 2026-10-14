@@ -105,7 +105,8 @@ a{color:var(--navy)}
   background:#fff;border:1px solid var(--line);border-radius:2px;box-shadow:0 8px 22px rgba(43,51,61,.16);
   padding:5px 0;color:var(--ink-soft);text-align:left;
 }
-.chip.has-menu:hover .chip-menu,.chip.has-menu.open .chip-menu{display:block}
+.chip.has-menu:hover .chip-menu,.chip.has-menu.open .chip-menu,.chip-menu:hover{display:block}
+.chip-menu::before{content:'';position:absolute;top:-12px;left:-12px;right:-12px;height:12px}
 .chip-menu b{display:block;font-size:10.5px;letter-spacing:.2em;color:var(--ink-faint);padding:6px 14px 4px;font-weight:700}
 .chip-menu a{display:block;font-size:12px;color:var(--ink-soft);padding:6px 14px;cursor:pointer;letter-spacing:.03em}
 .chip-menu a:hover{background:rgba(23,58,94,.06);color:var(--navy)}
