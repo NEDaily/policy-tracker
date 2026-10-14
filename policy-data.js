@@ -2,8 +2,19 @@
    新能源政策跟踪 · 数据文件（页面唯一数据源）
    由每日检索筛选核实后更新；新增条目 id 规则：d + 日期 + 序号，如 d20261013-1。
    收录范围：2025年1月及以后的条目，更早的不收录。
-   字段：id/level(national|liaoning)/field/title/docno/org/date/url
+   字段：id/level(national|liaoning|city)/field/title/docno/org/date/url
         /digest/impact/status(仅"重点关注"条目置 key)/createdAt
+   层级 level：national 国家 / liaoning 辽宁省 / city 市级。市级条目须同时填
+        city（所属地级市名，如 '大连'）；县区条目 city 仍填所属地级市，县区名
+        在 org 或 title 中注明。市级条目页面按绿色系展示。
+   领域 field：competitive 风光竞争性配置 / retrofit 老旧机组改造 / distribution
+        增量配电 / pricing 电价市场化 / storage 储能与消纳 / other 其他 /
+        procedure 前期手续（用地、用海、环评等手续类条目专用）。
+   手续环节 stage：field 为 procedure 时必填——approval 核准备案 / land 用地 /
+        sea 用海 / forest 用林用草 / eia 环评 / navigation 通航 / mineral 压覆
+        矿产 / water 水土保持 / grid 电网接入 / other 其他手续。手续类仅收录
+        结论性节点文件（批复、同意书、许可、成交结果等），受理公示、拟审批
+        公示等过程性公示不收。
    研判卡：top:true 的条目自动生成顶部研判卡（topTitle/topBody/topImpact，
         缺省时回退 title/digest/impact），最多展示 3 张，由每日检索维护轮换。
    ============================================================ */
