@@ -673,7 +673,9 @@ def main():
         if len(new_entries) >= 30 or glm_calls >= args.max_glm:
             break
         art = articles.get(c['url'])
-        if not art or not api_key:
+        if not art:
+            continue
+        if not api_key:
             break
         glm_calls += 1
         ch_city = c['ch'][2]
