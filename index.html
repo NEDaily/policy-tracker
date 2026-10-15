@@ -129,10 +129,40 @@ select.filter:hover{border-color:var(--navy)}
 }
 .tab-btn:not(.active):hover{color:var(--navy)}
 .tab-btn.active{color:var(--navy-deep);border-bottom-color:var(--red)}
-body[data-view="digest"] .feed-only{display:none}
-body[data-view="digest"] #feedMain{display:none}
+body:not([data-view="feed"]) .feed-only{display:none}
+body:not([data-view="feed"]) #feedMain{display:none}
 #digestSection{display:none}
 body[data-view="digest"] #digestSection{display:block}
+#chainSection{display:none}
+body[data-view="chain"] #chainSection{display:block}
+
+/* ============ 手续链视图 ============ */
+.chain-section{padding:6px 0 40px}
+.chain-head-row{display:flex;align-items:baseline;justify-content:flex-end;margin-bottom:14px}
+.chain-list{display:flex;flex-direction:column}
+.chain-card{padding:18px 18px 14px;border-bottom:1px solid var(--line-soft);transition:.18s}
+.chain-card:hover{background:rgba(22,50,79,.035)}
+.chain-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.chain-head h3{font:900 16px/1.4 var(--serif);color:var(--navy-deep);margin:0}
+.chain-head h3 a{color:inherit;text-decoration:none}
+.chain-head h3 a:hover{color:var(--navy)}
+.chain-meta{margin-left:auto;font-size:12.5px;color:var(--ink-faint);letter-spacing:.05em;white-space:nowrap}
+.chain-nodes{list-style:none;margin:6px 0 0;padding:0;position:relative}
+.chain-nodes::before{content:"";position:absolute;left:9px;top:10px;bottom:10px;width:1px;background:var(--line-soft)}
+.chain-node{--dotc:var(--ink-faint);position:relative;display:flex;align-items:baseline;gap:14px;padding:8px 0 8px 28px}
+.chain-node.national{--dotc:#9e2a25}
+.chain-node.liaoning{--dotc:var(--navy-deep)}
+.chain-node.city{--dotc:#3a6e46}
+.chain-node .node-dot{position:absolute;left:4px;top:14px;width:11px;height:11px;border-radius:50%;background:var(--card);border:2px solid var(--dotc);box-sizing:border-box}
+.chain-node.latest .node-dot{background:var(--dotc)}
+.node-main{min-width:0}
+.node-title{font-size:14.5px;color:var(--navy);line-height:1.5}
+.node-title a{color:inherit;text-decoration:none}
+.node-title a:hover{text-decoration:underline}
+.node-sub{font-size:12.5px;color:var(--ink-faint);margin-top:2px}
+.node-date{margin-left:auto;flex:none;font-size:12.5px;color:var(--ink-faint);letter-spacing:.05em;white-space:nowrap}
+.chain-node.latest .node-date{color:var(--navy-deep);font-weight:700}
+.chain-empty{padding:30px 0;color:var(--ink-faint);font-size:13.5px;text-align:center}
 
 /* ============ 主区布局 ============ */
 .layout{display:grid;grid-template-columns:1fr 320px;gap:24px;padding:26px 0 40px;align-items:start}
@@ -297,6 +327,7 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
       <div class="tabs">
         <button class="tab-btn active" id="tabFeed" onclick="switchView('feed')">政策与线索流</button>
         <button class="tab-btn" id="tabDigest" onclick="switchView('digest')">核心研判</button>
+        <button class="tab-btn" id="tabChain" onclick="switchView('chain')">项目手续链</button>
       </div>
       <div class="search">
         <span class="icon">⌕</span>
@@ -335,6 +366,18 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
     <div class="rule"></div>
   </div>
   <div class="digest-grid" id="digestGrid"></div>
+</section>
+
+<!-- 手续链视图 -->
+<section class="wrap chain-section" id="chainSection">
+  <div class="section-head">
+    <span class="tag">手续链</span>
+    <h2>重大项目手续链</h2>
+    <div class="rule"></div>
+  </div>
+  <div class="chain-head-row"><div class="count" id="chainCount"></div></div>
+  <div class="chain-list" id="chainList"></div>
+  <div class="pager" id="chainPager"></div>
 </section>
 
 <!-- 主区 -->
@@ -970,7 +1013,7 @@ function setStage(v){
 document.addEventListener('click', e=>{
   if(stageMenuOpen && !e.target.closest('.chip.has-menu')){ stageMenuOpen = false; render(); }
 });
-function filterReset(){ pageIdx = 1; render(); renderDigests(); toTop(); }
+function filterReset(){ pageIdx = 1; chainPageIdx = 1; render(); renderDigests(); renderChains(); toTop(); }
 function setMonth(v){ curMonth = v; pageIdx = 1; render(); toTop(); }
 function onLevelChange(){
   const lv = document.getElementById('levelSel').value;
@@ -1021,8 +1064,80 @@ function switchView(v){
   document.body.dataset.view = v;
   document.getElementById('tabFeed').classList.toggle('active', v==='feed');
   document.getElementById('tabDigest').classList.toggle('active', v==='digest');
+  document.getElementById('tabChain').classList.toggle('active', v==='chain');
   window.scrollTo({top:0});
 }
+
+/* ================= 手续链视图 ================= */
+let chainPageIdx = 1;
+function renderChains(){
+  const q = document.getElementById('q').value.trim().toLowerCase();
+  const map = new Map();
+  items.forEach(it=>{
+    if(it.field!=='procedure'||!it.project) return;
+    if(!map.has(it.project)) map.set(it.project, []);
+    map.get(it.project).push(it);
+  });
+  const skey = d => (d||'').padEnd(10,'0');
+  const chains = [];
+  map.forEach((nodes,project)=>{
+    nodes.sort((a,b)=>skey(a.date).localeCompare(skey(b.date)));
+    if(q){
+      const hit = project.toLowerCase().includes(q) ||
+        nodes.some(it=>[it.title,it.org,it.docno,it.digest].join(' ').toLowerCase().includes(q));
+      if(!hit) return;
+    }
+    const last = nodes[nodes.length-1];
+    chains.push({project, city:(nodes.find(n=>n.city)||{}).city||'', level:last.level||'national', nodes});
+  });
+  chains.sort((a,b)=>skey(b.nodes[b.nodes.length-1].date).localeCompare(skey(a.nodes[a.nodes.length-1].date)));
+  const PAGES = Math.max(1, Math.ceil(chains.length/PAGE_SIZE));
+  if(chainPageIdx>PAGES) chainPageIdx = PAGES;
+  if(chainPageIdx<1) chainPageIdx = 1;
+  const pageList = chains.slice((chainPageIdx-1)*PAGE_SIZE, chainPageIdx*PAGE_SIZE);
+  document.getElementById('chainCount').textContent =
+    `共 ${chains.length} 个项目` + (PAGES>1?` · 第 ${chainPageIdx}/${PAGES} 页`:'');
+  const box = document.getElementById('chainList');
+  if(!chains.length){
+    box.innerHTML = `<div class="chain-empty">${q?'没有匹配的项目，可清空搜索词重试':'暂无手续链条目'}</div>`;
+  }else{
+    box.innerHTML = pageList.map(ch=>{
+      const last = ch.nodes[ch.nodes.length-1];
+      const lvText = ch.city ? esc(ch.city) : (LEVELS[ch.level]||'');
+      const lvBadge = lvText ? `<span class="badge level ${ch.city?'city':''}">${lvText}</span>` : '';
+      return `<article class="chain-card">
+        <div class="chain-head">
+          <h3>${esc(ch.project)}</h3>
+          ${lvBadge}
+          <span class="chain-meta">${ch.nodes.length} 个节点 · 最新 ${esc(last.date||'')}</span>
+        </div>
+        <ol class="chain-nodes">${ch.nodes.map(it=>{
+          const lvCls = it.level==='liaoning'?'liaoning':it.level==='city'?'city':'national';
+          const titleHtml = it.url?`<a href="${esc(it.url)}" target="_blank" rel="noopener">${esc(it.title)}</a>`:esc(it.title);
+          return `<li class="chain-node ${lvCls}${it===last?' latest':''}">
+            <span class="node-dot"></span>
+            <div class="node-main">
+              <div class="node-title">${titleHtml}</div>
+              <div class="node-sub">${STAGES[it.stage]||'其他手续'} · ${esc(it.org||'')}${it.docno?' · '+esc(it.docno):''}</div>
+            </div>
+            <span class="node-date">${esc(it.date||'—')}</span>
+          </li>`;
+        }).join('')}</ol>
+      </article>`;
+    }).join('');
+  }
+  const pager = document.getElementById('chainPager');
+  if(PAGES>1){
+    pager.style.display = 'flex';
+    let btns = `<button type="button" class="pg-btn ${chainPageIdx<=1?'dis':''}" onclick="setPageChain(${chainPageIdx-1})">‹ 上一页</button>`;
+    for(let p=1;p<=PAGES;p++) btns += `<button type="button" class="pg-btn ${p===chainPageIdx?'on':''}" onclick="setPageChain(${p})">${p}</button>`;
+    btns += `<button type="button" class="pg-btn ${chainPageIdx>=PAGES?'dis':''}" onclick="setPageChain(${chainPageIdx+1})">下一页 ›</button>`;
+    pager.innerHTML = btns;
+  }else{
+    pager.style.display = 'none';
+  }
+}
+function setPageChain(p){ chainPageIdx = p; renderChains(); toTop(); }
 
 /* ================= 条目操作 ================= */
 function copyBrief(id){
@@ -1090,7 +1205,7 @@ function toast(msg){
   clearTimeout(toastTimer);
   toastTimer = setTimeout(()=>t.classList.remove('show'),2200);
 }
-initDate(); load(); buildMonthOptions(); buildCityStageOptions(); renderDigests(); render();
+initDate(); load(); buildMonthOptions(); buildCityStageOptions(); renderDigests(); render(); renderChains();
 setTimeout(()=>document.body.classList.remove('anim-first'), 950);
 </script>
 </body>
