@@ -456,29 +456,41 @@ def glm_call(api_key, user_content):
             {'role': 'user', 'content': user_content},
         ],
         'temperature': 0.2,
-        'max_tokens': 4096,
+        'max_tokens': 8192,
     }
+    # glm-5.3-flash 始终思考、不支持 thinking:disabled（传了返回 400 code 1210），
+    # 故不带 thinking 参数；json_object 优先，退化为自由文本再解析
     variants = [
-        dict(base, thinking={'type': 'disabled'},
-             response_format={'type': 'json_object'}),
-        dict(base, thinking={'type': 'disabled'}),
+        dict(base, response_format={'type': 'json_object'}),
         dict(base),
     ]
     last_err = None
     for body in variants:
-        try:
-            r = requests.post(API_URL, json=body, timeout=180,
-                              headers={'Authorization': 'Bearer ' + api_key,
-                                       'Content-Type': 'application/json'})
-            if r.status_code >= 400:
-                last_err = 'HTTP %s %s' % (r.status_code, r.text[:160])
-                continue
-            data = r.json()
-            content = (data.get('choices') or [{}])[0].get('message', {}) \
-                .get('content') or ''
-            return parse_json_obj(content), None
-        except Exception as e:
-            last_err = str(e)
+        for retry in range(3):
+            try:
+                r = requests.post(API_URL, json=body, timeout=180,
+                                  headers={'Authorization': 'Bearer ' + api_key,
+                                           'Content-Type': 'application/json'})
+                if r.status_code in (429, 500, 502, 503, 504) and retry < 2:
+                    last_err = 'HTTP %s(重试%d)' % (r.status_code, retry + 1)
+                    time.sleep(8 * (retry + 1))
+                    continue
+                if r.status_code >= 400:
+                    last_err = 'HTTP %s %s' % (r.status_code, r.text[:160])
+                    break
+                data = r.json()
+                content = (data.get('choices') or [{}])[0].get('message', {}) \
+                    .get('content') or ''
+                obj = parse_json_obj(content)
+                if obj is None and retry < 2:
+                    last_err = '模型返回空/非JSON(重试%d)' % (retry + 1)
+                    time.sleep(5)
+                    continue
+                return obj, None if obj is not None else last_err
+            except Exception as e:
+                last_err = str(e)
+                if retry < 2:
+                    time.sleep(8 * (retry + 1))
     return None, last_err
 
 
