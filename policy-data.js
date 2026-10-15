@@ -4,9 +4,11 @@
    收录范围：2025年1月及以后的条目，更早的不收录。
    字段：id/level(national|liaoning|city)/field/title/docno/org/date/url
         /digest/impact/status(仅"重点关注"条目置 key)/createdAt
-   层级 level：national 国家 / liaoning 辽宁省 / city 市级。市级条目须同时填
-        city（所属地级市名，如 '大连'）；县区条目 city 仍填所属地级市，县区名
-        在 org 或 title 中注明。市级条目页面按绿色系展示。
+   层级 level：national 国家 / liaoning 辽宁省 / city 市县级（页面显示名，
+        2026-10-15 起「市级」统一称「市县级」，不单设县级层级）。city 层级条目
+        须同时填 city（所属地级市名，如 '大连'）；县级机关发布的条目归 city
+        层级并加填 county（县/县级市名，如 '绥中'），县区名同时在 org 或
+        title 中注明。city 层级条目页面按绿色系展示。
    领域 field：competitive 风光竞争性配置 / retrofit 老旧机组改造 / distribution
         增量配电 / pricing 电价市场化 / storage 储能与消纳 / other 其他 /
         procedure 前期手续（用地、用海、环评等手续类条目专用）。
@@ -364,7 +366,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-13'
   },
   {
-    id:'d20261013-18', level:'city', city:'葫芦岛', field:'procedure', stage:'approval',
+    id:'d20261013-18', level:'city', city:'葫芦岛', county:'绥中', field:'procedure', stage:'approval',
     title:'中广核80万千瓦海上风电项目获核准（绥中）',
     docno:'', org:'绥中县人民政府（2025年政府工作报告披露）', date:'2026-01-21',
     url:'https://www.szx.gov.cn/xxgk_21446/qtgkxx/gzbg/202601/t20260121_1227884.html',
@@ -373,7 +375,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-13'
   },
   {
-    id:'d20261013-19', level:'city', city:'鞍山', field:'procedure', stage:'other',
+    id:'d20261013-19', level:'city', city:'鞍山', county:'岫岩', field:'procedure', stage:'other',
     title:'三峡岫岩200MW风电场工程获建设工程规划许可',
     docno:'建字第2103232025GG0024558号', org:'岫岩满族自治县人民政府', date:'2025-09-15',
     url:'http://www.xiuyan.gov.cn/html/XYXZF/202509/0175799549228986.html',
@@ -744,7 +746,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-15'
   },
   {
-    id:'d20261015-25', level:'city', city:'营口', field:'procedure', stage:'land', top:false,
+    id:'d20261015-25', level:'city', city:'营口', county:'大石桥', field:'procedure', stage:'land', top:false,
     title:'华能营口200MW储能调峰电站项目《建设项目用地预审与选址意见书》批后公布',
     docno:'', org:'大石桥市自然资源局', date:'2025-05-28',
     url:'http://www.dsq.gov.cn/govxxgk/dsqs/2025-05-28/e5c520b5-a950-408b-834a-bb8f4fae84a2.html',
@@ -752,7 +754,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-15'
   },
   {
-    id:'d20261015-26', level:'city', city:'朝阳', field:'procedure', stage:'land', top:false,
+    id:'d20261015-26', level:'city', city:'朝阳', county:'北票', field:'procedure', stage:'land', top:false,
     title:'中电投朝阳北票北塔子风电场49.5MW发电工程项目批后公开',
     docno:'用字第2113812025XS0004512号', org:'北票市自然资源局', date:'2025-12-18',
     url:'https://www.bp.gov.cn/html/BPSZF/202512/0176602029414966.html',
@@ -760,7 +762,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-15'
   },
   {
-    id:'d20261015-27', level:'city', city:'朝阳', field:'procedure', stage:'land', top:false,
+    id:'d20261015-27', level:'city', city:'朝阳', county:'建平', field:'procedure', stage:'land', top:false,
     title:'建平县《建设项目用地预审和选址意见书》批后公开',
     docno:'', org:'建平县自然资源局', date:'2026-05-28',
     url:'https://lnjp.gov.cn/html/JPXZF/202605/0177995590229610.html',
