@@ -310,7 +310,7 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
         <option value="">全部层级</option>
         <option value="national">国家</option>
         <option value="liaoning">省级</option>
-        <option value="city">市级</option>
+        <option value="city">市县级</option>
       </select>
       <select class="filter" id="citySel" onchange="onCityChange(this.value)" hidden>
         <option value="">全部城市</option>
@@ -784,7 +784,7 @@ const FIELDS = {
   procedure:  {name:'前期手续',color:'#4f4a7d'},
   other:      {name:'其他',color:'#6b6558'},
 };
-const LEVELS = {national:'国家',liaoning:'省级',city:'市级'};
+const LEVELS = {national:'国家',liaoning:'省级',city:'市县级'};
 const CITIES = ['沈阳','大连','鞍山','抚顺','本溪','丹东','锦州','营口','阜新','辽阳','盘锦','铁岭','朝阳','葫芦岛'];
 const STAGES = {
   approval:'核准备案', land:'用地', sea:'用海', forest:'用林用草', eia:'环评',
@@ -1023,7 +1023,7 @@ function copyBrief(id){
   const d = (it.date||'').replace(/^(\d+)-(\d+)-?(\d+)?$/,(_,y,m,dd)=>`${y}年${+m}月${dd?+dd+'日':''}`);
   const lines = [
     `【政策速递】${it.title}`,
-    `层级领域：${it.level==='city'&&it.city?it.city+'（市级）':(LEVELS[it.level]||'')} · ${(FIELDS[it.field]||{}).name||''}`,
+    `层级领域：${it.level==='city'&&it.city?it.city+'（市县级）':(LEVELS[it.level]||'')} · ${(FIELDS[it.field]||{}).name||''}`,
     `发布：${it.org||''}${it.docno?'（'+it.docno+'）':''}`,
     it.date?`时间：${d}`:'',
     it.digest?`要点：${it.digest}`:'',
