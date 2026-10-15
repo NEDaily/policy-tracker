@@ -90,9 +90,8 @@ def main():
     with open(pd_path, 'r', encoding='utf-8') as f:
         new_text = f.read()
     n_old, n_new = old_text.count("id:'d"), new_text.count("id:'d")
-    ts = datetime.now(BJT).strftime('%Y-%m-%d %H:%M')
-    push(pd_path, 'policy-data.js', '每日更新 %s 新增%d条（腾讯云）' % (ts, max(0, n_new - n_old)), token)
-    push(rl_path, 'runlog.md', '运行留痕 %s（腾讯云）' % ts, token)
+    # 数据与留痕的推送由 policy_daily.py 全权负责（含版头刷新与冲突重试）；
+    # 本入口不再回推任何文件，杜绝用运行前下载的旧内容覆盖仓库（回滚事故源头之一）
     print('[done] 新增 %d 条' % max(0, n_new - n_old))
 
 
