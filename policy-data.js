@@ -7,7 +7,8 @@
    层级 level：national 国家 / liaoning 辽宁省 / city 市县级（页面显示名，
         2026-10-15 起「市级」统一称「市县级」，不单设县级层级）。city 层级条目
         须同时填 city（所属地级市名，如 '大连'）；县级机关发布的条目归 city
-        层级并加填 county（县/县级市名，如 '绥中'），县区名同时在 org 或
+        层级并加填 county（县名，如 '绥中'；仅侧栏独立县子组的岫岩、绥中填写，
+        其余县级市/县不单列、按所属地级市筛选），县区名同时在 org 或
         title 中注明。city 层级条目页面按绿色系展示。
    领域 field：competitive 风光竞争性配置 / retrofit 老旧机组改造 / distribution
         增量配电 / pricing 电价市场化 / storage 储能与消纳 / other 其他 /
@@ -746,7 +747,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-15'
   },
   {
-    id:'d20261015-25', level:'city', city:'营口', county:'大石桥', field:'procedure', stage:'land', top:false,
+    id:'d20261015-25', level:'city', city:'营口', field:'procedure', stage:'land', top:false,
     title:'华能营口200MW储能调峰电站项目《建设项目用地预审与选址意见书》批后公布',
     docno:'', org:'大石桥市自然资源局', date:'2025-05-28',
     url:'http://www.dsq.gov.cn/govxxgk/dsqs/2025-05-28/e5c520b5-a950-408b-834a-bb8f4fae84a2.html',
@@ -754,7 +755,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-15'
   },
   {
-    id:'d20261015-26', level:'city', city:'朝阳', county:'北票', field:'procedure', stage:'land', top:false,
+    id:'d20261015-26', level:'city', city:'朝阳', field:'procedure', stage:'land', top:false,
     title:'中电投朝阳北票北塔子风电场49.5MW发电工程项目批后公开',
     docno:'用字第2113812025XS0004512号', org:'北票市自然资源局', date:'2025-12-18',
     url:'https://www.bp.gov.cn/html/BPSZF/202512/0176602029414966.html',
@@ -762,7 +763,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-15'
   },
   {
-    id:'d20261015-27', level:'city', city:'朝阳', county:'建平', field:'procedure', stage:'land', top:false,
+    id:'d20261015-27', level:'city', city:'朝阳', field:'procedure', stage:'land', top:false,
     title:'建平县《建设项目用地预审和选址意见书》批后公开',
     docno:'', org:'建平县自然资源局', date:'2026-05-28',
     url:'https://lnjp.gov.cn/html/JPXZF/202605/0177995590229610.html',
