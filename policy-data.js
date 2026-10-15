@@ -364,7 +364,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-13'
   },
   {
-    id:'d20261013-18', level:'liaoning', field:'procedure', stage:'approval',
+    id:'d20261013-18', level:'city', city:'葫芦岛', field:'procedure', stage:'approval',
     title:'中广核80万千瓦海上风电项目获核准（绥中）',
     docno:'', org:'绥中县人民政府（2025年政府工作报告披露）', date:'2026-01-21',
     url:'https://www.szx.gov.cn/xxgk_21446/qtgkxx/gzbg/202601/t20260121_1227884.html',
@@ -373,7 +373,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-13'
   },
   {
-    id:'d20261013-19', level:'liaoning', field:'procedure', stage:'other',
+    id:'d20261013-19', level:'city', city:'鞍山', field:'procedure', stage:'other',
     title:'三峡岫岩200MW风电场工程获建设工程规划许可',
     docno:'建字第2103232025GG0024558号', org:'岫岩满族自治县人民政府', date:'2025-09-15',
     url:'http://www.xiuyan.gov.cn/html/XYXZF/202509/0175799549228986.html',
