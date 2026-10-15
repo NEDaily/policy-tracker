@@ -80,8 +80,9 @@ def main():
         old_text = f.read()
 
     env = dict(os.environ, ZHIPU_API_KEY=zhipu)
-    rc = subprocess.call([sys.executable, os.path.join(WORK, 'scripts', 'policy_daily.py')],
-                         cwd=WORK, env=env)
+    # 透传命令行参数（如 --window-hours 168 周度回扫）
+    rc = subprocess.call([sys.executable, os.path.join(WORK, 'scripts', 'policy_daily.py')]
+                         + sys.argv[1:], cwd=WORK, env=env)
     if rc != 0:
         print('[fail] policy_daily.py 退出码 %d，本次不推送' % rc)
         sys.exit(1)
