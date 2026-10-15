@@ -26,8 +26,8 @@
 /* 版头两字段：POLICY_UPDATED_AT 每次每日任务运行完成后刷新为本次运行时刻
    （无论有无新增，用于证明检索确已执行）；POLICY_UPDATED_COUNT 为本次新增
    条数（无新增置 0，修改/删除不计）。存量补录类手动入库不动两字段。 */
-window.POLICY_UPDATED_AT = '2026-10-15 22:11';
-window.POLICY_UPDATED_COUNT = 2;
+window.POLICY_UPDATED_AT = '2026-10-15 16:44';
+window.POLICY_UPDATED_COUNT = 0;
 window.POLICY_SEED = [
   {
     id:'s1', level:'national', field:'pricing', top:true,
@@ -165,7 +165,7 @@ window.POLICY_SEED = [
     status:'key',  createdAt:'2025-09-28'
   },
   {
-    id:'d20251202-1', level:'city', city:'沈阳', field:'procedure', stage:'eia', top:false,
+    id:'d20251202-1', level:'city', city:'沈阳', field:'procedure', stage:'eia', top:false, project:'康平4.95万千瓦风电场等容改造',
     title:'沈阳康平4.95万千瓦风电场“以大代小”等容改造获环评批复',
     docno:'', org:'沈阳市生态环境局', date:'2025-12-02',
     url:'https://sthjj.shenyang.gov.cn/zwgk/fdzdgknr/hjyxpjgs/jsxmhjyxpjwjspjdgg/202512/P020251202497645557085.pdf',
@@ -371,7 +371,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-13'
   },
   {
-    id:'d20261013-18', level:'city', city:'葫芦岛', county:'绥中', field:'procedure', stage:'approval',
+    id:'d20261013-18', level:'city', city:'葫芦岛', county:'绥中', field:'procedure', stage:'approval', project:'中广核绥中80万千瓦海上风电',
     title:'中广核80万千瓦海上风电项目获核准（绥中）',
     docno:'', org:'绥中县人民政府（2025年政府工作报告披露）', date:'2026-01-21',
     url:'https://www.szx.gov.cn/xxgk_21446/qtgkxx/gzbg/202601/t20260121_1227884.html',
@@ -380,7 +380,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-13'
   },
   {
-    id:'d20261013-19', level:'city', city:'鞍山', county:'岫岩', field:'procedure', stage:'other',
+    id:'d20261013-19', level:'city', city:'鞍山', county:'岫岩', field:'procedure', stage:'other', project:'三峡岫岩200MW风电场',
     title:'三峡岫岩200MW风电场工程获建设工程规划许可',
     docno:'建字第2103232025GG0024558号', org:'岫岩满族自治县人民政府', date:'2025-09-15',
     url:'http://www.xiuyan.gov.cn/html/XYXZF/202509/0175799549228986.html',
@@ -407,7 +407,7 @@ window.POLICY_SEED = [
     ref:'锦州市发展改革委竞争性配置结果公示',  createdAt:'2026-10-14'
   },
   {
-    id:'d20261014-3', level:'city', city:'沈阳', field:'procedure', stage:'approval', top:false,
+    id:'d20261014-3', level:'city', city:'沈阳', field:'procedure', stage:'approval', top:false, project:'华润电力辽中150MW风电',
     title:'关于华润电力辽中150MW风电项目核准变更的批复',
     docno:'', org:'沈阳市发展和改革委员会', date:'2025-05-07',
     url:'https://fgw.shenyang.gov.cn/zwgk/fdzdgknr/zdxmpzhss/xmhz/xmhz/202505/t20250507_4846654.html',
@@ -423,7 +423,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-14'
   },
   {
-    id:'d20261014-5', level:'city', city:'沈阳', field:'procedure', stage:'approval', top:false,
+    id:'d20261014-5', level:'city', city:'沈阳', field:'procedure', stage:'approval', top:false, project:'辽能康平海州200MW风电',
     title:'辽能康平海州200MW风电项目',
     docno:'', org:'沈阳市发展和改革委员会', date:'2026-07-17',
     url:'https://fgw.shenyang.gov.cn/zwgk/fdzdgknr/zdxmpzhss/xmhz/xmhz/202608/t20260813_5072251.html',
@@ -431,7 +431,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-14'
   },
   {
-    id:'d20261014-6', level:'city', city:'沈阳', field:'procedure', stage:'approval', top:false,
+    id:'d20261014-6', level:'city', city:'沈阳', field:'procedure', stage:'approval', top:false, project:'惠天热电法库200MW风电',
     title:'惠天热电法库200MW风力发电项目',
     docno:'', org:'沈阳市发展和改革委员会', date:'2026-07-22',
     url:'https://fgw.shenyang.gov.cn/zwgk/fdzdgknr/zdxmpzhss/xmhz/xmhz/202608/t20260813_5072248.html',
@@ -471,7 +471,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-14'
   },
   {
-    id:'d20261014-11', level:'city', city:'大连', field:'procedure', stage:'approval', top:false,
+    id:'d20261014-11', level:'city', city:'大连', field:'procedure', stage:'approval', top:false, project:'辽宁东方风力一二期风电原址改建',
     title:'关于辽宁东方风力发电有限公司一二期风电项目原址改建工程核准的批复',
     docno:'大发改核准字〔2025〕1号', org:'大连市发展和改革委员会', date:'2025-12-16',
     url:'https://pc.dl.gov.cn/art/2025/12/16/art_6930_2490039.html',
@@ -479,7 +479,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-14'
   },
   {
-    id:'d20261014-12', level:'city', city:'大连', field:'procedure', stage:'approval', top:false,
+    id:'d20261014-12', level:'city', city:'大连', field:'procedure', stage:'approval', top:false, project:'国电电力五运制盐分散式风电',
     title:'关于国电电力五运制盐分散式风电项目核准的批复',
     docno:'大发改核准字〔2025〕2号', org:'大连市发展和改革委员会', date:'2025-12-16',
     url:'https://pc.dl.gov.cn/art/2025/12/16/art_6930_2490043.html',
@@ -487,7 +487,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-14'
   },
   {
-    id:'d20261014-13', level:'city', city:'大连', field:'procedure', stage:'approval', top:false,
+    id:'d20261014-13', level:'city', city:'大连', field:'procedure', stage:'approval', top:false, project:'国电投瓦房店仙浴湾风电',
     title:'关于大连国电投瓦房店仙浴湾风电项目220kV送出工程核准的批复',
     docno:'大发改核准字〔2025〕4号', org:'大连市发展和改革委员会', date:'2025-12-16',
     url:'https://pc.dl.gov.cn/art/2025/12/16/art_6930_2490060.html',
@@ -495,7 +495,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-14'
   },
   {
-    id:'d20261014-14', level:'city', city:'大连', field:'procedure', stage:'approval', top:false,
+    id:'d20261014-14', level:'city', city:'大连', field:'procedure', stage:'approval', top:false, project:'瓦房店西区源网荷储一体化风电',
     title:'关于大连瓦房店西区源网荷储一体化风电项目220kV送出工程核准的批复',
     docno:'大发改核准字〔2025〕6号', org:'大连市发展和改革委员会', date:'2025-12-23',
     url:'https://pc.dl.gov.cn/art/2025/12/23/art_6930_2492410.html',
@@ -503,7 +503,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-14'
   },
   {
-    id:'d20261014-15', level:'city', city:'大连', field:'procedure', stage:'approval', top:false,
+    id:'d20261014-15', level:'city', city:'大连', field:'procedure', stage:'approval', top:false, project:'大连普兰店陆上风电I',
     title:'关于大连普兰店陆上风电I项目核准变更的批复',
     docno:'大发改核准字〔2025〕8号', org:'大连市发展和改革委员会', date:'2025-12-23',
     url:'https://pc.dl.gov.cn/art/2025/12/23/art_6930_2492412.html',
@@ -511,7 +511,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-14'
   },
   {
-    id:'d20261014-16', level:'city', city:'大连', field:'procedure', stage:'approval', top:false,
+    id:'d20261014-16', level:'city', city:'大连', field:'procedure', stage:'approval', top:false, project:'大连沣泽能源庄河青堆镇25MW分散式风电',
     title:'关于大连沣泽能源庄河青堆镇25MW分散式风电项目核准延期的批复',
     docno:'大发改核准字〔2025〕10号', org:'大连市发展和改革委员会', date:'2025-12-23',
     url:'https://pc.dl.gov.cn/art/2025/12/23/art_6930_2492415.html',
@@ -559,7 +559,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-14'
   },
   {
-    id:'d20261015-1', level:'city', city:'本溪', field:'procedure', stage:'approval', top:false,
+    id:'d20261015-1', level:'city', city:'本溪', field:'procedure', stage:'approval', top:false, project:'本溪迎新节能12.5MW分散式风电',
     title:'本溪迎新节能科技有限公司12.5MW分散式风力发电项目核准的批复',
     docno:'本发改核准〔2025〕1号', org:'本溪市发展和改革委员会', date:'2025-03-12',
     url:'https://fgw.benxi.gov.cn/publicity/ywgz/hzzfshgk/129881',
@@ -575,7 +575,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-15'
   },
   {
-    id:'d20261015-3', level:'city', city:'盘锦', field:'procedure', stage:'approval', top:false,
+    id:'d20261015-3', level:'city', city:'盘锦', field:'procedure', stage:'approval', top:false, project:'盘锦科安隆10MW分散式风电',
     title:'盘锦市发展改革委关于盘锦科安隆10MW分散式风力发电项目核准的批复',
     docno:'盘发改投发〔2025〕29号', org:'盘锦市发展和改革委员会', date:'2025-12-09',
     url:'https://fgw.panjin.gov.cn/2026_03/23_11/content-556002.html',
@@ -647,7 +647,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-15'
   },
   {
-    id:'d20261015-12', level:'city', city:'铁岭', field:'procedure', stage:'eia', top:false,
+    id:'d20261015-12', level:'city', city:'铁岭', field:'procedure', stage:'eia', top:false, project:'辽宁华电昌图一期450MW离网风电',
     title:'辽宁华电铁岭昌图一期450MW离网风电项目环评获批',
     docno:'', org:'铁岭市生态环境局', date:'2025-01-07',
     url:'http://tieling.gov.cn/tieling/zwgk/zfxxgk/fdzdgknr/zdmsxx/hjbh/jsxmhjspqkgs/2025010715212269681/index.html',
@@ -655,7 +655,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-15'
   },
   {
-    id:'d20261015-13', level:'city', city:'铁岭', field:'procedure', stage:'eia', top:false,
+    id:'d20261015-13', level:'city', city:'铁岭', field:'procedure', stage:'eia', top:false, project:'铁岭昌图润航500MW风电',
     title:'铁岭昌图润航500MW风电项目220千伏送出工程环评获批',
     docno:'', org:'铁岭市生态环境局', date:'2025-02-24',
     url:'http://www.tieling.gov.cn/tieling/zwgk/zfxxgk/fdzdgknr/zdmsxx/hjbh/jsxmhjspqkgs/2025022409313629166/index.html',
@@ -663,7 +663,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-15'
   },
   {
-    id:'d20261015-14', level:'city', city:'铁岭', field:'procedure', stage:'water', top:false,
+    id:'d20261015-14', level:'city', city:'铁岭', field:'procedure', stage:'water', top:false, project:'国家电投铁岭县风电220kV送出',
     title:'国家电投铁岭县风电项目220kV送出工程（铁岭段）水土保持设施验收报备回执',
     docno:'验收回执﹝2025﹞3号', org:'铁岭市水利局', date:'2025-08-07',
     url:'http://www.tieling.gov.cn/tieling/zwgk/zfxxgk/fdzdgknr/zdmsxx/tlsl/2025080710274696977/index.html',
@@ -671,7 +671,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-15'
   },
   {
-    id:'d20261015-15', level:'city', city:'铁岭', field:'procedure', stage:'water', top:false,
+    id:'d20261015-15', level:'city', city:'铁岭', field:'procedure', stage:'water', top:false, project:'国家电投清开风电',
     title:'国家电投清开风电项目220kV送出工程水土保持设施验收报备回执',
     docno:'', org:'铁岭市水利局', date:'2025-08-07',
     url:'http://www.tieling.gov.cn/tieling/zwgk/zfxxgk/fdzdgknr/zdmsxx/tlsl/2025080710255980275/index.html',
@@ -679,7 +679,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-15'
   },
   {
-    id:'d20261015-16', level:'city', city:'铁岭', field:'procedure', stage:'water', top:false,
+    id:'d20261015-16', level:'city', city:'铁岭', field:'procedure', stage:'water', top:false, project:'辽宁大唐昌图金山二期150MW风电',
     title:'辽宁大唐国际昌图金山二期150MW风电项目水土保持设施验收报备回执',
     docno:'验收回执〔2025〕5号', org:'铁岭市水利局', date:'2025-08-07',
     url:'http://www.tieling.gov.cn/tieling/zwgk/zfxxgk/fdzdgknr/zdmsxx/tlsl/2025080710302140390/index.html',
@@ -687,7 +687,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-15'
   },
   {
-    id:'d20261015-17', level:'city', city:'铁岭', field:'procedure', stage:'eia', top:false,
+    id:'d20261015-17', level:'city', city:'铁岭', field:'procedure', stage:'eia', top:false, project:'铁岭恒枫清河区5MW分散式风电',
     title:'铁岭恒枫清河区5MW分散式风电项目环评获批',
     docno:'', org:'铁岭市生态环境局', date:'2025-09-05',
     url:'http://www.tieling.gov.cn/tieling/zwgk/zfxxgk/fdzdgknr/zdmsxx/hjbh/jsxmhjspqkgs/2025090510561199682/index.html',
@@ -703,7 +703,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-15'
   },
   {
-    id:'d20261015-19', level:'city', city:'葫芦岛', field:'procedure', stage:'eia', top:false,
+    id:'d20261015-19', level:'city', city:'葫芦岛', field:'procedure', stage:'eia', top:false, project:'葫芦岛大唐南票风电',
     title:'葫芦岛大唐南票风电项目220千伏送出工程环评获批',
     docno:'葫环审〔2025〕1号', org:'葫芦岛市生态环境局', date:'2025-01-16',
     url:'https://sthj.hld.gov.cn/zwgk/zfxxgk/fdzdgknr/jsxm/202501/t20250116_1197171.html',
@@ -711,7 +711,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-15'
   },
   {
-    id:'d20261015-20', level:'city', city:'葫芦岛', field:'procedure', stage:'eia', top:false,
+    id:'d20261015-20', level:'city', city:'葫芦岛', field:'procedure', stage:'eia', top:false, project:'国能绥中发电厂内分散式风电二期',
     title:'国能（绥中）发电厂内分散式风电二期（13.75MW）项目环评获批',
     docno:'葫环审〔2025〕7号', org:'葫芦岛市生态环境局', date:'2025-04-07',
     url:'https://sthj.hld.gov.cn/zwgk/zfxxgk/fdzdgknr/jsxm/202504/t20250407_1204113.html',
@@ -719,7 +719,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-15'
   },
   {
-    id:'d20261015-21', level:'city', city:'葫芦岛', field:'procedure', stage:'eia', top:false,
+    id:'d20261015-21', level:'city', city:'葫芦岛', field:'procedure', stage:'eia', top:false, project:'辽宁虹京实业7.5MW分散式风电',
     title:'辽宁虹京实业7.5MW分散式风电项目环评获批',
     docno:'葫环审〔2025〕44号', org:'葫芦岛市生态环境局', date:'2025-09-26',
     url:'https://www.hld.gov.cn/zwgk/fdzdgknr/zdxm/xmspqzxx/xmhjpj/202509/t20250926_1218887.html',
@@ -727,7 +727,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-15'
   },
   {
-    id:'d20261015-22', level:'city', city:'葫芦岛', field:'procedure', stage:'eia', top:false,
+    id:'d20261015-22', level:'city', city:'葫芦岛', field:'procedure', stage:'eia', top:false, project:'绥中高领200MW/400MWh储能电站',
     title:'绥中高领200MW/400MWh储能电站项目环评获批',
     docno:'葫环审〔2026〕47号', org:'葫芦岛市生态环境局', date:'2026-04-22',
     url:'https://www.hld.gov.cn/zwgk/fdzdgknr/zdxm/xmspqzxx/xmhjpj/202604/t20260422_1235327.html',
@@ -735,7 +735,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-15'
   },
   {
-    id:'d20261015-23', level:'city', city:'葫芦岛', field:'procedure', stage:'eia', top:false,
+    id:'d20261015-23', level:'city', city:'葫芦岛', field:'procedure', stage:'eia', top:false, project:'万帮连山100MW/400MWh储能电站',
     title:'万帮连山100MW/400MWh独立新型储能电站项目环评获批',
     docno:'葫环审〔2026〕80号', org:'葫芦岛市生态环境局', date:'2026-09-20',
     url:'https://www.hld.gov.cn/zwgk/fdzdgknr/zdxm/xmspqzxx/xmhjpj/202609/t20260920_1248962.html',
@@ -743,7 +743,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-15'
   },
   {
-    id:'d20261015-24', level:'city', city:'营口', field:'procedure', stage:'approval', top:false,
+    id:'d20261015-24', level:'city', city:'营口', field:'procedure', stage:'approval', top:false, project:'营口盛屹能源0.15MW屋顶分布式光伏',
     title:'营口市盛屹能源科技有限公司0.15MW屋顶分布式光伏发电项目的批复情况',
     docno:'营发改备〔2025〕60号', org:'营口市发展和改革委员会', date:'2025-09-04',
     url:'https://fgw.yingkou.gov.cn/govxxgk/fgw/2025-09-04/d59e22a5-de95-4fb2-980f-012d8b27358f.html',
@@ -751,7 +751,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-15'
   },
   {
-    id:'d20261015-25', level:'city', city:'营口', field:'procedure', stage:'land', top:false,
+    id:'d20261015-25', level:'city', city:'营口', field:'procedure', stage:'land', top:false, project:'华能营口200MW储能调峰电站',
     title:'华能营口200MW储能调峰电站项目《建设项目用地预审与选址意见书》批后公布',
     docno:'', org:'大石桥市自然资源局', date:'2025-05-28',
     url:'http://www.dsq.gov.cn/govxxgk/dsqs/2025-05-28/e5c520b5-a950-408b-834a-bb8f4fae84a2.html',
@@ -759,7 +759,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-15'
   },
   {
-    id:'d20261015-26', level:'city', city:'朝阳', field:'procedure', stage:'land', top:false,
+    id:'d20261015-26', level:'city', city:'朝阳', field:'procedure', stage:'land', top:false, project:'中电投北票北塔子风电场改造',
     title:'中电投朝阳北票北塔子风电场49.5MW发电工程项目批后公开',
     docno:'用字第2113812025XS0004512号', org:'北票市自然资源局', date:'2025-12-18',
     url:'https://www.bp.gov.cn/html/BPSZF/202512/0176602029414966.html',
@@ -775,7 +775,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-15'
   },
   {
-    id:'d20261015-28', level:'liaoning', field:'procedure', stage:'sea', top:false,
+    id:'d20261015-28', level:'liaoning', field:'procedure', stage:'sea', top:false, project:'东港市海上风电陆上运维管理中心',
     title:'辽宁省人民政府关于东港市海上风电陆上运维管理中心项目用海的批复',
     docno:'辽政海域字〔2025〕24号', org:'辽宁省人民政府', date:'2025-09-08',
     url:'https://zrzy.ln.gov.cn/zrzy/zfgkzdgz/-tdgy--zfhy--spjg--zcps--jytabljggk/2025091009390615018/index.shtml',
@@ -783,7 +783,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-15'
   },
   {
-    id:'d20261015-29', level:'city', city:'锦州', field:'procedure', stage:'water', top:false,
+    id:'d20261015-29', level:'city', city:'锦州', field:'procedure', stage:'water', top:false, project:'锦州黑山常兴300MW风电',
     title:'关于锦州黑山常兴300兆瓦风电项目水土保持方案变更报告书的批复',
     docno:'锦水审批〔2025〕1号', org:'锦州市水利局', date:'2025-01-16',
     url:'https://slj.jz.gov.cn/info/1064/5440.htm',
@@ -791,7 +791,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-15'
   },
   {
-    id:'d20261015-30', level:'city', city:'阜新', field:'procedure', stage:'water', top:false,
+    id:'d20261015-30', level:'city', city:'阜新', field:'procedure', stage:'water', top:false, project:'三峡能源阜新250MW陆上风电',
     title:'三峡能源阜新市250MW陆上风电项目水土保持方案审批准予行政许可决定书',
     docno:'阜水审〔2025〕27号', org:'阜新市水利局', date:'2025-07-30',
     url:'https://slj.fuxin.gov.cn/mob/newsdetail.thtml?id=1037823',
@@ -799,7 +799,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-15'
   },
   {
-    id:'d20261015-31', level:'city', city:'阜新', field:'procedure', stage:'water', top:false,
+    id:'d20261015-31', level:'city', city:'阜新', field:'procedure', stage:'water', top:false, project:'彰武县平安150MW风电',
     title:'彰武县平安150MW风电项目水土保持方案报告书审批准予行政许可决定书',
     docno:'阜水审〔2025〕31号', org:'阜新市水利局', date:'2025-08-28',
     url:'https://slj.fuxin.gov.cn/mob/newsdetail.thtml?id=1037824',
@@ -807,7 +807,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-15'
   },
   {
-    id:'d20261015-32', level:'city', city:'阜新', field:'procedure', stage:'water', top:false,
+    id:'d20261015-32', level:'city', city:'阜新', field:'procedure', stage:'water', top:false, project:'彰武县四堡子150MW风电',
     title:'彰武县四堡子150MW风电项目水土保持方案报告书审批准予行政许可决定书',
     docno:'阜水审〔2025〕48号', org:'阜新市水利局', date:'2025-11-26',
     url:'https://slj.fuxin.gov.cn/mob/newsdetail.thtml?id=1037825',
@@ -1102,65 +1102,5 @@ window.POLICY_SEED = [
     digest:'国家能源局东北监管局印发《辽宁省电力中长期市场实施细则（试行）》，同批发布吉林、黑龙江及东北区域省间电力中长期市场实施细则（试行），规范辽宁中长期市场的交易组织、合同签订执行与偏差结算管理，与《辽宁省电力市场运营规则》（试行4.0版）相衔接。',
     impact:'辽宁中长期交易规则经监管局细则化后，发电企业与售电公司年度、月度、月内交易组织按此执行。',
     createdAt:'2026-03-13'
-  },
-  {
-    id:'d20261015-65', level:'national', field:'pricing', top:false,
-    title:'国家能源局公告2026年第3号',
-    docno:'国家能源局公告2026年第3号', org:'国家能源局', date:'2026-09-08',
-    url:'http://www.nea.gov.cn/20260914/cf012a88d0fa4297b6219b506bc72ed0/c.html',
-    digest:'国家能源局公布行政规范性文件清理结果，决定废止电力用户与发电企业直接交易、三北地区可再生能源消纳、发电权交易、电力中长期交易监管等15件文件，同时延长核电厂消防安全规定、促进地热能开发利用意见等2件文件有效期，废止理由多为与全国统一电力市场体系要求不相适应或已被新文件替代。',
-    impact:'辽宁新能源企业参与电力直接交易、发电权交易及三北消纳相关监管要求需按全国统一电力市场体系新规执行，原文件依据不再适用，涉及地热能项目可继续沿用延期意见。',
-    ref:'国家能源局公告2026年第3号全文',
-    createdAt:'2026-09-08'
-  },
-  {
-    id:'d20261015-66', level:'national', field:'pricing', top:true,
-    title:'关于印发《东北区域集中式新能源发电企业集中报价工作实施方案（试行）》的通知',
-    docno:'东北监能市场〔2026〕42号', org:'国家能源局东北监管局', date:'2026-08-06',
-    url:'https://dbj.nea.gov.cn/xxgk/zcfg/202608/t20260806_306274.html',
-    digest:'国家能源局东北监管局印发《东北区域集中式新能源发电企业集中报价工作实施方案（试行）》（东北监能市场〔2026〕42号），就东北区域集中式新能源发电企业集中报价工作作出安排，方案为试行性质，并同步发布文件解读。',
-    impact:'该方案规范东北区域集中式新能源发电企业集中报价工作，将影响辽宁集中式新能源项目参与电力市场交易的报价方式与收益测算。',
-    ref:'东北监能市场〔2026〕42号全文',
-    status:'key',
-    createdAt:'2026-08-06'
-  },
-  {
-    id:'d20261015-67', level:'national', field:'pricing', top:false,
-    title:'东北区域省间电力中长期市场实施细则（试行）',
-    docno:'', org:'国家能源局东北监管局', date:'2026-03-13',
-    url:'https://dbj.nea.gov.cn/xxgk/zcfg/202603/t20260324_298469.html',
-    digest:'国家能源局东北监管局正式印发《东北区域省间电力中长期市场实施细则（试行）》，对东北区域省间电力中长期市场交易作出统一规范，适用于包括辽宁在内的东北区域，并同步发布官方政策解读材料。',
-    impact:'为辽宁新能源及各类电源参与东北省间中长期交易提供统一规则依据，影响项目电量消纳空间与收益预期，相关市场申报、合同执行须遵照细则办理。',
-    createdAt:'2026-03-13'
-  },
-  {
-    id:'d20261015-68', level:'national', field:'pricing', top:false,
-    title:'关于印发东北区域省间电力中长期交易实施细则(试行)的通知',
-    docno:'', org:'国家能源局东北监管局', date:'2025-08-19',
-    url:'https://dbj.nea.gov.cn/xxgk/zcfg/202509/t20250902_286643.html',
-    digest:'国家能源局东北监管局于2025年8月19日印发东北区域省间电力中长期交易实施细则(试行)，明确东北区域省间电力中长期交易的试行规则，并在门户网站同步发布该细则的政策解读。',
-    impact:'为辽宁新能源发电企业参与省间中长期交易提供规则依据，利于锁定电量电价与消纳，但不涉及核准备案等前期手续。',
-    createdAt:'2025-08-19'
-  },
-  {
-    id:'d20261015-69', level:'national', field:'procedure', top:true,
-    stage:'forest',
-    title:'国家林业和草原局国家能源局关于支持风电开发建设规范使用林地草地有关工作的通知',
-    docno:'林资规〔2026〕1号', org:'国家林业和草原局、国家能源局', date:'2026-01-22',
-    url:'https://www.forestry.gov.cn/lyj/1/lczc/20260129/658544.html',
-    digest:'统筹风电开发建设与林地草地保护，明确生态保护红线、自然保护地、重要湿地、重点国有林区林草地内不得新建扩建风电场；风机基础、道路、升压站等应避让国家级公益林乔木林地、年降水量400毫米以下区域乔木林地、基本草原；规范使用林草地审核审批手续，推进用地用林用草联动审批，有效期至2030年12月31日。',
-    impact:'辽宁风电项目选址须避让生态保护红线、自然保护地等禁建区，使用林地草地须办理审核审批，前期用地手续与监管趋严，已核准项目使用草地可按原预审意见执行。',
-    ref:'林资规〔2026〕1号全文',
-    status:'key',
-    createdAt:'2026-01-22'
-  },
-  {
-    id:'d20261015-70', level:'national', field:'other', top:false,
-    title:'关于印发《东北区域电网公平开放监管办法实施细则》的通知',
-    docno:'', org:'国家能源局东北监管局', date:'2026-02-26',
-    url:'https://dbj.nea.gov.cn/xxgk/zcfg/202602/t20260227_296853.html',
-    digest:'国家能源局东北监管局印发《东北区域电网公平开放监管办法实施细则》，发布时间为2026年2月26日，页面同时提供《东北区域电网公平开放实施细则》解读链接，该细则用于规范东北区域电网公平开放监管。',
-    impact:'规范电网公平开放行为，为辽宁新能源项目公平接入电网和使用电网设施提供监管制度依据。',
-    createdAt:'2026-02-26'
   }
 ];
