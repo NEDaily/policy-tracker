@@ -54,6 +54,14 @@ KW_PROC = KW_ENERGY + [
     '航标动态', '水上水下', '接入系统', '送出工程',
 ]
 
+# 重点项目业主关键词：候选标题命中者在候选池排序中优先（手续链积累，
+# 名单取自已入库竞配/建设方案中的主要业主，见交接文档第六节）
+KEY_PROJECTS = [
+    '中广核', '三峡', '华电', '大唐', '国家电投', '国电投', '国能', '华能',
+    '华润电力', '华润新能源', '国家能源集团', '京能', '深能', '辽能',
+    '惠天热电', '东方风力', '虹京实业', '科安隆', '迎新节能', '沣泽',
+]
+
 HEADERS = {
     'User-Agent': ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
                    'AppleWebKit/537.36 (KHTML, like Gecko) '
@@ -398,7 +406,8 @@ def crawl_channel(ch, existing_urls, cutoff):
             if dt and dt < cutoff.date():
                 continue
             seen.add(nu)
-            cands.append({'url': link_url, 'title': text, 'dt': dt})
+            cands.append({'url': link_url, 'title': text, 'dt': dt,
+                          'key_hit': any(k in text for k in KEY_PROJECTS)})
             if len(cands) >= 12:
                 break
     if not cands and error:
@@ -434,6 +443,7 @@ field: "competitive"竞争性配置|"retrofit"老旧机组改造|"distribution"�
 city: 发布机关所属地级市名（如"大连"），仅 level=city 时填写，否则 null
 county: 仅当发布机关为岫岩满族自治县时填"岫岩"、绥中县时填"绥中"，否则 null
 stage: field=procedure 时必填："approval"核准备案|"land"用地|"sea"用海|"forest"用林用草|"eia"环评|"navigation"通航|"mineral"压覆矿产|"water"水土保持|"grid"电网接入|"other"其他手续，否则 null
+project: field=procedure 时必填：涉及的单一项目规范化名称，格式为"业主+规模+类型(+地点)"（如"中广核绥中80万千瓦海上风电"、"辽宁华电昌图一期450MW离网风电"），从标题与正文提取，不得臆造或改写规模数字；面向全行业的政策文件（通知/方案/规则）或涉及多个项目的批次汇总填 null
 title: 官方文件标题（照原文，不含书名号外引号）
 docno: 文号（如"辽发改能源〔2025〕86号"），无则 null
 org: 发文机构全称
@@ -547,6 +557,8 @@ def build_entry_js(e):
         lines.append("    county:'%s'," % js_str(e['county']))
     if e.get('stage'):
         lines.append("    stage:'%s'," % e['stage'])
+    if e.get('project'):
+        lines.append("    project:'%s'," % js_str(e['project']))
     lines += [
         "    title:'%s'," % js_str(e['title']),
         "    docno:'%s', org:'%s', date:'%s'," % (
@@ -601,6 +613,9 @@ def validate_entry(d, cand, today):
             entry['stage'] = stage
     elif field == 'procedure':
         entry['stage'] = stage
+    if field == 'procedure' and isinstance(d.get('project'), str) \
+            and d['project'].strip():
+        entry['project'] = clean_text(d['project'], 60)
     if d.get('county') in COUNTIES:
         entry['county'] = d['county']
     if isinstance(d.get('docno'), str) and d['docno'].strip():
@@ -667,10 +682,13 @@ def main():
         log.info('[dry] 结束，未调用 GLM、未写文件')
         return 0
 
+    # 重点项目业主命中者优先进入研判候选（稳定排序，保持渠道内原有次序）
+    all_cands.sort(key=lambda c: 0 if c.get('key_hit') else 1)
+    all_cands = all_cands[:60]
+
     api_key = os.environ.get('ZHIPU_API_KEY', '')
     if not api_key:
         log.error('ZHIPU_API_KEY 未设置，无法研判')
-    all_cands = all_cands[:60]
     articles = {}
     with ThreadPoolExecutor(max_workers=8) as pool:
         futs = {pool.submit(fetch_article, c): c for c in all_cands}
