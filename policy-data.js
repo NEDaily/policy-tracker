@@ -133,7 +133,7 @@ window.POLICY_SEED = [
     id:'s16', level:'national', field:'pricing',
     title:'关于有序推动多用户绿电直连发展有关事项的通知',
     docno:'发改能源〔2026〕688号', org:'国家发展改革委、国家能源局', date:'2026-05-14',
-    url:'http://zfxxgk.ndrc.gov.cn/wap/iteminfo.jsp?id=20631',
+    url:'https://zfxxgk.ndrc.gov.cn/wap/iteminfo.jsp?id=20631',
     digest:'在650号文基础上将绿电直连扩展至多用户模式（多个不同法人实体，不含居民和农业用户），按是否接入公共电网分并网型与离网型两类；并网型项目价格按发改价格〔2025〕1192号执行，项目新能源发电量不纳入新能源可持续发展价格结算机制。',
     impact:'工业园区多主体共享绿电的路径打通，与增量配电区域、微电网业态可形成组合模式；对省内园区招商与绿电供给方案设计具有直接参考价值。',
     ref:'发改能源〔2026〕688号一、四（十）',  createdAt:'2026-05-14'
@@ -599,22 +599,6 @@ window.POLICY_SEED = [
     createdAt:'2026-10-15'
   },
   {
-    id:'d20261015-6', level:'city', city:'丹东', field:'competitive', top:false,
-    title:'丹东市"十四五"海上风电项目竞争性配置公告',
-    docno:'', org:'丹东市发展和改革委员会', date:'2025-01-14',
-    url:'https://www.dandong.gov.cn/html/DDSZF/202501/0173681979031398.html',
-    digest:'依据《辽宁省2024年度海上风电建设方案》，对位于丹东的省管海域DD1（150万千瓦）、DD2（200万千瓦）合计350万千瓦海上风电项目组织竞争性配置，明确配置范围、单一投资主体申报资格条件与评审程序。',
-    createdAt:'2026-10-15'
-  },
-  {
-    id:'d20261015-7', level:'city', city:'丹东', field:'competitive', top:false,
-    title:'关于丹东市"十四五"海上风电项目竞争性配置结果的公示',
-    docno:'', org:'丹东市发展和改革委员会', date:'2025-01-22',
-    url:'https://www.dandong.gov.cn/html/DDSZF/202501/0173751156445741.html',
-    digest:'2025年1月21日经辽宁省国际工程咨询中心组织专家评审，推荐国家电投集团东北电力有限公司为标段1（DD1-1，50万千瓦）、标段2（DD1-2，50万千瓦）项目业主，中电建新能源集团为标段3（DD1-3，50万千瓦）业主，华电辽宁能源发展为标段4（DD2，共200万千瓦）业主；公示期2025年1月22日至24日。',
-    createdAt:'2026-10-15'
-  },
-  {
     id:'d20261015-8', level:'city', city:'丹东', field:'storage', top:false,
     title:'丹东市200兆瓦储能项目竞争性配置公告',
     docno:'', org:'丹东市发展和改革委员会', date:'2026-05-14',
@@ -708,14 +692,6 @@ window.POLICY_SEED = [
     docno:'葫环审〔2025〕1号', org:'葫芦岛市生态环境局', date:'2025-01-16',
     url:'https://sthj.hld.gov.cn/zwgk/zfxxgk/fdzdgknr/jsxm/202501/t20250116_1197171.html',
     digest:'对《葫芦岛大唐南票风电项目220千伏送出工程环境影响报告表》作出审批决定并公告，新建220kV架空输电线路27.6公里、铁塔77基。',
-    createdAt:'2026-10-15'
-  },
-  {
-    id:'d20261015-20', level:'city', city:'葫芦岛', field:'procedure', stage:'eia', top:false, project:'国能绥中发电厂内分散式风电二期',
-    title:'国能（绥中）发电厂内分散式风电二期（13.75MW）项目环评获批',
-    docno:'葫环审〔2025〕7号', org:'葫芦岛市生态环境局', date:'2025-04-07',
-    url:'https://sthj.hld.gov.cn/zwgk/zfxxgk/fdzdgknr/jsxm/202504/t20250407_1204113.html',
-    digest:'批复国能（绥中）发电有限责任公司厂内分散式风电二期（13.75MW）项目环境影响报告表。',
     createdAt:'2026-10-15'
   },
   {
@@ -1147,7 +1123,7 @@ window.POLICY_SEED = [
     stage:'forest',
     title:'国家林业和草原局国家能源局关于支持风电开发建设规范使用林地草地有关工作的通知',
     docno:'林资规〔2026〕1号', org:'国家林业和草原局、国家能源局', date:'2026-01-22',
-    url:'https://www.forestry.gov.cn/lyj/1/lczc/20260129/658544.html',
+    url:'https://www.forestry.gov.cn/c/www/lczc/658544.jhtml',
     digest:'统筹风电开发建设与林地草地保护，明确生态保护红线、自然保护地、重要湿地、重点国有林区林草地内不得新建扩建风电场；风机基础、道路、升压站等应避让国家级公益林乔木林地、年降水量400毫米以下区域乔木林地、基本草原；规范使用林草地审核审批手续，推进用地用林用草联动审批，有效期至2030年12月31日。',
     impact:'辽宁风电项目选址须避让生态保护红线、自然保护地等禁建区，使用林地草地须办理审核审批，前期用地手续与监管趋严，已核准项目使用草地可按原预审意见执行。',
     ref:'林资规〔2026〕1号全文',
