@@ -310,14 +310,18 @@ def setup_log():
 
 def http_get(url, timeout=25):
     last = None
-    for t in (timeout, timeout + 15):
+    for i, t in enumerate((timeout, timeout + 15)):
         try:
             r = SESSION.get(url, timeout=t, verify=False, allow_redirects=True)
-            if r.status_code != 200:
-                raise RuntimeError('HTTP %s' % r.status_code)
-            return decode_bytes(r.content)
         except requests.RequestException as e:
             last = e
+            continue
+        if r.status_code == 200:
+            return decode_bytes(r.content)
+        last = RuntimeError('HTTP %s' % r.status_code)
+        if r.status_code < 500:
+            break
+        time.sleep(4)
     raise RuntimeError(str(last)[:120])
 
 
