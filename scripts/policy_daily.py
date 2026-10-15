@@ -408,7 +408,9 @@ def crawl_channel(ch, existing_urls, cutoff):
             seen.add(nu)
             cands.append({'url': link_url, 'title': text, 'dt': dt,
                           'key_hit': any(k in text for k in KEY_PROJECTS)})
-            if len(cands) >= 12:
+            # 上限为通过关键词粗筛且在时间窗内的新候选数（与库去重后），
+            # 30 条用于吸收环评按月批次、竞配结果日等集中挂网场景
+            if len(cands) >= 30:
                 break
     if not cands and error:
         return cands, error
@@ -633,7 +635,7 @@ def main():
     ap.add_argument('--analyze', type=int, default=0,
                     help='dry 模式下对前 N 个候选调用 GLM 并打印结果')
     ap.add_argument('--window-hours', type=int, default=72)
-    ap.add_argument('--max-glm', type=int, default=45)
+    ap.add_argument('--max-glm', type=int, default=60)
     ap.add_argument('--limit-channels', type=int, default=0)
     args = ap.parse_args()
 
@@ -684,7 +686,7 @@ def main():
 
     # 重点项目业主命中者优先进入研判候选（稳定排序，保持渠道内原有次序）
     all_cands.sort(key=lambda c: 0 if c.get('key_hit') else 1)
-    all_cands = all_cands[:60]
+    all_cands = all_cands[:80]
 
     api_key = os.environ.get('ZHIPU_API_KEY', '')
     if not api_key:
@@ -704,7 +706,7 @@ def main():
     new_entries, rejected, glm_calls, err_glm = [], [], 0, 0
     key_used = False
     for c in all_cands:
-        if len(new_entries) >= 30 or glm_calls >= args.max_glm:
+        if len(new_entries) >= 40 or glm_calls >= args.max_glm:
             break
         art = articles.get(c['url'])
         if not art:
