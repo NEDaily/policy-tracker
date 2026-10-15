@@ -23,8 +23,11 @@
         缺省时回退 title/digest/impact），页面按 date 降序自动取最新 3 张，
         无需人工摘除旧标——超过 3 张时最旧的自动落下。
    ============================================================ */
-window.POLICY_UPDATED_AT = '2026-10-15 01:18';
-window.POLICY_UPDATED_COUNT = 51;
+/* 版头两字段：POLICY_UPDATED_AT 每次每日任务运行完成后刷新为本次运行时刻
+   （无论有无新增，用于证明检索确已执行）；POLICY_UPDATED_COUNT 为本次新增
+   条数（无新增置 0，修改/删除不计）。存量补录类手动入库不动两字段。 */
+window.POLICY_UPDATED_AT = '2026-10-15 16:44';
+window.POLICY_UPDATED_COUNT = 0;
 window.POLICY_SEED = [
   {
     id:'s1', level:'national', field:'pricing', top:true,
