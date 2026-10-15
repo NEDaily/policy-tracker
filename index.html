@@ -98,6 +98,7 @@ a{color:var(--navy)}
   cursor:pointer;color:var(--ink-soft);background:#fff;letter-spacing:.08em;transition:.15s;user-select:none;
   line-height:1.5;
 }
+button.chip,button.pg-btn{font-family:var(--sans);appearance:none;-webkit-appearance:none}
 .chip:hover{border-color:var(--navy);color:var(--navy);box-shadow:0 1px 2px rgba(22,50,79,.08)}
 .chip.on{background:var(--navy);border-color:var(--navy);color:#fff}
 .chip.on.red{background:var(--red);border-color:var(--red)}
@@ -145,8 +146,9 @@ body[data-view="digest"] #digestSection{display:block}
   position:relative;background:transparent;border:none;box-shadow:none;
   margin-bottom:0;padding:16px 18px 14px 16px;display:grid;grid-template-columns:64px 1fr;gap:14px;
   border-bottom:1px solid var(--line-soft);
-  opacity:0;animation:riseIn .45s cubic-bezier(.2,.7,.3,1) forwards;transition:.18s;
+  transition:.18s;
 }
+body.anim-first .item{opacity:0;animation:riseIn .45s cubic-bezier(.2,.7,.3,1) forwards}
 .item:hover{background:rgba(22,50,79,.035)}
 .item::before{
   content:"";position:absolute;left:-18px;top:24px;width:9px;height:9px;border-radius:50%;
@@ -263,10 +265,16 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
   .item{grid-template-columns:1fr;gap:6px}
   .date-block{display:flex;align-items:baseline;gap:8px;text-align:left}
   .date-block .d{font-size:20px}
+  .toolbar-inner{gap:8px;padding-bottom:10px}
+  .toolbar-row{gap:8px}
+  .chip{font-size:11px;padding:4px 9px;letter-spacing:.05em}
+  select.filter{font-size:11.5px;padding:4px 7px}
+  .search{padding:5px 9px}
+  .search input{font-size:12.5px}
 }
 </style>
 </head>
-<body>
+<body class="anim-first">
 
 <!-- 刊头 -->
 <header class="masthead">
@@ -292,7 +300,7 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
       </div>
       <div class="search">
         <span class="icon">⌕</span>
-        <input type="text" id="q" placeholder="搜索标题、文号、机构、要点…" oninput="filterReset()">
+        <input type="text" id="q" aria-label="搜索" placeholder="搜索标题、文号、机构、要点…" oninput="filterReset()">
       </div>
     </div>
     <div class="chips feed-only" id="fieldChips"></div>
@@ -817,13 +825,13 @@ function render(){
     `<a class="${curStage===''?'sel':''}" onclick="setStage('')">全部环节</a>` +
     Object.entries(STAGES).map(([k,v])=>`<a class="${curStage===k?'sel':''}" onclick="setStage('${k}')">${v}</a>`).join('') +
     '</span>';
-  chipsBox.innerHTML = `<span class="chip ${curField===''?'on':''}" onclick="setField('')">全部</span>` +
+  chipsBox.innerHTML = `<button type="button" class="chip ${curField===''?'on':''}" onclick="setField('')">全部</button>` +
     Object.entries(FIELDS).map(([k,v])=>{
       if(k==='procedure'){
         const label = '前期手续' + (curStage? ' · '+STAGES[curStage] : '');
-        return `<span class="chip has-menu${curField===k?' on red':''}${stageMenuOpen?' open':''}" onclick="setField('procedure')">${label}<i class="caret">▾</i>${procMenu}</span>`;
+        return `<button type="button" class="chip has-menu${curField===k?' on red':''}${stageMenuOpen?' open':''}" onclick="setField('procedure')">${label}<i class="caret">▾</i>${procMenu}</button>`;
       }
-      return `<span class="chip ${curField===k?'on red':''}" onclick="setField('${k}')">${v.name}</span>`;
+      return `<button type="button" class="chip ${curField===k?'on red':''}" onclick="setField('${k}')">${v.name}</button>`;
     }).join('');
 
   // 筛选
@@ -842,7 +850,7 @@ function render(){
     if(st && it.status!==st) return false;
     if(curMonth && curMonth!=='all' && !(it.date||'').startsWith(curMonth)) return false;
     if(q){
-      const hay = [it.title,it.docno,it.org,it.digest,it.impact,it.city].join(' ').toLowerCase();
+      const hay = [it.title,it.docno,it.org,it.digest,it.impact,it.city,(FIELDS[it.field]||{}).name,STAGES[it.stage]||''].join(' ').toLowerCase();
       if(!hay.includes(q)) return false;
     }
     return true;
@@ -903,9 +911,9 @@ function render(){
   const pager = document.getElementById('pager');
   if(PAGES>1){
     pager.style.display = 'flex';
-    let btns = `<span class="pg-btn ${pageIdx<=1?'dis':''}" onclick="setPage(${pageIdx-1})">‹ 上一页</span>`;
-    for(let p=1;p<=PAGES;p++) btns += `<span class="pg-btn ${p===pageIdx?'on':''}" onclick="setPage(${p})">${p}</span>`;
-    btns += `<span class="pg-btn ${pageIdx>=PAGES?'dis':''}" onclick="setPage(${pageIdx+1})">下一页 ›</span>`;
+    let btns = `<button type="button" class="pg-btn ${pageIdx<=1?'dis':''}" onclick="setPage(${pageIdx-1})">‹ 上一页</button>`;
+    for(let p=1;p<=PAGES;p++) btns += `<button type="button" class="pg-btn ${p===pageIdx?'on':''}" onclick="setPage(${p})">${p}</button>`;
+    btns += `<button type="button" class="pg-btn ${pageIdx>=PAGES?'dis':''}" onclick="setPage(${pageIdx+1})">下一页 ›</button>`;
     pager.innerHTML = btns;
   }else{
     pager.style.display = 'none';
@@ -940,22 +948,23 @@ function render(){
 }
 
 function setField(k){
-  if(k==='procedure' && curField==='procedure'){ stageMenuOpen = !stageMenuOpen; }
-  else { stageMenuOpen = false; }
-  if(k!=='procedure') curStage = '';
+  if(k==='procedure'){
+    if(curField==='procedure'){ stageMenuOpen = !stageMenuOpen; }
+    else { stageMenuOpen = true; }
+  } else { stageMenuOpen = false; curStage = ''; }
   curField = k; pageIdx = 1;
-  render();
+  render(); toTop();
 }
 function setStage(v){
   curField = 'procedure';
   curStage = v; stageMenuOpen = false; pageIdx = 1;
-  render();
+  render(); toTop();
 }
 document.addEventListener('click', e=>{
   if(stageMenuOpen && !e.target.closest('.chip.has-menu')){ stageMenuOpen = false; render(); }
 });
-function filterReset(){ pageIdx = 1; render(); renderDigests(); }
-function setMonth(v){ curMonth = v; pageIdx = 1; render(); }
+function filterReset(){ pageIdx = 1; render(); renderDigests(); toTop(); }
+function setMonth(v){ curMonth = v; pageIdx = 1; render(); toTop(); }
 function onLevelChange(){
   const lv = document.getElementById('levelSel').value;
   const citySel = document.getElementById('citySel');
@@ -964,7 +973,9 @@ function onLevelChange(){
   filterReset();
 }
 function onCityChange(v){
-  if(v) document.getElementById('levelSel').value = 'city';
+  const lv = document.getElementById('levelSel');
+  if(v) lv.value = 'city';
+  else if(lv.value==='city') lv.value = '';
   filterReset();
 }
 /* 城市下拉：14 市静态列出（环节选择已并入「前期手续」chip 悬停菜单） */
@@ -972,9 +983,9 @@ function buildCityStageOptions(){
   document.getElementById('citySel').innerHTML =
     '<option value="">全部城市</option>' + CITIES.map(c=>`<option value="${c}">${c}</option>`).join('');
 }
+function toTop(){ window.scrollTo({top:0, behavior:'smooth'}); }
 function setPage(p){
-  pageIdx = p; render();
-  window.scrollTo({top:0, behavior:'smooth'});
+  pageIdx = p; render(); toTop();
 }
 /* 年月下拉：仅列出 2025 年 1 月至今有收录的月份，未来月份不显示 */
 function buildMonthOptions(){
@@ -1009,7 +1020,7 @@ function switchView(v){
 /* ================= 条目操作 ================= */
 function copyBrief(id){
   const it = items.find(i=>i.id===id); if(!it) return;
-  const d = (it.date||'').replace(/^(\d+)-(\d+)-?(\d+)?$/,(_,m,dd)=>`${m}月${dd?dd+'日':''}`);
+  const d = (it.date||'').replace(/^(\d+)-(\d+)-?(\d+)?$/,(_,y,m,dd)=>`${y}年${+m}月${dd?+dd+'日':''}`);
   const lines = [
     `【政策速递】${it.title}`,
     `层级领域：${it.level==='city'&&it.city?it.city+'（市级）':(LEVELS[it.level]||'')} · ${(FIELDS[it.field]||{}).name||''}`,
@@ -1031,7 +1042,7 @@ window.addEventListener('scroll',()=>{
 const DIGEST_NUMS = ['壹','贰','叁','肆','伍'];
 function renderDigests(){
   const q = document.getElementById('q').value.trim().toLowerCase();
-  let tops = items.filter(i=>i.top).slice(0,3);
+  let tops = items.filter(i=>i.top).sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,3);
   if(q){
     tops = tops.filter(it=>[it.topTitle||it.title,it.topBody||it.digest||'',it.topImpact||it.impact||'',it.org||'',it.docno||'']
       .join(' ').toLowerCase().includes(q));
@@ -1073,6 +1084,7 @@ function toast(msg){
   toastTimer = setTimeout(()=>t.classList.remove('show'),2200);
 }
 initDate(); load(); buildMonthOptions(); buildCityStageOptions(); renderDigests(); render();
+setTimeout(()=>document.body.classList.remove('anim-first'), 950);
 </script>
 </body>
 </html>
