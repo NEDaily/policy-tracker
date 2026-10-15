@@ -305,7 +305,6 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
     </div>
     <div class="chips feed-only" id="fieldChips"></div>
     <div class="toolbar-row feed-only selects">
-      <select class="filter" id="monthSel" onchange="setMonth(this.value)"></select>
       <select class="filter" id="levelSel" onchange="onLevelChange()">
         <option value="">全部层级</option>
         <option value="national">国家</option>
@@ -315,6 +314,7 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
       <select class="filter" id="citySel" onchange="onCityChange(this.value)" hidden>
         <option value="">全部市县</option>
       </select>
+      <select class="filter" id="monthSel" onchange="setMonth(this.value)"></select>
       <select class="filter" id="statusSel" onchange="filterReset()">
         <option value="">全部条目</option>
         <option value="key">重点关注</option>
