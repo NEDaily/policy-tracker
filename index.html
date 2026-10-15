@@ -775,17 +775,19 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
 <script src="policy-data.js"></script>
 <script>
 /* ================= 基础配置 ================= */
-/* 领域 chips 与统计行顺序固定（2026-10-15 用户定稿）：按当前条目数「常用在左、条目少在右」排定——
-   前期手续(31)→电价市场化(18)→竞争性配置(12)→储能与消纳(9)→其他(8)→老旧机组改造(1)→增量配电(1)；
-   顺序写死，不随条目数动态变化 */
+/* 领域 chips 与统计行顺序固定（2026-10-15 用户定稿）：按条目数「常用在左、条目少在右」，其他固定最后——
+   前期手续(37)→竞争性配置(22)→电价市场化(18)→储能与消纳(7)→分布式光伏(3)→发展规划(3)→
+   老旧机组改造(2)→增量配电(1)→其他(0，兜底)；顺序写死，不随条目数动态变化 */
 const FIELDS = {
   procedure:  {name:'前期手续',color:'#4f4a7d'},
-  pricing:    {name:'电价市场化',color:'#7d3b5e'},
   competitive:{name:'风光竞争性配置',color:'#b25822'},
+  pricing:    {name:'电价市场化',color:'#7d3b5e'},
   storage:    {name:'储能与消纳',color:'#3d6b7d'},
-  other:      {name:'其他',color:'#6b6558'},
+  pv:         {name:'分布式光伏',color:'#a08828'},
+  plan:       {name:'发展规划',color:'#2f7d6b'},
   retrofit:   {name:'老旧机组改造',color:'#8a5a2b'},
   distribution:{name:'增量配电',color:'#1f6b4a'},
+  other:      {name:'其他',color:'#6b6558'},
 };
 const LEVELS = {national:'国家',liaoning:'省级',city:'市县级'};
 /* 城市下拉顺序与侧栏信息源一致（16 项）：岫岩紧随鞍山、绥中殿后；县级选项仅岫岩/绥中两个独立县子组，县级市/县（大石桥等）不单列、按所属市筛；筛选时县按 county 匹配 */
