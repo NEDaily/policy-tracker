@@ -686,7 +686,8 @@ def main():
         if gerr:
             err_glm += 1
         if obj is None:
-            log.info('GLM 解析失败 → %s', c['title'][:40])
+            log.info('GLM 解析失败(%s) → %s', (gerr or '模型返回空/非JSON')[:100],
+                     c['title'][:40])
             continue
         entry, why = validate_entry(obj, c, now.date())
         if not entry:
