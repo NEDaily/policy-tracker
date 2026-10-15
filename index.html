@@ -313,7 +313,7 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
         <option value="city">市县级</option>
       </select>
       <select class="filter" id="citySel" onchange="onCityChange(this.value)" hidden>
-        <option value="">全部城市</option>
+        <option value="">全部市县</option>
       </select>
       <select class="filter" id="statusSel" onchange="filterReset()">
         <option value="">全部条目</option>
@@ -785,7 +785,9 @@ const FIELDS = {
   other:      {name:'其他',color:'#6b6558'},
 };
 const LEVELS = {national:'国家',liaoning:'省级',city:'市县级'};
-const CITIES = ['沈阳','大连','鞍山','抚顺','本溪','丹东','锦州','营口','阜新','辽阳','盘锦','铁岭','朝阳','葫芦岛'];
+/* 城市下拉顺序与侧栏信息源一致：县(县级市)紧随所属地级市、绥中殿后；筛选时市按 city 匹配、县按 county 匹配 */
+const CITIES = ['沈阳','大连','鞍山','岫岩','抚顺','本溪','丹东','锦州','营口','大石桥','阜新','辽阳','盘锦','铁岭','朝阳','北票','建平','葫芦岛','绥中'];
+const COUNTIES = ['岫岩','大石桥','北票','建平','绥中'];
 const STAGES = {
   approval:'核准备案', land:'用地', sea:'用海', forest:'用林用草', eia:'环评',
   navigation:'通航', mineral:'压覆矿产', water:'水土保持', grid:'电网接入', other:'其他手续',
@@ -845,12 +847,12 @@ function render(){
   let list = items.filter(it=>{
     if(curField && it.field!==curField) return false;
     if(lv && it.level!==lv) return false;
-    if(cy && !(it.level==='city' && it.city===cy)) return false;
+    if(cy && !(it.level==='city' && (COUNTIES.includes(cy) ? it.county===cy : it.city===cy))) return false;
     if(sg && it.stage!==sg) return false;
     if(st && it.status!==st) return false;
     if(curMonth && curMonth!=='all' && !(it.date||'').startsWith(curMonth)) return false;
     if(q){
-      const hay = [it.title,it.docno,it.org,it.digest,it.impact,it.city,(FIELDS[it.field]||{}).name,STAGES[it.stage]||''].join(' ').toLowerCase();
+      const hay = [it.title,it.docno,it.org,it.digest,it.impact,it.city,it.county,(FIELDS[it.field]||{}).name,STAGES[it.stage]||''].join(' ').toLowerCase();
       if(!hay.includes(q)) return false;
     }
     return true;
@@ -978,10 +980,10 @@ function onCityChange(v){
   else if(lv.value==='city') lv.value = '';
   filterReset();
 }
-/* 城市下拉：14 市静态列出（环节选择已并入「前期手续」chip 悬停菜单） */
+/* 城市下拉：市县平级列出（顺序同侧栏信息源），首项含县 */
 function buildCityStageOptions(){
   document.getElementById('citySel').innerHTML =
-    '<option value="">全部城市</option>' + CITIES.map(c=>`<option value="${c}">${c}</option>`).join('');
+    '<option value="">全部市县</option>' + CITIES.map(c=>`<option value="${c}">${c}</option>`).join('');
 }
 function toTop(){ window.scrollTo({top:0, behavior:'smooth'}); }
 function setPage(p){
