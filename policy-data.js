@@ -11,7 +11,8 @@
         其余县级市/县不单列、按所属地级市筛选），县区名同时在 org 或
         title 中注明。city 层级条目页面按绿色系展示。
    领域 field：competitive 风光竞争性配置 / retrofit 老旧机组改造 / distribution
-        增量配电 / pricing 电价市场化 / storage 储能与消纳 / other 其他 /
+        增量配电 / pricing 电价市场化 / storage 储能与消纳 / pv 分布式光伏 /
+        plan 发展规划 / other 其他（兜底，暂无条目） /
         procedure 前期手续（用地、用海、环评等手续类条目专用）。
    手续环节 stage：field 为 procedure 时必填——approval 核准备案 / land 用地 /
         sea 用海 / forest 用林用草 / eia 环评 / navigation 通航 / mineral 压覆
@@ -39,7 +40,7 @@ window.POLICY_SEED = [
     status:'key',  createdAt:'2025-02-09'
   },
   {
-    id:'s5', level:'national', field:'other',
+    id:'s5', level:'national', field:'pv',
     title:'分布式光伏发电开发建设管理办法',
     docno:'国能发新能规〔2025〕7号', org:'国家能源局', date:'2025-01-17',
     url:'https://www.nea.gov.cn/20250123/112c5b199c5f45dd8e7ac93c9f5e4eaf/c.html',
@@ -108,7 +109,7 @@ window.POLICY_SEED = [
     ref:'发改能源〔2025〕1144号附件三（五）至（七）、四（九）、五（十一）',  createdAt:'2025-09-12'
   },
   {
-    id:'s14', level:'national', field:'other',
+    id:'s14', level:'national', field:'plan',
     title:'关于促进电网高质量发展的指导意见',
     docno:'发改能源〔2025〕1710号', org:'国家发展改革委、国家能源局', date:'2025-12-31',
     url:'https://www.ndrc.gov.cn/xwdt/tzgg/202512/t20251231_1402950_ext.html',
@@ -170,7 +171,7 @@ window.POLICY_SEED = [
     ref:'环评报告表批复（沈阳市生态环境局，2025年12月）',  createdAt:'2025-12-02'
   },
   {
-    id:'d20260723-1', level:'national', field:'other', top:false,
+    id:'d20260723-1', level:'national', field:'plan', top:false,
     title:'可再生能源发展“十五五”规划印发',
     docno:'发改能源〔2026〕1067号', org:'国家发展改革委、国家能源局', date:'2026-07-23',
     url:'https://www.ndrc.gov.cn/xxgk/zcfb/tz/202607/t20260723_1406641_ext.html',
@@ -291,7 +292,7 @@ window.POLICY_SEED = [
     ref:'自然资源部海上风电用海管理通知（六）',  createdAt:'2026-10-13'
   },
   {
-    id:'d20261013-11', level:'national', field:'other', top:true,
+    id:'d20261013-11', level:'national', field:'plan', top:true,
     topTitle:'中央《关于发展新质生产力的意见》：能源革命定调',
     topBody:'<p><b>系统布局</b>：围绕碳达峰碳中和目标，构建高比例可再生能源电力系统，完善新能源消纳和调控政策措施。</p><p><b>用能导向</b>：做强绿色能源产业，积极推进能源革命，持续提高国内能源供给占比；满足全国一体化算力网、新一代通信网等新型基础设施用能增长需求。</p>',
     topImpact:'新能源发展的顶层定调：与《可再生能源发展“十五五”规划》共同构成省级竞配规模、机制电价体系与绿电消纳安排的上位依据；算力等新兴用能需求为辽宁风光基地、源网荷储与绿电直连布局提供增量空间。',
@@ -349,7 +350,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-13'
   },
   {
-    id:'d20261013-16', level:'liaoning', field:'other',
+    id:'d20261013-16', level:'liaoning', field:'pv',
     title:'辽宁省分布式光伏发电开发建设管理实施细则',
     docno:'辽发改能源〔2025〕939号', org:'辽宁省发展和改革委员会、省工业和信息化厅、省电力公司', date:'2025-12-12',
     url:'https://www.ln.gov.cn/web/zwgkx/lnsrmzfgb/2026n/qk/2026n_deq/bmwj/2026020614185736340/',
@@ -385,7 +386,7 @@ window.POLICY_SEED = [
     createdAt:'2026-10-13'
   },
   {
-    id:'d20261014-1', level:'liaoning', field:'other', top:false,
+    id:'d20261014-1', level:'liaoning', field:'pv', top:false,
     title:'关于发布2026年第四季度全省分布式光伏接入电网承载力评估结果的公告',
     docno:'', org:'辽宁省发展和改革委员会', date:'2026-10-14',
     url:'https://fgw.ln.gov.cn/fgw/index/tzgg/2026101409160533733/index.shtml',
