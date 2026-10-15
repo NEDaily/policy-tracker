@@ -16,7 +16,8 @@
         结论性节点文件（批复、同意书、许可、成交结果等），受理公示、拟审批
         公示等过程性公示不收。
    研判卡：top:true 的条目自动生成顶部研判卡（topTitle/topBody/topImpact，
-        缺省时回退 title/digest/impact），最多展示 3 张，由每日检索维护轮换。
+        缺省时回退 title/digest/impact），页面按 date 降序自动取最新 3 张，
+        无需人工摘除旧标——超过 3 张时最旧的自动落下。
    ============================================================ */
 window.POLICY_UPDATED_AT = '2026-10-15 01:18';
 window.POLICY_UPDATED_COUNT = 51;
