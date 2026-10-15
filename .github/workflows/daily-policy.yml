@@ -1,8 +1,8 @@
 name: daily-policy
 
 on:
-  schedule:
-    - cron: '30 6 * * *'   # UTC 06:30 = 北京时间 14:30
+  # 定时触发已停用（2026-10-15 起每日任务由腾讯云服务器 cron 主跑，避免双跑覆盖）；
+  # 需要时可在 Actions 页面手动 Run workflow 应急
   workflow_dispatch:
 
 permissions:
