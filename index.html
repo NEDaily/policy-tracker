@@ -152,6 +152,26 @@ body:not([data-view="feed"]) .feed-only{display:none}
 body:not([data-view="feed"]) #feedMain{display:none}
 #digestSection{display:none}
 body[data-view="digest"] #digestSection{display:block}
+#resourceSection{display:none}
+body[data-view="resource"] #resourceSection{display:block}
+
+/* 资源跟踪表 */
+.res-table{width:100%;border-collapse:collapse;background:#fff;box-shadow:0 1px 3px rgba(30,40,50,.05)}
+.res-table th{
+  font-family:var(--serif);font-size:14.5px;font-weight:900;letter-spacing:.08em;color:var(--navy-deep);
+  background:var(--card);border:1px solid var(--line);border-top:2px solid var(--navy);
+  padding:11px 12px;text-align:left;white-space:nowrap;
+}
+.res-table th small{display:block;font-family:var(--sans);font-size:11px;font-weight:400;color:var(--ink-faint);letter-spacing:.03em;margin-top:2px}
+.res-table td{border:1px solid var(--line-soft);padding:10px 12px;vertical-align:top;font-size:13.5px;line-height:1.65}
+.res-table tr:hover td{background:rgba(22,50,79,.035)}
+.res-table .city{font-family:var(--serif);font-weight:900;font-size:15px;color:var(--navy-deep);white-space:nowrap}
+.res-table .num b{font-size:15.5px;color:var(--ink);font-weight:700}
+.res-table .num small{display:block;font-size:11.5px;color:var(--ink-faint);margin-top:2px;line-height:1.5}
+.res-table .news a{display:block;color:var(--navy);text-decoration:none;font-size:13px;line-height:1.7;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:520px}
+.res-table .news a:hover{color:var(--red)}
+.res-table .news a b{font-weight:400;color:var(--ink-faint);font-size:12px;margin-right:5px}
+.res-note{font-size:12px;color:var(--ink-faint);margin-top:10px;line-height:1.7}
 
 /* ============ 主区布局 ============ */
 .layout{display:grid;grid-template-columns:1fr 340px;gap:24px;padding:26px 0 40px;align-items:start}
@@ -330,6 +350,8 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
         <button class="tab-btn active" id="tabFeed" onclick="switchView('feed')">政策与线索流</button>
         <span class="tab-sep">◆</span>
         <button class="tab-btn" id="tabDigest" onclick="switchView('digest')">核心研判</button>
+        <span class="tab-sep">◆</span>
+        <button class="tab-btn" id="tabResource" onclick="switchView('resource')">资源跟踪</button>
       </div>
     </div>
     <div class="chips feed-only" id="fieldChips"></div>
@@ -368,6 +390,27 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
     <div class="rule"></div>
   </div>
   <div class="digest-grid" id="digestGrid"></div>
+</section>
+
+<!-- 资源跟踪 -->
+<section class="digest wrap" id="resourceSection">
+  <div class="section-head">
+    <span class="tag">一人一市</span>
+    <h2>陆上风电资源跟踪获取汇总</h2>
+    <div class="rule"></div>
+  </div>
+  <table class="res-table" id="resTable">
+    <thead>
+      <tr>
+        <th>地域市</th>
+        <th>省发改委下发竞配指标</th>
+        <th>已完成竞配（业主优选）</th>
+        <th>跟踪进展<small>按政策库自动更新</small></th>
+      </tr>
+    </thead>
+    <tbody id="resBody"></tbody>
+  </table>
+  <p class="res-note">指标与完成情况仅填有官方文件依据的内容并标注来源，未查见公开竞配文件的市以「—」标示；跟踪进展取该市政策库最新动态，每日任务入库后自动刷新。</p>
 </section>
 
 <!-- 主区 -->
@@ -807,6 +850,7 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
 <button id="backTop" aria-label="回到顶部" title="回到顶部">↑</button>
 
 <script src="policy-data.js"></script>
+<script src="resource-data.js"></script>
 <script>
 /* ================= 基础配置 ================= */
 /* 领域 chips 与统计行顺序固定（2026-10-15 用户定稿）：按条目数「常用在左、条目少在右」，其他固定最后——
@@ -1055,7 +1099,39 @@ function switchView(v){
   document.body.dataset.view = v;
   document.getElementById('tabFeed').classList.toggle('active', v==='feed');
   document.getElementById('tabDigest').classList.toggle('active', v==='digest');
+  document.getElementById('tabResource').classList.toggle('active', v==='resource');
   window.scrollTo({top:0});
+}
+
+/* ================= 资源跟踪表 ================= */
+function renderResource(){
+  const body = document.getElementById('resBody');
+  if(!body || !window.WIND_TRACK) return;
+  const W = {competitive:0, retrofit:1, procedure:2};
+  const short = (t,n)=> (t&&t.length>n) ? t.slice(0,n-1)+'…' : (t||'');
+  const news = city => {
+    let pool = city==='庄河市'
+      ? items.filter(i=>((i.project||'')+(i.title||'')).includes('庄河'))
+      : items.filter(i=>i.city===city);
+    pool = pool.slice().sort((a,b)=>
+      (W[a.field]!==undefined?W[a.field]:3)-(W[b.field]!==undefined?W[b.field]:3) ||
+      (b.date||'').localeCompare(a.date||'')).slice(0,2);
+    if(!pool.length) return '<span style="color:var(--ink-faint)">—</span>';
+    return pool.map(i=>{
+      const md = (i.date||'').slice(5).replace('-','.');
+      const esc = short(i.title,26).replace(/</g,'&lt;');
+      return `<a href="${i.url}" target="_blank" rel="noopener"><b>${md}</b>${esc}</a>`;
+    }).join('');
+  };
+  const cell = c => !c ? '' :
+    `<b>${c.v}</b>` + (c.src ? `<small>${c.src}</small>` : '');
+  body.innerHTML = window.WIND_TRACK.map(r=>`
+    <tr>
+      <td class="city">${r.city}</td>
+      <td class="num">${cell(r.quota)}</td>
+      <td class="num">${cell(r.done)}</td>
+      <td class="news">${news(r.city)}</td>
+    </tr>`).join('');
 }
 
 /* ================= 条目操作 ================= */
@@ -1127,7 +1203,7 @@ function toast(msg){
   clearTimeout(toastTimer);
   toastTimer = setTimeout(()=>t.classList.remove('show'),2200);
 }
-initDate(); load(); buildMonthOptions(); buildCityStageOptions(); renderDigests(); render();
+initDate(); load(); buildMonthOptions(); buildCityStageOptions(); renderDigests(); renderResource(); render();
 setTimeout(()=>document.body.classList.remove('anim-first'), 950);
 </script>
 </body>
