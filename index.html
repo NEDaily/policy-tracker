@@ -117,17 +117,17 @@ button.chip,button.pg-btn{font-family:var(--sans);appearance:none;-webkit-appear
 .chip-menu a.sel::after{content:'✓';float:right;font-size:11px;font-weight:400}
 /* 领域导航带（政务频道式通栏深条） */
 #fieldChips{
-  margin:0 -28px;background:var(--navy-deep);padding:2px 20px;
+  margin:0 -28px;background:var(--navy);padding:2px 20px;
   gap:0;flex-wrap:wrap;
 }
 #fieldChips .chip{
-  background:none;border:none;color:rgba(255,255,255,.78);
+  background:none;border:none;color:#fff;
   font-size:15px;font-weight:700;padding:12px 17px;letter-spacing:.14em;border-radius:0;
 }
 #fieldChips .chip+.chip::before{
-  content:'';position:absolute;left:0;top:32%;bottom:32%;width:1px;background:rgba(255,255,255,.18);
+  content:'';position:absolute;left:0;top:32%;bottom:32%;width:1px;background:rgba(255,255,255,.30);
 }
-#fieldChips .chip:hover{color:#fff;border-color:transparent;box-shadow:none}
+#fieldChips .chip:hover{color:#fff;background:rgba(255,255,255,.10);border-color:transparent;box-shadow:none}
 #fieldChips .chip.on{background:none;border-color:transparent;color:#fff;box-shadow:none}
 #fieldChips .chip.on::after{
   content:'';position:absolute;left:16px;right:16px;bottom:6px;height:2.5px;background:var(--gold);
