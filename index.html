@@ -77,14 +77,13 @@ a{color:var(--navy)}
 .digest-card .more:hover{color:var(--red)}
 
 /* ============ 工具条 ============ */
-.toolbar{position:sticky;top:0;z-index:100;background:rgba(255,253,247,.96);backdrop-filter:blur(6px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:30px;transition:box-shadow .2s}
-.toolbar.scrolled{box-shadow:0 6px 16px -8px rgba(30,40,50,.20)}
+.toolbar{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:30px}
 .toolbar-inner{display:flex;flex-direction:column;gap:12px;padding:0 0 14px}
 .toolbar-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .toolbar-row.selects{gap:8px}
 .toolbar-row.tab-row{background:var(--paper);margin:0 -28px;padding:12px 28px 11px;border-bottom:1px solid var(--line-soft)}
 .search{
-  flex:1;min-width:220px;display:flex;align-items:center;gap:8px;
+  flex:none;width:280px;max-width:100%;margin-left:auto;display:flex;align-items:center;gap:8px;
   border:1px solid var(--line);background:#fff;padding:7px 12px;border-radius:2px;
   transition:border-color .15s, box-shadow .15s;
 }
@@ -271,6 +270,16 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
 }
 .toast.show{opacity:1;transform:translate(-50%,0)}
 
+/* 回到顶部 */
+#backTop{
+  position:fixed;right:30px;bottom:34px;z-index:900;width:42px;height:42px;
+  border:none;background:var(--navy);color:#fff;font-size:17px;line-height:1;
+  cursor:pointer;border-radius:2px;opacity:0;pointer-events:none;transform:translateY(8px);
+  transition:.25s;box-shadow:0 4px 14px -4px rgba(11,35,64,.4);
+}
+#backTop.show{opacity:1;pointer-events:auto;transform:none}
+#backTop:hover{background:var(--red)}
+
 @media (max-width:1020px){
   .digest-grid{grid-template-columns:1fr 1fr}
   .layout{grid-template-columns:1fr}
@@ -320,10 +329,6 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
         <button class="tab-btn active" id="tabFeed" onclick="switchView('feed')">政策与线索流</button>
         <button class="tab-btn" id="tabDigest" onclick="switchView('digest')">核心研判</button>
       </div>
-      <div class="search">
-        <span class="icon">⌕</span>
-        <input type="text" id="q" aria-label="搜索" placeholder="搜索标题、文号、机构、要点…" oninput="filterReset()">
-      </div>
     </div>
     <div class="chips feed-only" id="fieldChips"></div>
     <div class="toolbar-row feed-only selects">
@@ -345,6 +350,10 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
         <option value="dateDesc">最新发布优先</option>
         <option value="dateAsc">最早发布优先</option>
       </select>
+      <div class="search">
+        <span class="icon">⌕</span>
+        <input type="text" id="q" aria-label="搜索" placeholder="搜索标题、文号、机构、要点…" oninput="filterReset()">
+      </div>
     </div>
   </div>
 </div>
@@ -793,6 +802,7 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
 </footer>
 
 <div class="toast" id="toast"></div>
+<button id="backTop" aria-label="回到顶部" title="回到顶部">↑</button>
 
 <script src="policy-data.js"></script>
 <script>
@@ -1065,9 +1075,11 @@ function copyBrief(id){
 }
 
 /* ================= 初始化 ================= */
+const backTop = document.getElementById('backTop');
 window.addEventListener('scroll',()=>{
-  document.querySelector('.toolbar').classList.toggle('scrolled', window.scrollY>10);
+  backTop.classList.toggle('show', window.scrollY>400);
 },{passive:true});
+backTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 const DIGEST_NUMS = ['壹','贰','叁','肆','伍'];
 function renderDigests(){
   const q = document.getElementById('q').value.trim().toLowerCase();
