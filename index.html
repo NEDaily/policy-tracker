@@ -155,14 +155,28 @@ body[data-view="digest"] #digestSection{display:block}
 #resourceSection{display:none}
 body[data-view="resource"] #resourceSection{display:block}
 
-/* 资源跟踪（一市一块） */
-.res-block{background:#fff;box-shadow:0 1px 3px rgba(30,40,50,.05);margin-bottom:14px}
-.res-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--line-soft);background:var(--card)}
-.res-city{font-family:var(--serif);font-size:15.5px;font-weight:900;color:#fff;background:var(--green);padding:2px 12px;border-radius:2px;letter-spacing:.12em}
-.ri{display:inline-flex;align-items:baseline;gap:6px;font-size:12.5px;color:var(--ink-faint)}
-.ri em{font-style:normal;color:var(--gold);font-weight:700;letter-spacing:.08em}
-.ri b{font-size:14px;color:var(--ink);font-weight:700}
-.ri+.ri{margin-left:6px;padding-left:14px;border-left:1px solid var(--line)}
+/* 资源跟踪（一市一折叠块） */
+.res-block{background:#fff;box-shadow:0 1px 3px rgba(30,40,50,.05);margin-bottom:10px}
+.res-block summary{
+  list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  padding:11px 16px;background:var(--card);transition:.15s;
+}
+.res-block summary:hover{background:rgba(22,50,79,.05)}
+.res-block summary::-webkit-details-marker{display:none}
+.res-block summary::after{content:'▸';margin-left:auto;color:var(--ink-faint);font-size:13px;transition:.2s}
+.res-block[open] summary::after{transform:rotate(90deg)}
+.res-block[open] summary{border-bottom:1px solid var(--line-soft)}
+.res-city{font-family:var(--serif);font-size:15px;font-weight:900;color:#fff;background:var(--green);padding:2px 12px;border-radius:2px;letter-spacing:.12em}
+.sum{font-size:12.5px;color:var(--ink-faint)}
+.sum b{color:var(--ink);font-weight:700;font-size:13.5px;margin-left:4px}
+.cnt{font-size:12px;color:var(--gold);font-weight:700;letter-spacing:.05em}
+.cnt.zero{color:var(--ink-faint);font-weight:400}
+.res-detail{padding:5px 0 7px}
+.res-row{display:flex;align-items:baseline;gap:9px;padding:7px 16px 2px;font-size:12.5px;color:var(--ink-faint);flex-wrap:wrap}
+.res-row em{font-style:normal;color:var(--gold);font-weight:700;font-size:12px;letter-spacing:.1em;flex:none}
+.res-row b{font-size:14.5px;color:var(--ink);font-weight:700}
+.res-row i{font-style:normal;font-size:11.5px;color:var(--ink-faint)}
+.res-items{margin-top:6px;border-top:1px solid var(--line-soft)}
 .res-item{display:flex;gap:12px;align-items:baseline;padding:9px 16px;border-bottom:1px solid var(--line-soft);text-decoration:none;transition:.15s}
 .res-item:last-of-type{border-bottom:none}
 .res-item:hover{background:rgba(22,50,79,.035)}
@@ -1092,36 +1106,45 @@ function switchView(v){
   window.scrollTo({top:0});
 }
 
-/* ================= 资源跟踪（一市一块） ================= */
+/* ================= 资源跟踪（一市一折叠块） ================= */
 function renderResource(){
   const box = document.getElementById('resList');
   if(!box || !window.WIND_TRACK) return;
   const W = {competitive:0, retrofit:1, procedure:2};
-  const info = (label,c) => !c ? '' :
-    `<span class="ri"><em>${label}</em><b>${c.v}</b>${c.src?`<i>${c.src}</i>`:''}</span>`;
-  const rows = city => {
+  const esc = t => (t||'').replace(/</g,'&lt;');
+  const itemsOf = city => {
     let pool = city==='庄河市'
       ? items.filter(i=>((i.project||'')+(i.title||'')).includes('庄河'))
       : items.filter(i=>i.city===city);
-    pool = pool.slice().sort((a,b)=>
+    return pool.slice().sort((a,b)=>
       (W[a.field]!==undefined?W[a.field]:3)-(W[b.field]!==undefined?W[b.field]:3) ||
       (b.date||'').localeCompare(a.date||''));
-    if(!pool.length) return '<div class="res-empty">暂无收录动态</div>';
-    return pool.map(i=>{
-      const d = (i.date||'').slice(5).replace('-','.');
-      const t = (i.title||'').replace(/</g,'&lt;');
-      const doc = i.docno ? `<span class="docno">${i.docno}</span>` : '';
-      return `<a class="res-item" href="${i.url}" target="_blank" rel="noopener"><span class="rd">${d}</span><span class="rt">${doc}${t}</span></a>`;
-    }).join('');
   };
-  box.innerHTML = window.WIND_TRACK.map(r=>`
-    <div class="res-block">
-      <div class="res-head">
-        <span class="res-city">${r.city}</span>
-        ${info('下发',r.quota)}${info('完成',r.done)}
+  box.innerHTML = window.WIND_TRACK.map(r=>{
+    const pool = itemsOf(r.city);
+    const list = pool.length ? pool.map(i=>{
+      const d = (i.date||'').slice(5).replace('-','.');
+      const doc = i.docno ? `<span class="docno">${esc(i.docno)}</span>` : '';
+      return `<a class="res-item" href="${i.url}" target="_blank" rel="noopener"><span class="rd">${d}</span><span class="rt">${doc}${esc(i.title)}</span></a>`;
+    }).join('') : '<div class="res-empty">暂无收录动态</div>';
+    const has = c => c && c.v && c.v !== '—';
+    const sum = (label,c) => has(c) ? `<span class="sum">${label}<b>${esc(c.v)}</b></span>` : '';
+    const row = (label,c) => has(c)
+      ? `<div class="res-row"><em>${label}</em><b>${esc(c.v)}</b>${c.src?`<i>${esc(c.src)}</i>`:''}</div>`
+      : `<div class="res-row"><em>${label}</em><b>—</b></div>`;
+    return `<details class="res-block">
+      <summary>
+        <span class="res-city">${esc(r.city)}</span>
+        ${sum('下发',r.quota)}${sum('完成',r.done)}
+        <span class="cnt${pool.length?'':' zero'}">${pool.length} 条动态</span>
+      </summary>
+      <div class="res-detail">
+        ${row('下发指标',r.quota)}
+        ${row('已完成竞配',r.done)}
+        <div class="res-items">${list}</div>
       </div>
-      ${rows(r.city)}
-    </div>`).join('');
+    </details>`;
+  }).join('');
 }
 
 /* ================= 条目操作 ================= */
