@@ -1077,6 +1077,7 @@ function copyBrief(id){
 }
 
 /* ================= 初始化 ================= */
+if('scrollRestoration' in history) history.scrollRestoration='manual';
 const backTop = document.getElementById('backTop');
 window.addEventListener('scroll',()=>{
   backTop.classList.toggle('show', window.scrollY>400);
