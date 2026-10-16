@@ -155,22 +155,22 @@ body[data-view="digest"] #digestSection{display:block}
 #resourceSection{display:none}
 body[data-view="resource"] #resourceSection{display:block}
 
-/* 资源跟踪表 */
-.res-table{width:100%;border-collapse:collapse;background:#fff;box-shadow:0 1px 3px rgba(30,40,50,.05)}
-.res-table th{
-  font-family:var(--serif);font-size:14.5px;font-weight:900;letter-spacing:.08em;color:var(--navy-deep);
-  background:var(--card);border:1px solid var(--line);border-top:2px solid var(--navy);
-  padding:11px 12px;text-align:left;white-space:nowrap;
-}
-.res-table th small{display:block;font-family:var(--sans);font-size:11px;font-weight:400;color:var(--ink-faint);letter-spacing:.03em;margin-top:2px}
-.res-table td{border:1px solid var(--line-soft);padding:10px 12px;vertical-align:top;font-size:13.5px;line-height:1.65}
-.res-table tr:hover td{background:rgba(22,50,79,.035)}
-.res-table .city{font-family:var(--serif);font-weight:900;font-size:15px;color:var(--navy-deep);white-space:nowrap}
-.res-table .num b{font-size:15.5px;color:var(--ink);font-weight:700}
-.res-table .num small{display:block;font-size:11.5px;color:var(--ink-faint);margin-top:2px;line-height:1.5}
-.res-table .news a{display:block;color:var(--navy);text-decoration:none;font-size:13px;line-height:1.7;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:520px}
-.res-table .news a:hover{color:var(--red)}
-.res-table .news a b{font-weight:400;color:var(--ink-faint);font-size:12px;margin-right:5px}
+/* 资源跟踪（一市一块） */
+.res-block{background:#fff;box-shadow:0 1px 3px rgba(30,40,50,.05);margin-bottom:14px}
+.res-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--line-soft);background:var(--card)}
+.res-city{font-family:var(--serif);font-size:15.5px;font-weight:900;color:#fff;background:var(--green);padding:2px 12px;border-radius:2px;letter-spacing:.12em}
+.ri{display:inline-flex;align-items:baseline;gap:6px;font-size:12.5px;color:var(--ink-faint)}
+.ri em{font-style:normal;color:var(--gold);font-weight:700;letter-spacing:.08em}
+.ri b{font-size:14px;color:var(--ink);font-weight:700}
+.ri+.ri{margin-left:6px;padding-left:14px;border-left:1px solid var(--line)}
+.res-item{display:flex;gap:12px;align-items:baseline;padding:9px 16px;border-bottom:1px solid var(--line-soft);text-decoration:none;transition:.15s}
+.res-item:last-of-type{border-bottom:none}
+.res-item:hover{background:rgba(22,50,79,.035)}
+.res-item .rd{flex:none;font-size:12.5px;color:var(--ink-faint);letter-spacing:.05em}
+.res-item .rt{font-size:14px;color:var(--ink);line-height:1.6;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.res-item:hover .rt{color:var(--navy)}
+.res-item .docno{color:var(--navy);font-weight:600;margin-right:6px}
+.res-empty{padding:9px 16px;font-size:13px;color:var(--ink-faint)}
 .res-note{font-size:12px;color:var(--ink-faint);margin-top:10px;line-height:1.7}
 
 /* ============ 主区布局 ============ */
@@ -395,22 +395,11 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
 <!-- 资源跟踪 -->
 <section class="digest wrap" id="resourceSection">
   <div class="section-head">
-    <span class="tag">一人一市</span>
-    <h2>陆上风电资源跟踪获取汇总</h2>
+    <h2>陆上风电资源跟踪</h2>
     <div class="rule"></div>
   </div>
-  <table class="res-table" id="resTable">
-    <thead>
-      <tr>
-        <th>地域市</th>
-        <th>省发改委下发竞配指标</th>
-        <th>已完成竞配（业主优选）</th>
-        <th>跟踪进展<small>按政策库自动更新</small></th>
-      </tr>
-    </thead>
-    <tbody id="resBody"></tbody>
-  </table>
-  <p class="res-note">指标与完成情况仅填有官方文件依据的内容并标注来源，未查见公开竞配文件的市以「—」标示；跟踪进展取该市政策库最新动态，每日任务入库后自动刷新。</p>
+  <div id="resList"></div>
+  <p class="res-note">竞配指标与完成情况仅填有官方文件依据的内容并标注来源，未查见公开竞配文件的市以「—」标示；各市动态取自政策库，每日任务入库后自动刷新。</p>
 </section>
 
 <!-- 主区 -->
@@ -1103,35 +1092,36 @@ function switchView(v){
   window.scrollTo({top:0});
 }
 
-/* ================= 资源跟踪表 ================= */
+/* ================= 资源跟踪（一市一块） ================= */
 function renderResource(){
-  const body = document.getElementById('resBody');
-  if(!body || !window.WIND_TRACK) return;
+  const box = document.getElementById('resList');
+  if(!box || !window.WIND_TRACK) return;
   const W = {competitive:0, retrofit:1, procedure:2};
-  const short = (t,n)=> (t&&t.length>n) ? t.slice(0,n-1)+'…' : (t||'');
-  const news = city => {
+  const info = (label,c) => !c ? '' :
+    `<span class="ri"><em>${label}</em><b>${c.v}</b>${c.src?`<i>${c.src}</i>`:''}</span>`;
+  const rows = city => {
     let pool = city==='庄河市'
       ? items.filter(i=>((i.project||'')+(i.title||'')).includes('庄河'))
       : items.filter(i=>i.city===city);
     pool = pool.slice().sort((a,b)=>
       (W[a.field]!==undefined?W[a.field]:3)-(W[b.field]!==undefined?W[b.field]:3) ||
-      (b.date||'').localeCompare(a.date||'')).slice(0,2);
-    if(!pool.length) return '<span style="color:var(--ink-faint)">—</span>';
+      (b.date||'').localeCompare(a.date||''));
+    if(!pool.length) return '<div class="res-empty">暂无收录动态</div>';
     return pool.map(i=>{
-      const md = (i.date||'').slice(5).replace('-','.');
-      const esc = short(i.title,26).replace(/</g,'&lt;');
-      return `<a href="${i.url}" target="_blank" rel="noopener"><b>${md}</b>${esc}</a>`;
+      const d = (i.date||'').slice(5).replace('-','.');
+      const t = (i.title||'').replace(/</g,'&lt;');
+      const doc = i.docno ? `<span class="docno">${i.docno}</span>` : '';
+      return `<a class="res-item" href="${i.url}" target="_blank" rel="noopener"><span class="rd">${d}</span><span class="rt">${doc}${t}</span></a>`;
     }).join('');
   };
-  const cell = c => !c ? '' :
-    `<b>${c.v}</b>` + (c.src ? `<small>${c.src}</small>` : '');
-  body.innerHTML = window.WIND_TRACK.map(r=>`
-    <tr>
-      <td class="city">${r.city}</td>
-      <td class="num">${cell(r.quota)}</td>
-      <td class="num">${cell(r.done)}</td>
-      <td class="news">${news(r.city)}</td>
-    </tr>`).join('');
+  box.innerHTML = window.WIND_TRACK.map(r=>`
+    <div class="res-block">
+      <div class="res-head">
+        <span class="res-city">${r.city}</span>
+        ${info('下发',r.quota)}${info('完成',r.done)}
+      </div>
+      ${rows(r.city)}
+    </div>`).join('');
 }
 
 /* ================= 条目操作 ================= */
