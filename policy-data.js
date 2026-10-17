@@ -26,8 +26,8 @@
 /* 版头两字段：POLICY_UPDATED_AT 每次每日任务运行完成后刷新为本次运行时刻
    （无论有无新增，用于证明检索确已执行）；POLICY_UPDATED_COUNT 为本次新增
    条数（无新增置 0，修改/删除不计）。存量补录类手动入库不动两字段。 */
-window.POLICY_UPDATED_AT = '2026-10-16 14:32';
-window.POLICY_UPDATED_COUNT = 0;
+window.POLICY_UPDATED_AT = '2026-10-17 14:30';
+window.POLICY_UPDATED_COUNT = 1;
 window.POLICY_SEED = [
   {
     id:'s1', level:'national', field:'pricing', top:true,
@@ -1281,5 +1281,16 @@ window.POLICY_SEED = [
     impact:'项目水保方案批复（2025-08）后取得建设用地规划许可，手续链推进至用地规划节点。',
     ref:'地字第2109222026YG0004636号',
     createdAt:'2026-10-15'
+  },
+  {
+    id:'d20261017-1', level:'national', field:'procedure', top:false,
+    stage:'other',
+    title:'2026年第39期电力业务许可公告',
+    docno:'', org:'国家能源局东北监管局', date:'2026-10-12',
+    url:'https://dbj.nea.gov.cn/dtyw/tzgg/202610/t20261014_310361.html',
+    digest:'国家能源局东北监管局公告2026年9月28日至10月11日审查通过的告知承诺制企业名单：发电类12家，含沈阳皇姑热电#1-#2火电机组延长服役、朝阳和光新能源机组容量变更；输电类准予国网辽宁省电力有限公司新申请220KV、500KV输电设施；承装（修、试）类28家获准许可、变更或延续。',
+    impact:'公告确认国网辽宁取得220KV、500KV输电设施许可，多家辽宁发电及承装修试企业资质获批或变更，为相关电力项目投运及施工手续办理提供许可依据。',
+    ref:'2026年第39期电力业务许可公告全文',
+    createdAt:'2026-10-12'
   }
 ];
