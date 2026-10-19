@@ -13,6 +13,7 @@ import sys
 import json
 import html
 import time
+import base64
 import argparse
 import logging
 from datetime import datetime, timedelta, timezone
@@ -29,6 +30,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(BASE_DIR)
 DATA_FILE = os.path.join(ROOT, 'policy-data.js')
 RUNLOG_FILE = os.path.join(ROOT, 'runlog.md')
+RESOURCE_FILE = os.path.join(ROOT, 'resource-data.js')
 API_URL = 'https://open.bigmodel.cn/api/paas/v4/chat/completions'
 MODEL = 'glm-5.3-flash'
 
@@ -304,6 +306,22 @@ SKIP_EXT = ('.pdf', '.doc', '.docx', '.xls', '.xlsx', '.zip', '.rar',
             '.jpg', '.jpeg', '.png', '.gif', '.wgt', '.css', '.js')
 NAV_TEXTS = {'首页', '上一页', '下一页', '末页', '更多', '详情', '返回', '关闭',
              '打印', '收藏', '【关闭窗口】', '【打印本页】', '无标题文档'}
+
+# 官方页恢复监控清单：条目因官方站文章清理被删除后每日探测原 URL，
+# 恢复可访问且正文含全部关键词时自动重新入库（id 按当日运行重新生成）。
+# 字段为被删条目的原始内容；新增监控项照此格式追加即可。
+WATCH_RECOVER = [
+    {
+        'title': '关于锦州市50万千瓦风电项目竞争性配置结果公示',
+        'docno': '', 'org': '锦州市发展和改革委员会', 'date': '2026-10-14',
+        'url': 'https://fgw.jz.gov.cn/info/1058/7086.htm',
+        'level': 'city', 'city': '锦州', 'field': 'competitive',
+        'digest': '按《辽宁省新能源项目竞争性配置指导意见》有关要求，经第三方机构组织专家评审，推荐各标段中选企业：LH-1标段锦州海胜电力新能源有限公司20万千瓦、BZ-1标段锦州宸朔新能源有限公司15万千瓦、YX-1标段辽宁大唐国际新能源有限公司15万千瓦，公示期2026年10月14日至10月16日。',
+        'impact': '锦州50万千瓦风电指标完成业主优选，与鞍山、葫芦岛同为50万千瓦体量批次；中选企业后续核准、用地等前期手续动态需持续跟踪。',
+        'ref': '锦州市发展改革委竞争性配置结果公示',
+        'probe_kw': ('锦州', '竞争性配置'),
+    },
+]
 
 
 def setup_log():
@@ -629,6 +647,108 @@ def validate_entry(d, cand, today):
     return entry, 'ok'
 
 
+def gh_token():
+    """GitHub 令牌：服务器读 /opt/policy/github_token（600 权限），
+    本地测试用环境变量 POLICY_GH_TOKEN；都没有则返回空串（跳过推送）。"""
+    p = '/opt/policy/github_token'
+    if os.path.exists(p):
+        try:
+            return open(p).read().strip()
+        except OSError:
+            return ''
+    return os.environ.get('POLICY_GH_TOKEN', '')
+
+
+def gh_push_file(local_path, remote, msg):
+    """自包含 contents API 推送（资源跟踪数据文件专用）。返回 (ok, 说明)。"""
+    token = gh_token()
+    if not token:
+        return False, '无令牌，跳过推送'
+    api = 'https://api.github.com/repos/NEDaily/policy-tracker/contents/' + remote
+    body = {'message': msg,
+            'content': base64.b64encode(open(local_path, 'rb').read()).decode()}
+    hd = {'Authorization': 'Bearer ' + token}
+    try:
+        r = requests.get(api, headers=hd, timeout=30)
+        if r.status_code == 200:
+            body['sha'] = r.json().get('sha')
+        for attempt in range(3):
+            rr = requests.put(api, headers=hd, json=body, timeout=30)
+            if rr.status_code in (200, 201):
+                return True, 'commit %s' % rr.json()['commit']['sha'][:8]
+            if rr.status_code in (409, 422) and attempt < 2:
+                time.sleep(5)
+                r2 = requests.get(api, headers=hd, timeout=30)
+                if r2.status_code == 200:
+                    body['sha'] = r2.json().get('sha')
+                continue
+            return False, 'HTTP %d' % rr.status_code
+    except Exception as e:
+        return False, str(e)[:80]
+    return False, '未知状态'
+
+
+def recover_watch(item, existing_urls):
+    """恢复监控：原 URL 重新可访问且正文含全部关键词 → 返回条目 dict。"""
+    if norm_url(item['url']) in existing_urls:
+        return None
+    try:
+        body = http_get(item['url'], timeout=20)
+    except Exception:
+        return None
+    if not all(kw in body for kw in item['probe_kw']):
+        return None
+    ent = {k: item[k] for k in ('title', 'docno', 'org', 'date', 'url',
+                                'level', 'field', 'digest', 'impact', 'ref')}
+    if item.get('city'):
+        ent['city'] = item['city']
+    return ent
+
+
+def check_wind_track(new_entries):
+    """资源跟踪板块联动：本窗口新入库的市级竞配「结果公示」条目 →
+    自动更新 WIND_TRACK 对应市 done 字段（仅限完成态为 —/待补录/结果未查见 的市）。
+    竞配公告类（非结果公示）只在留痕中提示，不动数据。返回变更描述列表。"""
+    if not new_entries or not os.path.exists(RESOURCE_FILE):
+        return []
+    text = open(RESOURCE_FILE, encoding='utf-8').read()
+    lines = text.splitlines(True)
+    done_open = ('—', '待补录', '结果未查见')
+    changes = []
+    for e in new_entries:
+        if e.get('field') != 'competitive' or e.get('level') != 'city':
+            continue
+        city = e.get('city') or ''
+        title = e.get('title') or ''
+        is_result = '结果公示' in title or ('优选' in title and '公示' in title)
+        if not is_result:
+            if '竞争性配置' in title or '竞配' in title:
+                changes.append('%s竞配公告类条目入库（%s），完成态未动' % (city, title[:24]))
+            continue
+        hit = None
+        for i, ln in enumerate(lines):
+            if re.search(r"city:\s*'%s'" % city, ln) and 'done:' in ln:
+                m = re.search(r"done:\s*\{v:\s*'([^']*)'", ln)
+                if m and (m.group(1) in done_open or '未' in m.group(1)):
+                    hit = i
+                break
+        if hit is None:
+            continue
+        mm = (re.search(r'(\d+(?:\.\d+)?)\s*万千瓦', title)
+              or re.search(r'(\d+(?:\.\d+)?)\s*万千瓦', e.get('digest') or ''))
+        v = (mm.group(1) + '万千瓦') if mm else '已优选'
+        mdate = re.match(r'(20\d{2})-(\d{1,2})-(\d{1,2})', e.get('date') or '')
+        src = ('%d.%d.%d 结果公示' % (int(mdate.group(1)), int(mdate.group(2)),
+                                     int(mdate.group(3))) if mdate else '竞配结果公示')
+        lines[hit] = re.sub(r"done:\s*\{[^}]*\}",
+                            "done:{v:'%s', src:'%s'}" % (v, src),
+                            lines[hit], count=1)
+        changes.append('%s完成竞配已自动更新为 %s（%s）' % (city, v, src))
+    if changes:
+        open(RESOURCE_FILE, 'w', encoding='utf-8').write(''.join(lines))
+    return changes
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--dry', action='store_true', help='只抓取不写文件不调GLM')
@@ -751,6 +871,22 @@ def main():
     for r in rejected[:12]:
         log.info('不收录 → %s', r)
 
+    # 官方页恢复监控：WATCH_RECOVER 清单 URL 恢复可访问则自动重新入库
+    for w in WATCH_RECOVER:
+        try:
+            ent = recover_watch(w, existing_urls)
+        except Exception:
+            ent = None
+        if not ent:
+            continue
+        if re.sub(r'\s+', '', ent['title']) in existing_titles:
+            continue
+        seq += 1
+        ent['id'] = 'd%s-%d' % (today_prefix, seq)
+        ent['createdAt'] = ent['date']
+        new_entries.append(ent)
+        log.info('恢复入库 %s | %s', ent['id'], ent['title'][:36])
+
     new_count = len(new_entries)
     updated_at = ts
     data_text = re.sub(r"window\.POLICY_UPDATED_AT = '[^']*';",
@@ -774,12 +910,23 @@ def main():
     with open(DATA_FILE, 'w', encoding='utf-8') as f:
         f.write(data_text)
 
+    # 资源跟踪板块联动：新竞配结果公示 → 更新 WIND_TRACK → 独立推送
+    wind_changes = check_wind_track(new_entries)
+    for c in wind_changes:
+        log.info('资源跟踪：%s', c)
+    if wind_changes:
+        ok, info = gh_push_file(RESOURCE_FILE, 'resource-data.js',
+                                '资源跟踪自动更新 %s（腾讯云）' % ts)
+        log.info('资源跟踪数据推送%s：%s', '成功' if ok else '未完成', info)
+
     status = '完成' if not fail_list and err_glm == 0 else (
         '完成(部分异常)' if new_count or ok_ch else '异常')
     log_line = ('- [%s] %s 新增%d条｜渠道 成功%d/%d｜候选%d｜GLM %d次｜%s'
                 % (status, ts, new_count, ok_ch, len(channels),
                    len(all_cands), glm_calls,
                    ('失败渠道：' + '、'.join(fail_list[:8])) if fail_list else '渠道全部正常'))
+    if wind_changes:
+        log_line += '｜资源跟踪 ' + '；'.join(wind_changes[:3])
     if not os.path.exists(RUNLOG_FILE):
         with open(RUNLOG_FILE, 'w', encoding='utf-8') as f:
             f.write('# 每日任务运行日志（云端 GitHub Actions）\n\n'
