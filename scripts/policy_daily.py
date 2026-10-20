@@ -872,6 +872,7 @@ def main():
         log.info('不收录 → %s', r)
 
     # 官方页恢复监控：WATCH_RECOVER 清单 URL 恢复可访问则自动重新入库
+    rec_n = 0
     for w in WATCH_RECOVER:
         try:
             ent = recover_watch(w, existing_urls)
@@ -885,7 +886,9 @@ def main():
         ent['id'] = 'd%s-%d' % (today_prefix, seq)
         ent['createdAt'] = ent['date']
         new_entries.append(ent)
+        rec_n += 1
         log.info('恢复入库 %s | %s', ent['id'], ent['title'][:36])
+    log.info('恢复监控 %d 项，恢复入库 %d 条', len(WATCH_RECOVER), rec_n)
 
     new_count = len(new_entries)
     updated_at = ts
@@ -912,6 +915,8 @@ def main():
 
     # 资源跟踪板块联动：新竞配结果公示 → 更新 WIND_TRACK → 独立推送
     wind_changes = check_wind_track(new_entries)
+    if not wind_changes:
+        log.info('资源跟踪联动：本窗口无市级竞配结果公示条目，WIND_TRACK 未变动')
     for c in wind_changes:
         log.info('资源跟踪：%s', c)
     if wind_changes:
