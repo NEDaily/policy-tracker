@@ -176,6 +176,8 @@ body[data-view="resource"] #resourceSection{display:block}
 .res-row em{font-style:normal;color:var(--gold);font-weight:700;font-size:12px;letter-spacing:.1em;flex:none}
 .res-row b{font-size:14.5px;color:var(--ink);font-weight:700}
 .res-row i{font-style:normal;font-size:11.5px;color:var(--ink-faint)}
+.res-note{margin:7px 16px 2px;padding:8px 11px;background:var(--card);font-size:12.5px;line-height:1.75;color:var(--ink-faint)}
+.res-note b{color:var(--ink);font-weight:700}
 .res-items{margin-top:6px;border-top:1px solid var(--line-soft)}
 .res-item{display:flex;gap:12px;align-items:baseline;padding:9px 16px;border-bottom:1px solid var(--line-soft);text-decoration:none;transition:.15s}
 .res-item:last-of-type{border-bottom:none}
@@ -1141,6 +1143,7 @@ function renderResource(){
       <div class="res-detail">
         ${row('下发指标',r.quota)}
         ${row('已完成竞配',r.done)}
+        ${r.note?`<div class="res-note"><b>备注</b>　${esc(r.note)}</div>`:''}
         <div class="res-items">${list}</div>
       </div>
     </details>`;
