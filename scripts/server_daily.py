@@ -71,11 +71,13 @@ def main():
 
     pd_path = os.path.join(WORK, 'policy-data.js')
     rl_path = os.path.join(WORK, 'runlog.md')
+    wd_path = os.path.join(WORK, 'resource-data.js')
     if not download('scripts/policy_daily.py', os.path.join(WORK, 'scripts', 'policy_daily.py')):
         print('下载 policy_daily.py 失败')
         sys.exit(1)
     download('policy-data.js', pd_path)
     download('runlog.md', rl_path)
+    download('resource-data.js', wd_path)  # 资源跟踪竞配联动环节读写此文件
     with open(pd_path, 'r', encoding='utf-8') as f:
         old_text = f.read()
 
@@ -90,8 +92,17 @@ def main():
     with open(pd_path, 'r', encoding='utf-8') as f:
         new_text = f.read()
     n_old, n_new = old_text.count("id:'d"), new_text.count("id:'d")
-    # 数据与留痕的推送由 policy_daily.py 全权负责（含版头刷新与冲突重试）；
-    # 本入口不再回推任何文件，杜绝用运行前下载的旧内容覆盖仓库（回滚事故源头之一）
+    ts = datetime.now(BJT).strftime('%Y-%m-%d %H:%M')
+    # 防覆盖：运行期间若仓库 policy-data.js 被外部更新（如手动入库），
+    # 放弃自动推送并告警，避免用运行前的旧基准覆盖外部改动（回滚事故同款机制）
+    cur = api(API + '/contents/policy-data.js')
+    cur_text = base64.b64decode(cur['content']).decode('utf-8')
+    if cur_text != old_text:
+        print('[warn] 运行期间仓库 policy-data.js 已被外部更新，本次跳过自动推送，请人工比对')
+    else:
+        push(pd_path, 'policy-data.js',
+             '每日更新 %s 新增%d条（腾讯云）' % (ts, max(0, n_new - n_old)), token)
+        push(rl_path, 'runlog.md', '运行留痕 %s（腾讯云）' % ts, token)
     print('[done] 新增 %d 条' % max(0, n_new - n_old))
 
 
