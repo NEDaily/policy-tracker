@@ -227,7 +227,8 @@ body.anim-first .item{opacity:0;animation:riseIn .45s cubic-bezier(.2,.7,.3,1) f
 .badge.level.city{background:var(--green)}
 .badge.status-key{background:var(--gold);color:#fff}
 .badge.new-in{background:rgba(169,139,61,.12);color:#8a6f2f;border:1px solid rgba(169,139,61,.5);font-weight:600}
-.new-link{color:var(--gold);cursor:pointer;border-bottom:1px dashed rgba(169,139,61,.6)}
+.new-link,.clear-link{color:var(--gold);cursor:pointer;border-bottom:1px dashed rgba(169,139,61,.6)}
+select.filter.sel-active{border-color:var(--gold);color:#8a6f2f}
 .item h3.title{font-family:var(--serif);font-size:18px;font-weight:900;color:var(--ink);line-height:1.55;letter-spacing:.02em}
 .item h3.title a{color:inherit;text-decoration:none}
 .item h3.title a:hover{color:var(--navy)}
@@ -960,8 +961,11 @@ function render(){
   if(pageIdx<1) pageIdx = 1;
   const pageList = list.slice((pageIdx-1)*PAGE_SIZE, pageIdx*PAGE_SIZE);
 
-  document.getElementById('countLine').textContent =
-    `共 ${list.length} 条` + (PAGES>1?` · 第 ${pageIdx}/${PAGES} 页`:'') + (list.length!==items.length ? ` / 库内 ${items.length} 条` : '');
+  document.getElementById('countLine').innerHTML =
+    `共 ${list.length} 条` + (PAGES>1?` · 第 ${pageIdx}/${PAGES} 页`:'') + (list.length!==items.length ? ` / 库内 ${items.length} 条` : '') +
+    (document.getElementById('statusSel').value ? ` · <span class="clear-link" onclick="clearStatus()">取消筛选</span>` : '');
+  const stSel = document.getElementById('statusSel');
+  stSel.classList.toggle('sel-active', !!stSel.value);
 
   // 政策流
   const feed = document.getElementById('feed');
@@ -1221,7 +1225,7 @@ function initDate(){
     if(nl) nl.onclick = function(){
       document.getElementById('statusSel').value = 'new';
       filterReset();
-      toast('已筛选最近收录的条目（7 天内），可从状态下拉恢复');
+      toast('已筛选最近收录的条目（7 天内），点计数行「取消筛选」可恢复');
     };
   }
 }
@@ -1231,6 +1235,10 @@ function isNewIn(it){
   const t = new Date(String(it.createdAt).replace(/-/g,'/')).getTime();
   if(isNaN(t)) return false;
   return Date.now() - t <= 7*86400000;
+}
+function clearStatus(){
+  document.getElementById('statusSel').value = '';
+  filterReset();
 }
 let toastTimer=null;
 function toast(msg){
