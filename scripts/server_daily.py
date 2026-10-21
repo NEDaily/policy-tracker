@@ -80,6 +80,9 @@ def main():
     download('resource-data.js', wd_path)  # 资源跟踪竞配联动环节读写此文件
     with open(pd_path, 'r', encoding='utf-8') as f:
         old_text = f.read()
+    # 记录运行前的 blob sha（sha 为内容哈希，比全文逐字节对比更可靠——
+    # 2026-10-20 曾因全文对比出现单次瞬时误报，导致当日版头未能落库）
+    pd_base_sha = api(API + '/contents/policy-data.js?ref=main')['sha']
 
     env = dict(os.environ, ZHIPU_API_KEY=zhipu)
     # 透传命令行参数（如 --window-hours 168 周度回扫）
@@ -93,12 +96,14 @@ def main():
         new_text = f.read()
     n_old, n_new = old_text.count("id:'d"), new_text.count("id:'d")
     ts = datetime.now(BJT).strftime('%Y-%m-%d %H:%M')
-    # 防覆盖：运行期间若仓库 policy-data.js 被外部更新（如手动入库），
-    # 放弃自动推送并告警，避免用运行前的旧基准覆盖外部改动（回滚事故同款机制）
-    cur = api(API + '/contents/policy-data.js')
-    cur_text = base64.b64decode(cur['content']).decode('utf-8')
-    if cur_text != old_text:
-        print('[warn] 运行期间仓库 policy-data.js 已被外部更新，本次跳过自动推送，请人工比对')
+    # 防覆盖：以 blob sha 对比运行期间仓库 policy-data.js 是否被外部更新
+    #（如手动入库），被更新则放弃数据推送并告警，避免用运行前的旧基准
+    # 覆盖外部改动（回滚事故同款机制）；runlog 留痕与数据推送解耦，每次必推
+    cur_sha = api(API + '/contents/policy-data.js')['sha']
+    if cur_sha != pd_base_sha:
+        print('[warn] 运行期间仓库 policy-data.js 已被外部更新（基线 %s -> 当前 %s），数据不推送，请人工比对'
+              % (pd_base_sha[:8], cur_sha[:8]))
+        push(rl_path, 'runlog.md', '运行留痕 %s（腾讯云，数据推送被拦截待人工比对）' % ts, token)
     else:
         push(pd_path, 'policy-data.js',
              '每日更新 %s 新增%d条（腾讯云）' % (ts, max(0, n_new - n_old)), token)
