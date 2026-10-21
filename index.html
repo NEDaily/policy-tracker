@@ -854,9 +854,8 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
 <div class="toast" id="toast"></div>
 <button id="backTop" aria-label="回到顶部" title="回到顶部">↑</button>
 
-<!-- 数据文件带时间戳穿透 CDN 与浏览器缓存（document.write 保持同步执行顺序） -->
-<script>document.write('<script src="policy-data.js?ts=' + Date.now() + '"><\/script>');</script>
-<script>document.write('<script src="resource-data.js?ts=' + Date.now() + '"><\/script>');</script>
+<script src="policy-data.js"></script>
+<script src="resource-data.js"></script>
 <script>
 /* ================= 基础配置 ================= */
 /* 领域 chips 与统计行顺序固定（2026-10-15 用户定稿）：按条目数「常用在左、条目少在右」，其他固定最后——
