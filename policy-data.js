@@ -26,8 +26,8 @@
 /* 版头两字段：POLICY_UPDATED_AT 每次每日任务运行完成后刷新为本次运行时刻
    （无论有无新增，用于证明检索确已执行）；POLICY_UPDATED_COUNT 为本次新增
    条数（无新增置 0，修改/删除不计）。存量补录类手动入库不动两字段。 */
-window.POLICY_UPDATED_AT = '2026-10-20 14:30';
-window.POLICY_UPDATED_COUNT = 0;
+window.POLICY_UPDATED_AT = '2026-10-21 14:53';
+window.POLICY_UPDATED_COUNT = 1;
 window.POLICY_SEED = [
   {
     id:'s1', level:'national', field:'pricing', top:true,
@@ -1292,5 +1292,16 @@ window.POLICY_SEED = [
     impact:'公告确认国网辽宁取得220KV、500KV输电设施许可，多家辽宁发电及承装修试企业资质获批或变更，为相关电力项目投运及施工手续办理提供许可依据。',
     ref:'2026年第39期电力业务许可公告全文',
     createdAt:'2026-10-12'
+  },
+  {
+    id:'d20261021-1', level:'national', field:'storage', top:true,
+    title:'国家能源局关于推动煤电与新能源融合发展的实施意见',
+    docno:'国能发电力〔2026〕69号', org:'国家能源局', date:'2026-09-28',
+    url:'http://www.nea.gov.cn/20261021/fbd5cb3be4584be88f63046ffb0155fc/c.html',
+    digest:'国家能源局印发实施意见，提出新能源接入近区公用煤电机组协同送出消纳、海上风电接入沿海煤电机组送出、接入自备煤电机组打捆利用等五种融合场景，鼓励融合项目年度碳排放较融合前降低5%以上力争10%以上，明确接网方式、计量与涉网性能要求，融合项目新能源弃电不纳入利用率统计考核，加大中央资金支持。',
+    impact:'为辽宁海上风电依托沿海煤电机组协同送出、新能源就近接入煤电消纳提供国家政策通道，煤电调峰改造腾出消纳空间，符合条件项目可获中央资金补助，利于并网送出。',
+    ref:'国能发电力〔2026〕69号全文',
+    status:'key',
+    createdAt:'2026-09-28'
   }
 ];
