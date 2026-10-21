@@ -623,7 +623,7 @@ def validate_entry(d, cand, today):
         'level': level, 'field': field, 'title': title, 'org': org,
         'date': date, 'url': cand['url'], 'digest': digest,
         'impact': impact[:300] if impact else digest[:120],
-        'createdAt': date,
+        'createdAt': today,  # 收录日（线索流排序依据），date 保留成文日
     }
     if level == 'city':
         entry['city'] = d['city']
