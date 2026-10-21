@@ -946,7 +946,7 @@ function render(){
     if(curMonth && curMonth!=='all' && !(it.date||'').startsWith(curMonth)) return false;
     if(q){
       const hay = [it.title,it.docno,it.org,it.digest,it.impact,it.city,it.county,(FIELDS[it.field]||{}).name,STAGES[it.stage]||''].join(' ').toLowerCase();
-      if(!hay.includes(q)) return false;
+      if(!searchHit(hay, q)) return false;
     }
     return true;
   });
@@ -1196,8 +1196,8 @@ function renderDigests(){
   const q = document.getElementById('q').value.trim().toLowerCase();
   let tops = items.filter(i=>i.top).sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,3);
   if(q){
-    tops = tops.filter(it=>[it.topTitle||it.title,it.topBody||it.digest||'',it.topImpact||it.impact||'',it.org||'',it.docno||'']
-      .join(' ').toLowerCase().includes(q));
+    tops = tops.filter(it=>searchHit([it.topTitle||it.title,it.topBody||it.digest||'',it.topImpact||it.impact||'',it.org||'',it.docno||'']
+      .join(' ').toLowerCase(), q));
   }
   const grid = document.getElementById('digestGrid');
   if(!tops.length){
@@ -1241,6 +1241,16 @@ function isNewIn(it){
   const t = new Date(String(it.createdAt).replace(/-/g,'/')).getTime();
   if(isNaN(t)) return false;
   return Date.now() - t <= 7*86400000;
+}
+/* 模糊搜索：词内单字按序全含（「盘锦发改」可命中「盘锦市发展和改革委员会」这类机构缩写），多词空格分隔全命中 */
+function fuzzyHit(hay, needle){
+  let i = 0;
+  for(const ch of hay){ if(ch === needle[i]) i++; if(i === needle.length) return true; }
+  return needle.length === 0;
+}
+function searchHit(hay, q){
+  const terms = q.split(/\s+/).filter(Boolean);
+  return terms.every(t => fuzzyHit(hay, t));
 }
 function clearAllFilters(){
   curField=''; curStage=''; curMonth='all'; stageMenuOpen=false;
