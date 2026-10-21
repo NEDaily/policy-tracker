@@ -1244,7 +1244,8 @@ function isNewIn(it){
 }
 function clearAllFilters(){
   curField=''; curStage=''; curMonth='all'; stageMenuOpen=false;
-  ['levelSel','citySel','monthSel','statusSel'].forEach(function(id){ document.getElementById(id).value=''; });
+  ['levelSel','citySel','statusSel'].forEach(function(id){ document.getElementById(id).value=''; });
+  document.getElementById('monthSel').value='all';
   document.getElementById('q').value='';
   filterReset();
 }
