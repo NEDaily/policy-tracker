@@ -226,6 +226,8 @@ body.anim-first .item{opacity:0;animation:riseIn .45s cubic-bezier(.2,.7,.3,1) f
 .badge.level.liaoning{background:var(--navy)}
 .badge.level.city{background:var(--green)}
 .badge.status-key{background:var(--gold);color:#fff}
+.badge.new-in{background:rgba(169,139,61,.12);color:#8a6f2f;border:1px solid rgba(169,139,61,.5);font-weight:600}
+.new-link{color:var(--gold);cursor:pointer;border-bottom:1px dashed rgba(169,139,61,.6)}
 .item h3.title{font-family:var(--serif);font-size:18px;font-weight:900;color:var(--ink);line-height:1.55;letter-spacing:.02em}
 .item h3.title a{color:inherit;text-decoration:none}
 .item h3.title a:hover{color:var(--navy)}
@@ -385,6 +387,7 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
       <select class="filter" id="statusSel" onchange="filterReset()">
         <option value="">全部条目</option>
         <option value="key">重点关注</option>
+        <option value="new">最近收录</option>
       </select>
       <select class="filter" id="sortSel" onchange="filterReset()">
         <option value="dateDesc">最新发布优先</option>
@@ -937,7 +940,8 @@ function render(){
     if(lv && it.level!==lv) return false;
     if(cy && !(it.level==='city' && (COUNTIES.includes(cy) ? it.county===cy : it.city===cy))) return false;
     if(sg && it.stage!==sg) return false;
-    if(st && it.status!==st) return false;
+    if(st==='new'){ if(!isNewIn(it)) return false; }
+    else if(st && it.status!==st) return false;
     if(curMonth && curMonth!=='all' && !(it.date||'').startsWith(curMonth)) return false;
     if(q){
       const hay = [it.title,it.docno,it.org,it.digest,it.impact,it.city,it.county,(FIELDS[it.field]||{}).name,STAGES[it.stage]||''].join(' ').toLowerCase();
@@ -984,6 +988,7 @@ function render(){
             <span class="badge level ${lvCls}">${levelText}</span>
             <span class="badge" style="background:${f.color}">${f.name}</span>
             ${it.status==='key'?'<span class="badge status-key">重点关注</span>':''}
+            ${isNewIn(it)?'<span class="badge new-in">新收录</span>':''}
           </div>
           <h3 class="title">${titleHtml}</h3>
           <div class="meta">${it.docno?`<span class="docno">${esc(it.docno)}</span>`:''}${it.docno&&it.org?' ｜ ':''}${esc(it.org||'')}</div>
@@ -1209,9 +1214,23 @@ function initDate(){
   const u = window.POLICY_UPDATED_AT;
   if(u){
     const c = window.POLICY_UPDATED_COUNT;
-    document.getElementById('updatedAt').textContent =
-      `最近更新 ${u}` + (c ? ` · 新增 ${c} 条` : '');
+    const el = document.getElementById('updatedAt');
+    el.innerHTML = `最近更新 ${u}` +
+      (c ? ` · <span class="new-link" id="newLink" title="查看最近收录的条目">新增 ${c} 条</span>` : '');
+    const nl = document.getElementById('newLink');
+    if(nl) nl.onclick = function(){
+      document.getElementById('statusSel').value = 'new';
+      filterReset();
+      toast('已筛选最近收录的条目（7 天内），可从状态下拉恢复');
+    };
   }
+}
+/* 新收录判定：createdAt（收录日）距今 7 天内 */
+function isNewIn(it){
+  if(!it.createdAt) return false;
+  const t = new Date(String(it.createdAt).replace(/-/g,'/')).getTime();
+  if(isNaN(t)) return false;
+  return Date.now() - t <= 7*86400000;
 }
 let toastTimer=null;
 function toast(msg){
