@@ -963,8 +963,14 @@ function render(){
 
   document.getElementById('countLine').innerHTML =
     `共 ${list.length} 条` + (PAGES>1?` · 第 ${pageIdx}/${PAGES} 页`:'') + (list.length!==items.length ? ` / 库内 ${items.length} 条` : '') +
-    (document.getElementById('statusSel').value ? ` · <span class="clear-link" onclick="clearStatus()">取消筛选</span>` : '');
+    (list.length!==items.length ? ` · <span class="clear-link" onclick="clearAllFilters()">× 取消全部筛选</span>` : '');
+  const lvSel = document.getElementById('levelSel');
+  const cySel = document.getElementById('citySel');
+  const mhSel = document.getElementById('monthSel');
   const stSel = document.getElementById('statusSel');
+  lvSel.classList.toggle('sel-active', !!lvSel.value);
+  cySel.classList.toggle('sel-active', !!cySel.value);
+  mhSel.classList.toggle('sel-active', !!mhSel.value && mhSel.value!=='all');
   stSel.classList.toggle('sel-active', !!stSel.value);
 
   // 政策流
@@ -1225,7 +1231,7 @@ function initDate(){
     if(nl) nl.onclick = function(){
       document.getElementById('statusSel').value = 'new';
       filterReset();
-      toast('已筛选最近收录的条目（7 天内），点计数行「取消筛选」可恢复');
+      toast('已筛选最近收录的条目（7 天内），点「× 取消全部筛选」可恢复');
     };
   }
 }
@@ -1236,8 +1242,10 @@ function isNewIn(it){
   if(isNaN(t)) return false;
   return Date.now() - t <= 7*86400000;
 }
-function clearStatus(){
-  document.getElementById('statusSel').value = '';
+function clearAllFilters(){
+  curField=''; curStage=''; curMonth='all'; stageMenuOpen=false;
+  ['levelSel','citySel','monthSel','statusSel'].forEach(function(id){ document.getElementById(id).value=''; });
+  document.getElementById('q').value='';
   filterReset();
 }
 let toastTimer=null;
