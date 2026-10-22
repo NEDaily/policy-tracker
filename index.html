@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="favicon.png?v=2">
 <link rel="shortcut icon" href="favicon.ico?v=2">
+<meta property="og:title" content="辽宁省新能源政策跟踪">
+<meta property="og:description" content="自动检索国家、省、市县三级新能源政策，覆盖风光竞争性配置、电价市场化、项目前期手续等要点研判，同步跟踪各市陆上风电资源动态。">
+<meta property="og:type" content="website">
 <title>辽宁省新能源政策跟踪</title>
 <style>
 :root{
@@ -133,6 +136,8 @@ button.chip,button.pg-btn{font-family:var(--sans);appearance:none;-webkit-appear
 }
 #fieldChips .chip.has-menu{padding-right:17px}
 #fieldChips .chip-menu{top:calc(100% - 2px)}
+/* 移动端环节面板（导航带下方独立块，桌面不显示） */
+.stage-panel{display:none}
 select.filter{
   font-family:var(--sans);font-size:14px;color:var(--ink);border:1px solid var(--line);
   background:#fff;padding:7px 11px;border-radius:2px;outline:none;cursor:pointer;
@@ -325,23 +330,54 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
   .layout{grid-template-columns:1fr}
 }
 @media (max-width:680px){
+  .wrap{padding:0 16px}
   .digest-grid{grid-template-columns:1fr}
-  .masthead-inner{flex-direction:column;align-items:flex-start}
+  .digest{padding:16px 14px 18px;margin-top:20px}
+  .digest-card{padding:16px 15px 14px}
+  .masthead-inner{flex-direction:column;align-items:flex-start;gap:8px;padding:16px 0 14px}
+  .brand h1{font-size:26px;letter-spacing:.1em}
   .masthead-right{flex-direction:column;gap:3px;align-items:flex-start}
-  .masthead-right .updated{border-left:none;padding-left:0}
-  .chip.has-menu .chip-menu{left:auto;right:0}
-  .item{grid-template-columns:1fr;gap:6px}
-  .date-block{display:flex;align-items:baseline;gap:8px;text-align:left}
-  .date-block .d{font-size:20px}
+  .masthead-right .date-line{font-size:15px}
+  .masthead-right .updated{border-left:none;padding-left:0;font-size:12px}
+  .toolbar{margin-top:20px}
   .toolbar-inner{gap:8px;padding-bottom:10px}
   .toolbar-row{gap:8px}
+  .toolbar-row.tab-row{margin:0 -16px;padding:10px 16px 9px}
+  .tab-btn{font-size:15px}
   .chip{font-size:11px;padding:4px 9px;letter-spacing:.05em}
-  #fieldChips{margin:0;padding:0 14px}
-  #fieldChips .chip{font-size:13px;padding:9px 12px;letter-spacing:.08em}
+  /* 领域导航带：窄屏改横向滑动，不换行不溢出 */
+  #fieldChips{margin:0;padding:0 8px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  #fieldChips::-webkit-scrollbar{display:none}
+  #fieldChips .chip{font-size:13px;padding:9px 12px;letter-spacing:.08em;flex:none;white-space:nowrap}
   #fieldChips .chip.on::after{left:11px;right:11px}
+  #fieldChips .chip-menu{display:none!important}
+  .stage-panel{display:block;background:var(--navy);padding:2px 14px 9px}
+  .stage-panel a{display:inline-block;font-size:13px;color:#fff;padding:5px 11px;margin:5px 5px 0 0;border:1px solid rgba(255,255,255,.28);cursor:pointer;letter-spacing:.05em}
+  .stage-panel a.sel{background:var(--gold);border-color:var(--gold);font-weight:700}
   select.filter{font-size:12.5px;padding:5px 8px}
-  .search{padding:5px 9px}
+  .search{padding:5px 9px;width:100%}
   .search input{font-size:13.5px}
+  .item{grid-template-columns:1fr;gap:6px;padding:13px 12px 11px}
+  .date-block{display:flex;align-items:baseline;gap:8px;text-align:left}
+  .date-block .d{font-size:20px}
+  .item h3.title{font-size:16px}
+  .item .digest{font-size:14px}
+  .item .impact{font-size:13.5px}
+  /* 侧栏沉底后默认折叠，点击标题展开 */
+  .side-card .sc-head{padding:12px 16px 4px;cursor:pointer}
+  .side-card .sc-head::after{content:"▾";margin-left:auto;font-size:13px;color:var(--ink-faint);transition:transform .2s}
+  .side-card.open .sc-head::after{transform:rotate(180deg)}
+  .side-card .sc-body{display:none}
+  .side-card.open .sc-body{display:block}
+}
+@media print{
+  .toolbar,.side,#backTop,.toast,.item .ops,.clear-link{display:none!important}
+  body{background:#fff;background-image:none}
+  .wrap{max-width:none;padding:0}
+  .digest,.side-card{box-shadow:none}
+  .item,.digest-card{break-inside:avoid}
+  a{color:inherit;text-decoration:none}
+  .item h3.title a{color:#000}
 }
 </style>
 </head>
@@ -928,6 +964,17 @@ function render(){
       return `<button type="button" class="chip ${curField===k?'on red':''}" onclick="setField('${k}')">${v.name}</button>`;
     }).join('');
 
+  // 移动端：领域导航带为横向滑动容器，绝对定位的环节菜单会被裁剪，改为导航带下方的独立面板
+  const oldPanel = document.getElementById('stagePanel');
+  if(oldPanel) oldPanel.remove();
+  if(stageMenuOpen && window.matchMedia('(max-width:680px)').matches){
+    const panel = document.createElement('div');
+    panel.id = 'stagePanel';
+    panel.className = 'stage-panel';
+    panel.innerHTML = procMenu;
+    chipsBox.after(panel);
+  }
+
   // 筛选
   const q = document.getElementById('q').value.trim().toLowerCase();
   const lv = document.getElementById('levelSel').value;
@@ -976,7 +1023,7 @@ function render(){
   // 政策流
   const feed = document.getElementById('feed');
   if(!list.length){
-    feed.innerHTML = `<div class="empty">暂无符合条件的条目</div>`;
+    feed.innerHTML = `<div class="empty">暂无符合条件的条目${q?'，可试试更短的词，如「盘锦」「竞配」':''}</div>`;
   }else{
     feed.innerHTML = pageList.map((it,i)=>{
       const d = fmtDate(it.date);
@@ -1267,6 +1314,18 @@ function toast(msg){
   toastTimer = setTimeout(()=>t.classList.remove('show'),2200);
 }
 initDate(); load(); buildMonthOptions(); buildCityStageOptions(); renderDigests(); renderResource(); render();
+/* 数据加载兜底：policy-data.js 未成功加载时给出明确提示，避免静默空白 */
+if(!window.POLICY_SEED){
+  document.getElementById('countLine').textContent = '';
+  document.getElementById('feed').innerHTML = '<div class="empty">政策数据加载失败，请刷新页面重试；若反复出现，请联系页面维护人。</div>';
+}
+/* 移动端侧栏折叠：窄屏下点击卡片标题展开/收起 */
+document.querySelectorAll('.side-card .sc-head').forEach(h=>{
+  h.addEventListener('click', ()=>{
+    if(!window.matchMedia('(max-width:680px)').matches) return;
+    h.parentElement.classList.toggle('open');
+  });
+});
 setTimeout(()=>document.body.classList.remove('anim-first'), 950);
 </script>
 </body>
