@@ -26,8 +26,8 @@
 /* 版头两字段：POLICY_UPDATED_AT 每次每日任务运行完成后刷新为本次运行时刻
    （无论有无新增，用于证明检索确已执行）；POLICY_UPDATED_COUNT 为本次新增
    条数（无新增置 0，修改/删除不计）。存量补录类手动入库不动两字段。 */
-window.POLICY_UPDATED_AT = '2026-10-24 14:30';
-window.POLICY_UPDATED_COUNT = 0;
+window.POLICY_UPDATED_AT = '2026-10-25 14:30';
+window.POLICY_UPDATED_COUNT = 1;
 window.POLICY_SEED = [
   {
     id:'s1', level:'national', field:'pricing', top:true,
@@ -1303,5 +1303,15 @@ window.POLICY_SEED = [
     ref:'国能发电力〔2026〕69号全文',
     status:'key',
     createdAt:'2026-10-21'
+  },
+  {
+    id:'d20261025-1', level:'national', field:'other', top:false,
+    title:'国家能源局公告2026年第4号',
+    docno:'国家能源局公告2026年第4号', org:'国家能源局', date:'2026-10-09',
+    url:'http://www.nea.gov.cn/20261021/35115ff2391547fc9d2cf3e4af2c669c/c.html',
+    digest:'国家能源局根据《中华人民共和国标准化法》《能源标准化管理办法》，批准发布《海上柔性直流输电系统成套设计技术规程》等287项能源行业标准及19项能源行业标准外文版，并随公告发布行业标准目录。',
+    impact:'为海上柔性直流输电系统成套设计提供统一技术标准，对辽宁海上风电等新能源送出工程及电网建设具有技术规范参考作用。',
+    ref:'国家能源局公告2026年第4号全文',
+    createdAt:'2026-10-25'
   }
 ];
