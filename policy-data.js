@@ -26,7 +26,7 @@
 /* 版头两字段：POLICY_UPDATED_AT 每次每日任务运行完成后刷新为本次运行时刻
    （无论有无新增，用于证明检索确已执行）；POLICY_UPDATED_COUNT 为本次新增
    条数（无新增置 0，修改/删除不计）。存量补录类手动入库不动两字段。 */
-window.POLICY_UPDATED_AT = '2026-10-26 14:30';
+window.POLICY_UPDATED_AT = '2026-10-27 14:30';
 window.POLICY_UPDATED_COUNT = 0;
 window.POLICY_SEED = [
   {
