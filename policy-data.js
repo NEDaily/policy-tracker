@@ -26,8 +26,8 @@
 /* 版头两字段：POLICY_UPDATED_AT 每次每日任务运行完成后刷新为本次运行时刻
    （无论有无新增，用于证明检索确已执行）；POLICY_UPDATED_COUNT 为本次新增
    条数（无新增置 0，修改/删除不计）。存量补录类手动入库不动两字段。 */
-window.POLICY_UPDATED_AT = '2026-10-27 14:30';
-window.POLICY_UPDATED_COUNT = 0;
+window.POLICY_UPDATED_AT = '2026-10-28 14:30';
+window.POLICY_UPDATED_COUNT = 1;
 window.POLICY_SEED = [
   {
     id:'s1', level:'national', field:'pricing', top:true,
@@ -1313,5 +1313,15 @@ window.POLICY_SEED = [
     impact:'为海上柔性直流输电系统成套设计提供统一技术标准，对辽宁海上风电等新能源送出工程及电网建设具有技术规范参考作用。',
     ref:'国家能源局公告2026年第4号全文',
     createdAt:'2026-10-25'
+  },
+  {
+    id:'d20261028-1', level:'national', field:'procedure', top:false,
+    stage:'other',
+    title:'国家能源局关于防范违规代办电力业务资质许可的通告',
+    docno:'', org:'国家能源局', date:'2025-08-29',
+    url:'https://www.nea.gov.cn/20250908/20e47a93222a4f4ca5c824a792ae1a65/c.html',
+    digest:'国家能源局发布通告明确，办理电力业务许可、承装（修、试）电力设施许可申请、变更、延续等事项不收取任何费用；国家能源局及其派出机构从未委托、授权任何第三方机构或个人开展资质许可代办、培训、咨询等经营性业务；相关许可业务实行全国一网通办，全流程电子化，违规代办行为将由派出机构依法依规处理。',
+    impact:'提醒辽宁新能源企业在办理电力业务许可及承装修试许可时通过官方系统免费申请，防范中介违规代办造成损失，规范许可办理流程。',
+    createdAt:'2026-10-28'
   }
 ];
