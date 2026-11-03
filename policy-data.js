@@ -26,8 +26,8 @@
 /* 版头两字段：POLICY_UPDATED_AT 每次每日任务运行完成后刷新为本次运行时刻
    （无论有无新增，用于证明检索确已执行）；POLICY_UPDATED_COUNT 为本次新增
    条数（无新增置 0，修改/删除不计）。存量补录类手动入库不动两字段。 */
-window.POLICY_UPDATED_AT = '2026-11-02 14:30';
-window.POLICY_UPDATED_COUNT = 0;
+window.POLICY_UPDATED_AT = '2026-11-03 14:30';
+window.POLICY_UPDATED_COUNT = 1;
 window.POLICY_SEED = [
   {
     id:'s1', level:'national', field:'pricing', top:true,
@@ -1353,5 +1353,15 @@ window.POLICY_SEED = [
     impact:'辽宁多家电力施工企业获得或延续承装修试许可，可承接电力设施施工业务，支撑新能源项目配套电力工程建设；辽宁能港发电许可证被注销，提示发证企业需及时办理延续手续。',
     ref:'2026年第41期电力业务许可公告全文',
     createdAt:'2026-11-01'
+  },
+  {
+    id:'d20261103-1', level:'national', field:'other', top:false,
+    title:'国家能源局公告2026年第5号',
+    docno:'国家能源局公告2026年第5号', org:'国家能源局', date:'2026-10-23',
+    url:'https://www.nea.gov.cn/20261102/af04409304d44bfb89c9880f55b70dff/c.html',
+    digest:'国家能源局公布第六批能源领域首台（套）重大技术装备评定结果，将16MW级漂浮式海上风力发电机组等90项技术装备列为首台（套）重大技术装备，依托工程可享受发改产业〔2018〕558号、国能发科技〔2018〕49号支持政策，研制及用户单位需报告进展并开展自评价。',
+    impact:'列入首台（套）的漂浮式海上风电等装备依托工程享受示范应用支持政策，有利于辽宁相关海上风电新技术装备研制应用和产业链发展。',
+    ref:'国家能源局公告2026年第5号全文',
+    createdAt:'2026-11-03'
   }
 ];
