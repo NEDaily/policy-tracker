@@ -482,11 +482,11 @@ key: boolean，仅国家或省级重大改革文件为 true，一般批复/公�
 6. 信息不足以判断时 collect=false，不得编造。'''
 
 
-def glm_call(api_key, user_content):
+def glm_call(api_key, user_content, system=None):
     base = {
         'model': MODEL,
         'messages': [
-            {'role': 'system', 'content': SYS_PROMPT},
+            {'role': 'system', 'content': system or SYS_PROMPT},
             {'role': 'user', 'content': user_content},
         ],
         'temperature': 0.2,
@@ -705,47 +705,208 @@ def recover_watch(item, existing_urls):
     return ent
 
 
+WIND_CITIES = ['沈阳', '大连', '鞍山', '抚顺', '本溪', '丹东', '锦州', '营口',
+               '阜新', '辽阳', '盘锦', '铁岭', '朝阳', '葫芦岛', '庄河市', '沈抚示范区']
+
+QUOTA_SYS_PROMPT = '''你负责从省级风电竞争性配置文件中提取分配到各市的陆上风电竞配指标，用于资源跟踪台账。规则：
+1. 只提取文件正文明确写明的各市规模数字，数字必须与原文完全一致，禁止推算、编造；
+2. 市名用辽宁省地级市简称（沈阳/大连/鞍山/抚顺/本溪/丹东/锦州/营口/阜新/辽阳/盘锦/铁岭/朝阳/葫芦岛/沈抚示范区），海上风电指标一律不提取；
+3. value 格式统一为「N万千瓦」；
+4. basis 写明依据（文号或文件名＋批次，如「2027·第四批（辽发改能源〔2027〕XX号）」）；
+5. mode：add=文件为新增批次指标（在现有台账上叠加），set=文件直接规定该市总量（替换台账）；
+6. 文件未分配市级指标或信息不足时返回 {"updates":[]}，宁缺毋滥。
+输出 JSON：{"updates":[{"city":"...","value":"...","basis":"...","mode":"add"}]}'''
+
+
+def norm_city(c):
+    c = (c or '').strip()
+    if c in WIND_CITIES:
+        return c
+    if c.endswith('市') and c[:-1] in WIND_CITIES:
+        return c[:-1]
+    return None
+
+
+def is_result_title(t):
+    """竞配完成类标题判定（覆盖结果公示/优选/中选/评审等变体）。"""
+    if '结果公示' in t or '结果公布' in t:
+        return True
+    return '公示' in t and any(k in t for k in ('优选', '中选', '评审', '成交'))
+
+
+def find_wind_line(lines, city, key):
+    for i, ln in enumerate(lines):
+        if re.search(r"city:\s*'%s'" % re.escape(city), ln) and (key + ':') in ln:
+            return i
+    return None
+
+
+def apply_done_update(lines, city, title, date, digest=''):
+    """对打开态（—/待补录/结果未查见）的市回填 done。返回变更描述或 None。"""
+    i = find_wind_line(lines, city, 'done')
+    if i is None:
+        return None
+    m = re.search(r"done:\s*\{v:\s*'([^']*)'", lines[i])
+    if not m or not (m.group(1) in ('—', '待补录', '结果未查见') or '未' in m.group(1)):
+        return None
+    mm = (re.search(r'(\d+(?:\.\d+)?)\s*万千瓦', title)
+          or re.search(r'(\d+(?:\.\d+)?)\s*万千瓦', digest or ''))
+    v = (mm.group(1) + '万千瓦') if mm else '已优选'
+    mdate = re.match(r'(20\d{2})-(\d{1,2})-(\d{1,2})', date or '')
+    src = ('%d.%d.%d 结果公示' % (int(mdate.group(1)), int(mdate.group(2)),
+                                 int(mdate.group(3))) if mdate else '竞配结果公示')
+    lines[i] = re.sub(r"done:\s*\{[^}]*\}",
+                      "done:{v:'%s', src:'%s'}" % (v, src), lines[i], count=1)
+    return '%s完成竞配已自动更新为 %s（%s）' % (city, v, src)
+
+
+def load_resource_lines():
+    if not os.path.exists(RESOURCE_FILE):
+        return None
+    return open(RESOURCE_FILE, encoding='utf-8').read().splitlines(True)
+
+
+def save_resource_lines(lines):
+    open(RESOURCE_FILE, 'w', encoding='utf-8').write(''.join(lines))
+
+
 def check_wind_track(new_entries):
-    """资源跟踪板块联动：本窗口新入库的市级竞配「结果公示」条目 →
-    自动更新 WIND_TRACK 对应市 done 字段（仅限完成态为 —/待补录/结果未查见 的市）。
-    竞配公告类（非结果公示）只在留痕中提示，不动数据。返回变更描述列表。"""
-    if not new_entries or not os.path.exists(RESOURCE_FILE):
+    """资源跟踪联动一：本窗口新入库的市级竞配完成类条目 → 回填对应市 done。
+    备注相关条目（分散式/驭风）入库时留痕提示，不动 note 数据。"""
+    if not new_entries:
         return []
-    text = open(RESOURCE_FILE, encoding='utf-8').read()
-    lines = text.splitlines(True)
-    done_open = ('—', '待补录', '结果未查见')
+    lines = load_resource_lines()
+    if lines is None:
+        return []
     changes = []
     for e in new_entries:
         if e.get('field') != 'competitive' or e.get('level') != 'city':
             continue
-        city = e.get('city') or ''
+        city = norm_city(e.get('city'))
         title = e.get('title') or ''
-        is_result = '结果公示' in title or ('优选' in title and '公示' in title)
-        if not is_result:
+        if not city:
+            continue
+        if not is_result_title(title):
             if '竞争性配置' in title or '竞配' in title:
                 changes.append('%s竞配公告类条目入库（%s），完成态未动' % (city, title[:24]))
+                ni = find_wind_line(lines, city, 'note')
+                if ni is not None and re.search(r'分散式|驭风', title + (e.get('digest') or '')):
+                    changes.append('%s备注相关条目入库（%s），备注口径可核对' % (city, title[:24]))
             continue
-        hit = None
-        for i, ln in enumerate(lines):
-            if re.search(r"city:\s*'%s'" % city, ln) and 'done:' in ln:
-                m = re.search(r"done:\s*\{v:\s*'([^']*)'", ln)
-                if m and (m.group(1) in done_open or '未' in m.group(1)):
-                    hit = i
-                break
-        if hit is None:
+        ch = apply_done_update(lines, city, title, e.get('date'), e.get('digest'))
+        if ch:
+            changes.append(ch)
+    save_resource_lines(lines)
+    return changes
+
+
+def reconcile_wind_track(lib_text):
+    """资源跟踪联动二（周度对账）：全库扫描市级竞配完成类条目，
+    对联动上线前入库或当日漏联动的条目补回填 done，自愈兜底。"""
+    if not lib_text:
+        return []
+    lines = load_resource_lines()
+    if lines is None:
+        return []
+    ids = list(re.finditer(r"id:'d\d{8}-\d+'", lib_text))
+    changes = []
+    for k, m in enumerate(ids):
+        seg = lib_text[m.start():ids[k + 1].start() if k + 1 < len(ids) else len(lib_text)]
+        if "level:'city'" not in seg or "field:'competitive'" not in seg:
             continue
-        mm = (re.search(r'(\d+(?:\.\d+)?)\s*万千瓦', title)
-              or re.search(r'(\d+(?:\.\d+)?)\s*万千瓦', e.get('digest') or ''))
-        v = (mm.group(1) + '万千瓦') if mm else '已优选'
-        mdate = re.match(r'(20\d{2})-(\d{1,2})-(\d{1,2})', e.get('date') or '')
-        src = ('%d.%d.%d 结果公示' % (int(mdate.group(1)), int(mdate.group(2)),
-                                     int(mdate.group(3))) if mdate else '竞配结果公示')
-        lines[hit] = re.sub(r"done:\s*\{[^}]*\}",
-                            "done:{v:'%s', src:'%s'}" % (v, src),
-                            lines[hit], count=1)
-        changes.append('%s完成竞配已自动更新为 %s（%s）' % (city, v, src))
-    if changes:
-        open(RESOURCE_FILE, 'w', encoding='utf-8').write(''.join(lines))
+        mc = re.search(r"city:'([^']+)'", seg)
+        mt = re.search(r"title:'([^']+)'", seg)
+        md = re.search(r"date:'([^']+)'", seg)
+        mdg = re.search(r"digest:'([^']+)'", seg)
+        if not (mc and mt):
+            continue
+        city = norm_city(mc.group(1))
+        if not city or not is_result_title(mt.group(1)):
+            continue
+        ch = apply_done_update(lines, city, mt.group(1), md.group(1) if md else '',
+                               mdg.group(1) if mdg else '')
+        if ch:
+            changes.append('对账：%s' % ch)
+    save_resource_lines(lines)
+    return changes
+
+
+def apply_quota_update(lines, city, value, basis, mode):
+    """按 GLM 提取结果更新一行 quota。返回 'ok'/'skip'/None。"""
+    i = find_wind_line(lines, city, 'quota')
+    if i is None:
+        return None
+    m = re.search(r"quota:\s*\{v:\s*'([^']*)'(?:,\s*src:\s*'([^']*)')?\}", lines[i])
+    if not m:
+        return None
+    old_v, old_src = m.group(1), (m.group(2) or '')
+    if mode == 'set' or old_v == '—':
+        nv, ns = value, basis
+    elif mode == 'add':
+        mo = re.fullmatch(r'(\d+(?:\.\d+)?)万千瓦', old_v)
+        mn = re.fullmatch(r'(\d+(?:\.\d+)?)万千瓦', value)
+        if not mo or not mn:
+            return 'skip'
+        nv = ('%g万千瓦' % (float(mo.group(1)) + float(mn.group(1))))
+        ns = (old_src + '＋' + basis) if old_src else basis
+    else:
+        return None
+    if nv == old_v and ns == old_src:
+        return None
+    lines[i] = re.sub(r"quota:\s*\{[^}]*\}",
+                      "quota:{v:'%s', src:'%s'}" % (nv, ns), lines[i], count=1)
+    return 'ok'
+
+
+def update_wind_quota(new_entries, api_key):
+    """资源跟踪联动三（主动提取）：本窗口新入库的省级/国家竞配方案类条目 →
+    抓正文 → GLM 提取各市指标 → 自动更新 quota（叠加或填充）。"""
+    cands = [e for e in new_entries
+             if e.get('field') == 'competitive'
+             and e.get('level') in ('province', 'national')]
+    if not cands:
+        return []
+    lines = load_resource_lines()
+    if lines is None:
+        return []
+    changes = []
+    for e in cands[:3]:
+        title = e.get('title') or ''
+        try:
+            art, err = fetch_article({'url': e['url']})
+        except Exception as ex:
+            art, err = None, str(ex)
+        if not art:
+            log.info('资源跟踪 quota 提取跳过（正文获取失败）→ %s', title[:36])
+            continue
+        user = '文件标题：%s\n文号：%s\n\n正文：\n%s' % (
+            title[:120], e.get('docno') or '无', art['text'])
+        obj, gerr = glm_call(api_key, user, system=QUOTA_SYS_PROMPT)
+        ups = obj.get('updates') if isinstance(obj, dict) else None
+        if not isinstance(ups, list):
+            log.info('资源跟踪 quota 提取失败(%s) → %s',
+                     (gerr or '返回空')[:80], title[:36])
+            continue
+        touched = False
+        for u in ups:
+            if not isinstance(u, dict):
+                continue
+            city = norm_city(u.get('city'))
+            val = (u.get('value') or '').strip()
+            basis = (u.get('basis') or '').strip()
+            mode = u.get('mode') or 'add'
+            if not city or not re.fullmatch(r'\d+(?:\.\d+)?万千瓦', val) or not basis:
+                log.info('资源跟踪 quota 提取结果不合规未采用 → %s（%s）',
+                         u.get('city') or '未知市', val[:16])
+                continue
+            r = apply_quota_update(lines, city, val, basis, mode)
+            if r == 'ok':
+                touched = True
+                changes.append('%s下发指标已自动更新（%s，%s）' % (city, val, basis))
+            elif r == 'skip':
+                changes.append('%s quota 现值格式特殊未自动叠加，需人工核对（%s）' % (city, val))
+        if touched:
+            save_resource_lines(lines)
     return changes
 
 
@@ -913,10 +1074,15 @@ def main():
     with open(DATA_FILE, 'w', encoding='utf-8') as f:
         f.write(data_text)
 
-    # 资源跟踪板块联动：新竞配结果公示 → 更新 WIND_TRACK → 独立推送
+    # 资源跟踪板块联动（全自动）：①新竞配完成条目回填 done ②周度全库对账
+    # ③省级竞配方案 → GLM 提取各市指标 → 更新 quota；有变动独立推送
     wind_changes = check_wind_track(new_entries)
+    if args.window_hours >= 168:
+        wind_changes += reconcile_wind_track(data_text)
+    if api_key and new_entries:
+        wind_changes += update_wind_quota(new_entries, api_key)
     if not wind_changes:
-        log.info('资源跟踪联动：本窗口无市级竞配结果公示条目，WIND_TRACK 未变动')
+        log.info('资源跟踪联动：本窗口无资源跟踪数据变动，WIND_TRACK 未更新')
     for c in wind_changes:
         log.info('资源跟踪：%s', c)
     if wind_changes:
