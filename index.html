@@ -159,6 +159,12 @@ body:not([data-view="feed"]) #feedMain{display:none}
 body[data-view="digest"] #digestSection{display:block}
 #resourceSection{display:none}
 body[data-view="resource"] #resourceSection{display:block}
+#logSection{display:none}
+body[data-view="log"] #logSection{display:block}
+/* 更新日志（按收录日分组折叠，复用 res-block/res-item） */
+.log-date{font-family:var(--serif);font-size:15px;font-weight:900;color:#fff;background:var(--navy);padding:2px 12px;border-radius:2px;letter-spacing:.12em}
+.log-meta{flex:none;font-size:11.5px;color:var(--ink-faint)}
+.log-sub{font-size:12.5px;color:var(--ink-faint);margin:-4px 0 14px}
 
 /* 资源跟踪（一市一折叠块） */
 .res-block{background:#fff;box-shadow:0 1px 3px rgba(30,40,50,.05);margin-bottom:10px}
@@ -407,6 +413,8 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
         <button class="tab-btn" id="tabDigest" onclick="switchView('digest')">核心研判</button>
         <span class="tab-sep">◆</span>
         <button class="tab-btn" id="tabResource" onclick="switchView('resource')">资源跟踪</button>
+        <span class="tab-sep">◆</span>
+        <button class="tab-btn" id="tabLog" onclick="switchView('log')">更新日志</button>
       </div>
     </div>
     <div class="chips feed-only" id="fieldChips"></div>
@@ -456,6 +464,16 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
   </div>
   <div id="resList"></div>
   <p class="res-note">竞配指标与完成情况仅填有官方文件依据的内容并标注来源，未查见公开竞配文件的市以「—」标示；各市动态取自政策库，每日任务入库后自动刷新。</p>
+</section>
+
+<!-- 更新日志（按收录日分组折叠） -->
+<section class="digest wrap" id="logSection">
+  <div class="section-head">
+    <h2>更新日志</h2>
+    <div class="rule"></div>
+  </div>
+  <p class="log-sub">每日任务收录的条目按收录日期分组，点击日期展开当日明细；列表正文仍按发布（成文）日期排序。</p>
+  <div id="logList"></div>
 </section>
 
 <!-- 主区 -->
@@ -1168,7 +1186,39 @@ function switchView(v){
   document.getElementById('tabFeed').classList.toggle('active', v==='feed');
   document.getElementById('tabDigest').classList.toggle('active', v==='digest');
   document.getElementById('tabResource').classList.toggle('active', v==='resource');
+  document.getElementById('tabLog').classList.toggle('active', v==='log');
   window.scrollTo({top:0});
+}
+
+/* ================= 更新日志（按收录日分组折叠） ================= */
+function renderLog(){
+  const box = document.getElementById('logList');
+  const groups = {};
+  for(const it of items){
+    const c = String(it.createdAt||it.date||'').slice(0,10);
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(c)) continue;
+    (groups[c] = groups[c]||[]).push(it);
+  }
+  const days = Object.keys(groups).sort((a,b)=>b.localeCompare(a));
+  if(!days.length){ box.innerHTML = '<div class="empty">暂无收录记录</div>'; return; }
+  box.innerHTML = days.map((day,idx)=>{
+    const list = groups[day].slice().sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
+    const d = day.split('-');
+    const label = `${parseInt(d[0],10)}年${parseInt(d[1],10)}月${parseInt(d[2],10)}日`;
+    const rows = list.map(it=>{
+      const t = it.url
+        ? `<a href="${esc(it.url)}" target="_blank" rel="noopener">${esc(it.title)}</a>`
+        : esc(it.title);
+      const meta = [it.docno?esc(it.docno):'', esc(it.org||'')].filter(Boolean).join(' ｜ ');
+      const lv = it.level==='city' ? (it.city?esc(it.city)+' · ':'')
+               : (LEVELS[it.level]?esc(LEVELS[it.level])+' · ':'');
+      return `<div class="res-item"><span class="rd">${esc(it.date||'')}</span><span class="rt">${lv}${t}</span>${meta?`<span class="log-meta">${meta}</span>`:''}</div>`;
+    }).join('');
+    return `<details class="res-block"${idx===0?' open':''}>
+      <summary><span class="log-date">${label}</span><span class="sum">新增<b>${list.length}</b>条</span></summary>
+      <div class="res-detail">${rows}</div>
+    </details>`;
+  }).join('');
 }
 
 /* ================= 资源跟踪（一市一折叠块） ================= */
@@ -1313,7 +1363,7 @@ function toast(msg){
   clearTimeout(toastTimer);
   toastTimer = setTimeout(()=>t.classList.remove('show'),2200);
 }
-initDate(); load(); buildMonthOptions(); buildCityStageOptions(); renderDigests(); renderResource(); render();
+initDate(); load(); buildMonthOptions(); buildCityStageOptions(); renderDigests(); renderResource(); renderLog(); render();
 /* 数据加载兜底：policy-data.js 未成功加载时给出明确提示，避免静默空白 */
 if(!window.POLICY_SEED){
   document.getElementById('countLine').textContent = '';
