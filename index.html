@@ -93,6 +93,7 @@ a{color:var(--navy)}
 .search:focus-within{border-color:var(--navy);box-shadow:0 0 0 2px rgba(22,50,79,.06)}
 .search input{border:none;outline:none;background:transparent;font-family:var(--sans);font-size:15px;width:100%;color:var(--ink)}
 .search .icon{color:var(--ink-faint);font-size:15px}
+.item mark{background:#f3e7c9;color:inherit;padding:0 1px;border-radius:2px;font-weight:700}
 .chips{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
 .chip{
   position:relative;
@@ -1010,7 +1011,8 @@ function render(){
     else if(st && it.status!==st) return false;
     if(curMonth && curMonth!=='all' && !(it.date||'').startsWith(curMonth)) return false;
     if(q){
-      const hay = [it.title,it.docno,it.org,it.digest,it.impact,it.city,it.county,(FIELDS[it.field]||{}).name,STAGES[it.stage]||''].join(' ').toLowerCase();
+      const hay = [it.title,it.docno,it.org,it.digest,it.impact,it.city,it.county,(FIELDS[it.field]||{}).name,STAGES[it.stage]||'']
+        .filter(Boolean).map(s=>String(s).toLowerCase());
       if(!searchHit(hay, q)) return false;
     }
     return true;
@@ -1052,8 +1054,8 @@ function render(){
           <div class="y">${d.y||''}</div>
         </div>` : `<div class="date-block"></div>`;
       const titleHtml = it.url
-        ? `<a href="${esc(it.url)}" target="_blank" rel="noopener">${esc(it.title)}</a>`
-        : esc(it.title);
+        ? `<a href="${esc(it.url)}" target="_blank" rel="noopener">${hl(it.title,q)}</a>`
+        : hl(it.title,q);
       const lvCls = it.level==='liaoning'?'liaoning':it.level==='city'?'city':'';
       const levelText = it.level==='city'&&it.city ? esc(it.city) : (LEVELS[it.level]||'其他');
       return `<article class="item ${lvCls}" style="animation-delay:${Math.min(i*45,450)}ms">
@@ -1067,8 +1069,8 @@ function render(){
           </div>
           <h3 class="title">${titleHtml}</h3>
           <div class="meta">${it.docno?`<span class="docno">${esc(it.docno)}</span>`:''}${it.docno&&it.org?' ｜ ':''}${esc(it.org||'')}</div>
-          <div class="digest">${esc(it.digest||'')}</div>
-          ${it.impact?`<div class="impact"><b>研判：</b>${esc(it.impact)}${it.ref?`<span class="ref">（${esc(it.ref)}）</span>`:''}</div>`:''}
+          <div class="digest">${q?hl(it.digest||'',q):esc(it.digest||'')}</div>
+          ${it.impact?`<div class="impact"><b>研判：</b>${q?hl(it.impact,q):esc(it.impact)}${it.ref?`<span class="ref">（${esc(it.ref)}）</span>`:''}</div>`:''}
           <div class="ops">
             <button class="op" onclick="copyBrief('${it.id}')">⎘ 复制通报</button>
             ${it.url?`<a class="op" href="${esc(it.url)}" target="_blank" rel="noopener">原文全文 ↗</a>`:''}
@@ -1294,7 +1296,7 @@ function renderDigests(){
   let tops = items.filter(i=>i.top).sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,3);
   if(q){
     tops = tops.filter(it=>searchHit([it.topTitle||it.title,it.topBody||it.digest||'',it.topImpact||it.impact||'',it.org||'',it.docno||'']
-      .join(' ').toLowerCase(), q));
+      .filter(Boolean).map(s=>String(s).toLowerCase()), q));
   }
   const grid = document.getElementById('digestGrid');
   if(!tops.length){
@@ -1339,15 +1341,31 @@ function isNewIn(it){
   if(isNaN(t)) return false;
   return Date.now() - t <= 7*86400000;
 }
-/* 模糊搜索：词内单字按序全含（「盘锦发改」可命中「盘锦市发展和改革委员会」这类机构缩写），多词空格分隔全命中 */
+/* 模糊搜索：先整串包含；再退化为单字段内按字序子序列且跨度<2倍词长（「盘锦发改」可命中「盘锦市发展和改革委员会」这类机构缩写），跨句、跨字段不命中；多词空格分隔全命中 */
 function fuzzyHit(hay, needle){
-  let i = 0;
-  for(const ch of hay){ if(ch === needle[i]) i++; if(i === needle.length) return true; }
+  if(hay.includes(needle)) return true;
+  let i = 0, start = -1, idx = 0;
+  for(const ch of hay){
+    if(ch === needle[i]){
+      if(i === 0) start = idx;
+      i++;
+      if(i === needle.length) return (idx - start) < needle.length * 2;
+    }
+    idx++;
+  }
   return needle.length === 0;
 }
-function searchHit(hay, q){
+function searchHit(fields, q){
   const terms = q.split(/\s+/).filter(Boolean);
-  return terms.every(t => fuzzyHit(hay, t));
+  return terms.every(t => fields.some(h => fuzzyHit(h, t)));
+}
+/* 搜索命中高亮：标题/摘要/研判中出现的查询词标金底 */
+function hl(text, q){
+  const terms = [...new Set(String(q||'').split(/\s+/).filter(Boolean))]
+    .sort((a,b)=>b.length-a.length).map(t=>t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'));
+  if(!terms.length || !text) return esc(text);
+  const re = new RegExp('('+terms.join('|')+')','gi');
+  return esc(String(text)).replace(re,'<mark>$1</mark>');
 }
 function clearAllFilters(){
   curField=''; curStage=''; curMonth='all'; stageMenuOpen=false;
