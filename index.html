@@ -1237,13 +1237,13 @@ function renderResource(){
       ? items.filter(i=>((i.project||'')+(i.title||'')).includes('庄河'))
       : items.filter(i=>i.city===city);
     return pool.slice().sort((a,b)=>
-      (W[a.field]!==undefined?W[a.field]:3)-(W[b.field]!==undefined?W[b.field]:3) ||
-      (b.date||'').localeCompare(a.date||''));
+      (b.date||'').localeCompare(a.date||'') ||
+      (W[a.field]!==undefined?W[a.field]:3)-(W[b.field]!==undefined?W[b.field]:3));
   };
   box.innerHTML = window.WIND_TRACK.map(r=>{
     const pool = itemsOf(r.city);
     const list = pool.length ? pool.map(i=>{
-      const d = (i.date||'').slice(5).replace('-','.');
+      const d = (i.date||'').replace(/^(\d{4})-0?(\d{1,2})-0?(\d{1,2})$/,(_,y,m,dd)=>`${y}.${+m}.${+dd}`);
       const doc = i.docno ? `<span class="docno">${esc(i.docno)}</span>` : '';
       return `<a class="res-item" href="${i.url}" target="_blank" rel="noopener"><span class="rd">${d}</span><span class="rt">${doc}${esc(i.title)}</span></a>`;
     }).join('') : '<div class="res-empty">暂无收录动态</div>';
