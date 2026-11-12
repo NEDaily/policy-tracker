@@ -188,6 +188,8 @@ body[data-view="log"] #logSection{display:block}
 .res-row em{font-style:normal;color:var(--gold);font-weight:700;font-size:12px;letter-spacing:.1em;flex:none}
 .res-row b{font-size:14.5px;color:var(--ink);font-weight:700}
 .res-row i{font-style:normal;font-size:11.5px;color:var(--ink-faint)}
+.res-row i a{color:var(--navy);font-weight:600;text-decoration:underline;text-underline-offset:2px;text-decoration-color:rgba(22,50,79,.35)}
+.res-row i a:hover{color:var(--red)}
 .res-cnote{margin:7px 16px 2px;padding:8px 11px;background:var(--card);font-size:12.5px;line-height:1.75;color:var(--ink-faint)}
 .res-cnote b{color:var(--ink);font-weight:700}
 .res-items{margin-top:6px;border-top:1px solid var(--line-soft)}
@@ -1249,8 +1251,9 @@ function renderResource(){
     }).join('') : '<div class="res-empty">暂无收录动态</div>';
     const has = c => c && c.v && c.v !== '—';
     const sum = (label,c) => has(c) ? `<span class="sum">${label}<b>${esc(c.v)}</b></span>` : '';
+    const srcLinks = c => (c.srcUrl||[]).map(s=>`　<a href="${s.u}" target="_blank" rel="noopener">${esc(s.t)}</a>`).join('');
     const row = (label,c) => has(c)
-      ? `<div class="res-row"><em>${label}</em><b>${esc(c.v)}</b>${c.src?`<i>${esc(c.src)}</i>`:''}</div>`
+      ? `<div class="res-row"><em>${label}</em><b>${esc(c.v)}</b>${c.src?`<i>${esc(c.src)}${srcLinks(c)}</i>`:''}</div>`
       : `<div class="res-row"><em>${label}</em><b>—</b></div>`;
     return `<details class="res-block">
       <summary>
