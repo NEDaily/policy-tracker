@@ -1252,6 +1252,7 @@ function renderResource(){
     const has = c => c && c.v && c.v !== '—';
     const sum = (label,c) => has(c) ? `<span class="sum">${label}<b>${esc(c.v)}</b></span>` : '';
     const srcLinks = c => (c.srcUrl||[]).map(s=>`　<a href="${s.u}" target="_blank" rel="noopener">${esc(s.t)}</a>`).join('');
+    const noteLinks = u => (u||[]).map(s=>`　<a href="${s.u}" target="_blank" rel="noopener">${esc(s.t)}</a>`).join('');
     const row = (label,c) => has(c)
       ? `<div class="res-row"><em>${label}</em><b>${esc(c.v)}</b>${c.src?`<i>${esc(c.src)}${srcLinks(c)}</i>`:''}</div>`
       : `<div class="res-row"><em>${label}</em><b>—</b></div>`;
@@ -1264,7 +1265,7 @@ function renderResource(){
       <div class="res-detail">
         ${row('下发指标',r.quota)}
         ${row('已完成竞配',r.done)}
-        ${r.note?`<div class="res-cnote"><b>备注</b>　${esc(r.note)}</div>`:''}
+        ${r.note?`<div class="res-cnote"><b>备注</b>　${esc(r.note)}${noteLinks(r.noteUrl)}</div>`:''}
         <div class="res-items">${list}</div>
       </div>
     </details>`;
