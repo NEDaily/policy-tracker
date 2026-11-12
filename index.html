@@ -1251,6 +1251,10 @@ function renderResource(){
     }).join('') : '<div class="res-empty">暂无收录动态</div>';
     const has = c => c && c.v && c.v !== '—';
     const sum = (label,c) => has(c) ? `<span class="sum">${label}<b>${esc(c.v)}</b></span>` : '';
+    const num0 = s => { const m = String(s||'').replace(/（.*$/,'').match(/(\d+(?:\.\d+)?)/); return m ? parseFloat(m[1]) : null; };
+    const windQ = q => { if(!has(q)||/DL|海上/.test(q.v)) return null; const m = q.v.match(/风电\s*(\d+(?:\.\d+)?)/); return m ? parseFloat(m[1]) : num0(q.v); };
+    const rem = (()=>{ const wq = windQ(r.quota), wd = has(r.done) ? num0(r.done.v) : null; if(wq==null||wd==null||wq-wd<=0.01) return null; const d=wq-wd; return d%1?d.toFixed(1):d; })();
+    const remSum = rem!=null ? `<span class="sum">剩余<b>${rem}万千瓦</b></span>` : '';
     const srcLinks = c => (c.srcUrl||[]).map(s=>`　<a href="${s.u}" target="_blank" rel="noopener">${esc(s.t)}</a>`).join('');
     const row = (label,c) => has(c)
       ? `<div class="res-row"><em>${label}</em><b>${esc(c.v)}</b>${c.src?`<i>${esc(c.src)}${srcLinks(c)}</i>`:''}</div>`
@@ -1258,12 +1262,13 @@ function renderResource(){
     return `<details class="res-block">
       <summary>
         <span class="res-city">${esc(r.city)}</span>
-        ${sum('下发',r.quota)}${sum('完成',r.done)}
+        ${sum('下发',r.quota)}${sum('完成',r.done)}${remSum}
         <span class="cnt${pool.length?'':' zero'}">${pool.length} 条动态</span>
       </summary>
       <div class="res-detail">
         ${row('下发指标',r.quota)}
         ${row('已完成竞配',r.done)}
+        ${rem!=null?`<div class="res-row"><em>剩余可竞配</em><b>${rem}万千瓦</b><i>按下发－完成推算（风电口径）</i></div>`:''}
         ${r.note?`<div class="res-cnote"><b>备注</b>　${esc(r.note)}</div>`:''}
         <div class="res-items">${list}</div>
       </div>
