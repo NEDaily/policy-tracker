@@ -843,11 +843,25 @@ def apply_quota_update(lines, city, value, basis, mode):
     if mode == 'set' or old_v == '—':
         nv, ns = value, basis
     elif mode == 'add':
-        mo = re.fullmatch(r'(\d+(?:\.\d+)?)万千瓦', old_v)
-        mn = re.fullmatch(r'(\d+(?:\.\d+)?)万千瓦', value)
-        if not mo or not mn:
+        # 兼容复合格式：'风电365万千瓦'、'风电285＋沙地光伏15万千瓦'（2026-11-12 拆分后口径）；
+        # 海上场址（如庄河 DL5/DL6）与特殊格式不参与叠加
+        mn = re.fullmatch(r'\d+(?:\.\d+)?万千瓦', value)
+        if not mn or '海上' in old_v or 'DL' in old_v:
             return 'skip'
-        nv = ('%g万千瓦' % (float(mo.group(1)) + float(mn.group(1))))
+        mo = re.search(r'风电\s*(\d+(?:\.\d+)?)', old_v)
+        if mo:
+            wind = float(mo.group(1))
+        else:
+            mo0 = re.fullmatch(r'(\d+(?:\.\d+)?)万千瓦', old_v)
+            if not mo0:
+                return 'skip'
+            wind = float(mo0.group(1))
+        mpv = re.search(r'＋\s*(滩涂光伏|沙地光伏|光伏)\s*(\d+(?:\.\d+)?)', old_v)
+        wind += float(mn.group(0).replace('万千瓦', ''))
+        if mpv:
+            nv = '风电%g＋%s%g万千瓦' % (wind, mpv.group(1), float(mpv.group(2)))
+        else:
+            nv = '风电%g万千瓦' % wind
         ns = (old_src + '＋' + basis) if old_src else basis
     else:
         return None
