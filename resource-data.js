@@ -1,57 +1,29 @@
-/* 辽宁省陆上风电资源跟踪获取工作汇总表 · 数据文件
-
- * 维护规则：quota（省发改委下发竞配指标）/ done（已完成竞配·业主优选）两列
-
- * 只填有官方文件依据的内容，未查见公开竞配文件的市以 — 标示；
-
- * note 为可选项：承载历史批次未完成存量与分散式等替代通道说明（2026-10-20 新增，
-
- *   背景——2023·351号计划370万千瓦仍大部在建、本溪丹东集中式指标历年未分但有分散式项目在推）；
-
- * 下发口径基准：辽发改能源〔2025〕349号（第二批）与省第三批建设方案（征求意见稿官方页）叠加；
-
- * 跟踪进展列不在此维护，由页面按政策库自动聚合更新。 */
-
-window.WIND_TRACK = [
-
-  { city:'沈阳', quota:{v:'风电465万千瓦', src:'2025·第一批100＋第二批140＋第三批225（349号等省级方案）', srcUrl:[{t:'349号文',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025041818590985186/index.shtml'},{t:'第三批方案',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025050918162178248/index.shtml'},{t:'第一批方案',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025021117392628709/index.shtml'}]}, done:{v:'375万千瓦', src:'2025.6.24 一批100万公示（星投新能源）；2026.6.22 第一批142万公示（国电投95＋远景30＋金风17）；2026.8.10 第二批133万公示（大唐／国家能源集团／特变电工）', srcUrl:[{t:'2026一批公示报道',u:'https://finance.sina.com.cn/wm/2026-06-23/doc-iniekvar6465616.shtml'},{t:'2026二批公示报道',u:'https://finance.sina.com.cn/roll/2026-08-10/doc-inimvxcf2738349.shtml'},{t:'2025一批公示报道',u:'https://finance.sina.com.cn/roll/2025-06-26/doc-infckxsh4741874.shtml'}]} },
-
-  { city:'大连', quota:{v:'风电225＋滩涂光伏325万千瓦', src:'风电=海上200（省发改委答复披露）＋陆上25；光伏=第二批300＋第三批25（349号／第三批方案）', srcUrl:[{t:'第三批方案',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025050918162178248/index.shtml'}]}, done:{v:'已优选', src:'2025·海上200万千瓦', srcUrl:[{t:'竞配结果公示',u:'https://pc.dl.gov.cn/art/2025/1/16/art_2480_2395513.html'}]} },
-
-  { city:'鞍山', quota:{v:'风电50万千瓦', src:'2026·辽发改能源〔2026〕348号', srcUrl:[{t:'348号文',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2026051309520954691/index.shtml'}]}, done:{v:'50万千瓦', src:'2026.9 优选（国家电投30＋海博思创20）', srcUrl:[{t:'结果公示',u:'http://fgw.anshan.gov.cn/html/FGW/202609/0179056384553179.html'}]} },
-
-  { city:'抚顺', quota:{v:'风电95万千瓦', src:'2025·辽发改能源〔2025〕349号', srcUrl:[{t:'349号文',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025041818590985186/index.shtml'}]}, done:{v:'75万千瓦', src:'2025.6 优选·FS4标段（20万）终止', srcUrl:[{t:'FS1-3结果公示',u:'http://fushun.gov.cn/ywdt/001007/20250625/9d2130d9-a92d-4346-a21e-6384ecb303be.html'}]} },
-
-  { city:'本溪', quota:{v:'—'}, done:{v:'—'},
-
-    note:'集中式竞配指标历年未分配；分散式风电通道推进中——已核准7项共6.5万千瓦（2024.6 本发改核准〔2024〕5~9号），2025、2026连续入选省「千乡万村驭风行动」试点' },
-
-  { city:'丹东', quota:{v:'—'}, done:{v:'—'},
-
-    note:'集中式竞配指标历年未分配；分散式风电推进中——东港黑沟驭风行动1.965万千瓦（2026.4 取得用地预审）、丹东港口风电1.875万千瓦；另持有海上风电指标350万千瓦（已完成竞配，海上口径不在此板块）' },
-
-  { city:'锦州', quota:{v:'风电90万千瓦', src:'2025·第三批方案', srcUrl:[{t:'第三批方案',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025050918162178248/index.shtml'}]}, done:{v:'50万千瓦', src:'2026.10.14 结果公示'} },
-
-  { city:'营口', quota:{v:'风电50万千瓦', src:'2026·辽发改能源〔2026〕348号', srcUrl:[{t:'348号文',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2026051309520954691/index.shtml'}]}, done:{v:'—'} },
-
-  { city:'阜新', quota:{v:'风电205万千瓦', src:'2025·第二批120＋第三批85（349号等省级方案）', srcUrl:[{t:'349号文',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025041818590985186/index.shtml'},{t:'第三批方案',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025050918162178248/index.shtml'}]}, done:{v:'120万千瓦（大唐50＋国家电投东北电力70）', src:'2026.7.15 结果公示·第一批120（第三批85未配；官方公示页未挂网，风电头条等报道）', srcUrl:[{t:'媒体报道',u:'https://finance.sina.com.cn/wm/2026-07-16/doc-inihyuqf8126564.shtml'}]},
-
-    note:'另：2023·辽发改能源〔2023〕351号全省第三批新增风电建设计划下达370万千瓦（13项，可核实项目落彰武县），未计入现行竞配口径——彰武五峰30万千瓦2026.6首批风机并网（未全容量）、辽水新能沙戈荒40万千瓦在建；2023.5「十四五」新增风电主体优选1.7GW两批结果公告（华润、华电、国电投等中选，历史完结批次）' },
-
-  { city:'辽阳', quota:{v:'风电50万千瓦', src:'2025·第二批40＋2026增补10（349/348号）', srcUrl:[{t:'349号文',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025041818590985186/index.shtml'},{t:'348号文',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2026051309520954691/index.shtml'}]}, done:{v:'50万千瓦', src:'2026.7.20 结果公示（远景能源／内蒙古聚能电力／中国石油辽河油田）', srcUrl:[{t:'结果公示原文',u:'http://fgw.liaoyang.gov.cn/zxdt/20260720/9ba675fb-9758-4f5b-94f2-d5d8b4129c20.html'}]} },
-
-  { city:'盘锦', quota:{v:'风电100万千瓦', src:'2025·辽发改能源〔2025〕349号', srcUrl:[{t:'349号文',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025041818590985186/index.shtml'}]}, done:{v:'已优选', src:'2025.6.26 结果公示·100万千瓦（辽河油田中选；官方页未挂网，媒体报道佐证）', srcUrl:[{t:'媒体报道',u:'https://finance.sina.com.cn/roll/2025-06-26/doc-infckxsh4741874.shtml'}]} },
-
-  { city:'铁岭', quota:{v:'风电240万千瓦', src:'2025·第二批120＋第三批120（349号等省级方案）', srcUrl:[{t:'349号文',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025041818590985186/index.shtml'},{t:'第三批方案',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025050918162178248/index.shtml'}]}, done:{v:'185万千瓦（十五五第一批）', src:'2026.7.20 结果公示·7 家企业中选（官方公示页未挂网；规模系媒体5.47GW/8.85GW统计反推口径，待官方页核实）', srcUrl:[{t:'媒体报道',u:'https://finance.sina.com.cn/wm/2026-07-20/doc-iniinscy4979432.shtml'}]} },
-
+/* 辽宁省陆上风电资源跟踪获取工作汇总表 · 数据文件
+ * 维护规则：quota（省发改委下发竞配指标）/ done（已完成竞配·业主优选）两列
+ * 只填有官方文件依据的内容，未查见公开竞配文件的市以 — 标示；
+ * note 为可选项：承载历史批次未完成存量与分散式等替代通道说明（2026-10-20 新增，
+ *   背景——2023·351号计划370万千瓦仍大部在建、本溪丹东集中式指标历年未分但有分散式项目在推）；
+ * 下发口径基准：辽发改能源〔2025〕349号（第二批）与省第三批建设方案（征求意见稿官方页）叠加；
+ * 跟踪进展列不在此维护，由页面按政策库自动聚合更新。 */
+window.WIND_TRACK = [
+  { city:'沈阳', quota:{v:'风电465万千瓦', src:'2025·第一批100＋第二批140＋第三批225（349号等省级方案）', srcUrl:[{t:'349号文',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025041818590985186/index.shtml'},{t:'第三批方案',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025050918162178248/index.shtml'},{t:'第一批方案',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025021117392628709/index.shtml'}]}, done:{v:'375万千瓦', src:'2025.6.24 一批100万公示（星投新能源）；2026.6.22 第一批142万公示（国电投95＋远景30＋金风17）；2026.8.10 第二批133万公示（大唐／国家能源集团／特变电工）', srcUrl:[{t:'2026一批公示报道',u:'https://finance.sina.com.cn/wm/2026-06-23/doc-iniekvar6465616.shtml'},{t:'2026二批公示报道',u:'https://finance.sina.com.cn/roll/2026-08-10/doc-inimvxcf2738349.shtml'},{t:'2025一批公示报道',u:'https://finance.sina.com.cn/roll/2025-06-26/doc-infckxsh4741874.shtml'}]} },
+  { city:'大连', quota:{v:'风电225＋滩涂光伏325万千瓦', src:'风电=海上200（省发改委答复披露）＋陆上25；光伏=第二批300＋第三批25（349号／第三批方案）', srcUrl:[{t:'第三批方案',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025050918162178248/index.shtml'}]}, done:{v:'已优选', src:'2025·海上200万千瓦', srcUrl:[{t:'竞配结果公示',u:'https://pc.dl.gov.cn/art/2025/1/16/art_2480_2395513.html'}]} },
+  { city:'鞍山', quota:{v:'风电50万千瓦', src:'2026·辽发改能源〔2026〕348号', srcUrl:[{t:'348号文',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2026051309520954691/index.shtml'}]}, done:{v:'50万千瓦', src:'2026.9 优选（国家电投30＋海博思创20）', srcUrl:[{t:'结果公示',u:'http://fgw.anshan.gov.cn/html/FGW/202609/0179056384553179.html'}]} },
+  { city:'抚顺', quota:{v:'风电95万千瓦', src:'2025·辽发改能源〔2025〕349号', srcUrl:[{t:'349号文',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025041818590985186/index.shtml'}]}, done:{v:'75万千瓦', src:'2025.6 优选·FS4标段（20万）终止', srcUrl:[{t:'FS1-3结果公示',u:'http://fushun.gov.cn/ywdt/001007/20250625/9d2130d9-a92d-4346-a21e-6384ecb303be.html'}]} },
+  { city:'本溪', quota:{v:'—'}, done:{v:'—'},
+    note:'集中式竞配指标历年未分配；分散式风电通道推进中——已核准7项共6.5万千瓦（2024.6 本发改核准〔2024〕5~9号），2025、2026连续入选省「千乡万村驭风行动」试点' },
+  { city:'丹东', quota:{v:'—'}, done:{v:'—'},
+    note:'集中式竞配指标历年未分配；分散式风电推进中——东港黑沟驭风行动1.965万千瓦（2026.4 取得用地预审）、丹东港口风电1.875万千瓦；另持有海上风电指标350万千瓦（已完成竞配，海上口径不在此板块）' },
+  { city:'锦州', quota:{v:'风电90万千瓦', src:'2025·第三批方案', srcUrl:[{t:'第三批方案',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025050918162178248/index.shtml'}]}, done:{v:'50万千瓦', src:'2026.10.14 结果公示'} },
+  { city:'营口', quota:{v:'风电50万千瓦', src:'2026·辽发改能源〔2026〕348号', srcUrl:[{t:'348号文',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2026051309520954691/index.shtml'}]}, done:{v:'—'} },
+  { city:'阜新', quota:{v:'风电205万千瓦', src:'2025·第二批120＋第三批85（349号等省级方案）', srcUrl:[{t:'349号文',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025041818590985186/index.shtml'},{t:'第三批方案',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025050918162178248/index.shtml'}]}, done:{v:'120万千瓦（大唐50＋国家电投东北电力70）', src:'2026.7.15 结果公示·第一批120（第三批85未配；官方公示页未挂网，风电头条等报道）', srcUrl:[{t:'媒体报道',u:'https://finance.sina.com.cn/wm/2026-07-16/doc-inihyuqf8126564.shtml'}]},
+    note:'另：2023·辽发改能源〔2023〕351号全省第三批新增风电建设计划下达370万千瓦（13项，可核实项目落彰武县），未计入现行竞配口径——彰武五峰30万千瓦2026.6首批风机并网（未全容量）、辽水新能沙戈荒40万千瓦在建；2023.5「十四五」新增风电主体优选1.7GW两批结果公告（华润、华电、国电投等中选，历史完结批次）；「十五五」重点推进230万千瓦风电、60万千瓦储能电站建设（2026.11 市政府十五五专场发布会）' },
+  { city:'辽阳', quota:{v:'风电50万千瓦', src:'2025·第二批40＋2026增补10（349/348号）', srcUrl:[{t:'349号文',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025041818590985186/index.shtml'},{t:'348号文',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2026051309520954691/index.shtml'}]}, done:{v:'50万千瓦', src:'2026.7.20 结果公示（远景能源／内蒙古聚能电力／中国石油辽河油田）', srcUrl:[{t:'结果公示原文',u:'http://fgw.liaoyang.gov.cn/zxdt/20260720/9ba675fb-9758-4f5b-94f2-d5d8b4129c20.html'}]} },
+  { city:'盘锦', quota:{v:'风电100万千瓦', src:'2025·辽发改能源〔2025〕349号', srcUrl:[{t:'349号文',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025041818590985186/index.shtml'}]}, done:{v:'已优选', src:'2025.6.26 结果公示·100万千瓦（辽河油田中选；官方页未挂网，媒体报道佐证）', srcUrl:[{t:'媒体报道',u:'https://finance.sina.com.cn/roll/2025-06-26/doc-infckxsh4741874.shtml'}]} },
+  { city:'铁岭', quota:{v:'风电240万千瓦', src:'2025·第二批120＋第三批120（349号等省级方案）', srcUrl:[{t:'349号文',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025041818590985186/index.shtml'},{t:'第三批方案',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025050918162178248/index.shtml'}]}, done:{v:'185万千瓦（十五五第一批）', src:'2026.7.20 结果公示·7 家企业中选（官方公示页未挂网；规模系媒体5.47GW/8.85GW统计反推口径，待官方页核实）', srcUrl:[{t:'媒体报道',u:'https://finance.sina.com.cn/wm/2026-07-20/doc-iniinscy4979432.shtml'}]} },
   { city:'朝阳', quota:{v:'风电385＋光伏515万千瓦', src:'风电=第一批100＋第二批90＋第三批195；光伏=治沙500（第一批）＋沙地15（第三批）（349号等省级方案）', srcUrl:[{t:'349号文',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025041818590985186/index.shtml'},{t:'第三批方案',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025050918162178248/index.shtml'}]}, done:{v:'190万千瓦（风电9标段）', src:'2026.8.5 结果公示·风电190（=第一批100＋第二批90；第三批195未配；官方公示页未挂网，光伏头条等报道）', srcUrl:[{t:'媒体报道',u:'https://finance.sina.com.cn/roll/2026-08-11/doc-inimxvun5782341.shtml'}]},
-    note:'据市十二届人大五次会议建议答复（2026.7，市政府官网），省发改委依据「十五五」新能源资源普查下达我市风光建设规模290万千瓦' },
-
-  { city:'葫芦岛', quota:{v:'风电85万千瓦', src:'2025·第二批55＋第三批30（349号等省级方案）', srcUrl:[{t:'349号文',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025041818590985186/index.shtml'},{t:'第三批方案',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025050918162178248/index.shtml'}]}, done:{v:'50万千瓦', src:'2026.6.17 结果公示', srcUrl:[{t:'结果公示原文',u:'https://fgw.hld.gov.cn/xwzx/tzgg/202606/t20260617_1240006.html'}]} },
-
-  { city:'庄河市', quota:{v:'海上风电70万千瓦（DL5 20＋DL6 50）', src:'省发改委答复披露（海上场址属地庄河，含于大连口径）'}, done:{v:'—'} },
-
-  { city:'沈抚示范区', quota:{v:'风电25万千瓦', src:'2025·第三批方案', srcUrl:[{t:'第三批方案',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025050918162178248/index.shtml'}]}, done:{v:'25万千瓦（京能国际）', src:'2025.6.26 投资主体名单公示（沈抚示范区官网）', srcUrl:[{t:'公示原文',u:'http://sfggcxsfq.ln.gov.cn/info/1118/10147.htm'}]} }
-
-];
-
+    note:'据市十二届人大五次会议建议答复（2026.7，市政府官网），省发改委依据「十五五」新能源资源普查下达我市风光建设规模290万千瓦' },
+  { city:'葫芦岛', quota:{v:'风电85万千瓦', src:'2025·第二批55＋第三批30（349号等省级方案）', srcUrl:[{t:'349号文',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025041818590985186/index.shtml'},{t:'第三批方案',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025050918162178248/index.shtml'}]}, done:{v:'50万千瓦', src:'2026.6.17 结果公示', srcUrl:[{t:'结果公示原文',u:'https://fgw.hld.gov.cn/xwzx/tzgg/202606/t20260617_1240006.html'}]} },
+  { city:'庄河市', quota:{v:'海上风电70万千瓦（DL5 20＋DL6 50）', src:'省发改委答复披露（海上场址属地庄河，含于大连口径）'}, done:{v:'—'} },
+  { city:'沈抚示范区', quota:{v:'风电25万千瓦', src:'2025·第三批方案', srcUrl:[{t:'第三批方案',u:'https://fgw.ln.gov.cn/fgw/index/tzgg/2025050918162178248/index.shtml'}]}, done:{v:'25万千瓦（京能国际）', src:'2025.6.26 投资主体名单公示（沈抚示范区官网）', srcUrl:[{t:'公示原文',u:'http://sfggcxsfq.ln.gov.cn/info/1118/10147.htm'}]} }
+];
