@@ -13,9 +13,9 @@
 :root{
   --paper:#f4f1e8;
   --card:#fffdf7;
-  --ink:#2b333d;
-  --ink-soft:#5c6470;
-  --ink-faint:#8b8f96;
+  --ink:#222b35;
+  --ink-soft:#4d5663;
+  --ink-faint:#7c828c;
   --navy:#16324f;
   --navy-deep:#0b2340;
   --red:#9e2a25;
@@ -38,23 +38,23 @@ body{
   background-image:
     repeating-linear-gradient(0deg,rgba(0,0,0,.012) 0 1px,transparent 1px 3px),
     radial-gradient(1200px 500px at 50% -100px,rgba(22,50,79,.05),transparent 70%);
-  font-size:15.5px;
-  line-height:1.75;
+  font-size:16px;
+  line-height:1.8;
 }
 a{color:var(--navy)}
 ::selection{background:rgba(178,58,47,.18)}
 
 .wrap{max-width:1280px;margin:0 auto;padding:0 28px}
 
-/* ============ 刊头 ============ */
-.masthead{background:var(--card);border-bottom:1px solid var(--line)}
-.masthead .top-rule{height:6px;background:linear-gradient(90deg,var(--red) 0 60%,var(--gold) 60% 62%,var(--navy) 62% 100%)}
-.masthead-inner{padding:24px 0;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
-.brand h1{font-family:var(--serif);font-weight:900;font-size:clamp(32px,4.6vw,46px);letter-spacing:.14em;color:var(--navy-deep);line-height:1.15}
+/* ============ 刊头（深蓝政务横幅） ============ */
+.masthead{background:linear-gradient(180deg,#15355a 0%,var(--navy-deep) 100%);box-shadow:0 2px 10px -6px rgba(11,35,64,.5)}
+.masthead .top-rule{height:3px;background:linear-gradient(90deg,var(--gold) 0 72%,rgba(255,255,255,.22) 72% 100%)}
+.masthead-inner{padding:26px 0;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.brand h1{font-family:var(--serif);font-weight:900;font-size:clamp(32px,4.6vw,46px);letter-spacing:.1em;color:#fff;line-height:1.15}
 .masthead-right{display:flex;align-items:baseline;gap:14px;text-align:center}
-.masthead-right .date-line{font-family:var(--serif);font-size:17px;font-weight:700;color:var(--navy-deep);letter-spacing:.06em}
-.masthead-right .date-line .wk{font-family:var(--sans);font-size:13px;font-weight:400;color:var(--ink-faint);letter-spacing:.2em;margin-left:3px}
-.masthead-right .updated{font-size:12.5px;color:var(--ink-faint);letter-spacing:.1em;padding-left:14px;border-left:1px solid var(--line)}
+.masthead-right .date-line{font-family:var(--serif);font-size:17px;font-weight:700;color:rgba(255,255,255,.95);letter-spacing:.06em}
+.masthead-right .date-line .wk{font-family:var(--sans);font-size:13px;font-weight:400;color:rgba(255,255,255,.62);letter-spacing:.2em;margin-left:3px}
+.masthead-right .updated{font-size:12.5px;color:rgba(255,255,255,.72);letter-spacing:.1em;padding-left:14px;border-left:1px solid rgba(255,255,255,.25)}
 
 /* ============ 解读专区（独立模块） ============ */
 .digest{margin-top:30px;background:var(--card);border:1px solid rgba(216,208,189,.82);box-shadow:var(--shadow);padding:24px 26px 26px}
@@ -71,7 +71,7 @@ a{color:var(--navy)}
 .digest-card:hover{border-top-color:var(--red);background:rgba(255,255,255,.82)}
 .digest-card .no{font-family:var(--serif);font-size:14px;color:var(--gold);font-weight:700;letter-spacing:.2em;margin-bottom:6px}
 .digest-card h3{font-family:var(--serif);font-size:19px;font-weight:900;color:var(--navy-deep);letter-spacing:.04em;margin-bottom:10px;line-height:1.5}
-.digest-card .body{font-size:15px;color:var(--ink-soft);line-height:1.85;flex:1}
+.digest-card .body{font-size:15.5px;color:var(--ink-soft);line-height:1.85;flex:1}
 .digest-card .body p+p{margin-top:7px}
 .digest-card .body b{color:var(--ink);font-weight:700}
 .digest-card .watch{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);font-size:13.5px;color:var(--red-deep);line-height:1.7}
@@ -92,7 +92,7 @@ a{color:var(--navy)}
 }
 .search:hover{border-color:rgba(22,50,79,.48);background:#fff}
 .search:focus-within{border-color:var(--navy);background:#fff;box-shadow:0 0 0 3px rgba(22,50,79,.08)}
-.search input{border:none;outline:none;background:transparent;font-family:var(--sans);font-size:15px;width:100%;color:var(--ink)}
+.search input{border:none;outline:none;background:transparent;font-family:var(--sans);font-size:15.5px;width:100%;color:var(--ink)}
 .search .icon{color:var(--ink-faint);font-size:15px}
 .item mark{background:#f3e7c9;color:inherit;padding:0 1px;border-radius:2px;font-weight:700}
 .chips{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
@@ -185,8 +185,8 @@ body[data-view="log"] #logSection{display:block}
 .res-block[open] summary{background:rgba(22,50,79,.025);border-bottom:1px solid var(--line-soft)}
 .res-block[open] summary::after{transform:rotate(90deg);color:var(--navy)}
 .res-city{font-family:var(--serif);font-size:15px;font-weight:900;color:#fff;background:var(--green);padding:2px 12px;border-radius:2px;letter-spacing:.12em}
-.sum{font-size:12.5px;color:var(--ink-faint)}
-.sum b{color:var(--ink);font-weight:700;font-size:13.5px;margin-left:4px}
+.sum{font-size:13px;color:var(--ink-faint)}
+.sum b{color:var(--ink);font-weight:700;font-size:14px;margin-left:4px}
 .cnt{font-size:12px;color:var(--gold);font-weight:700;letter-spacing:.05em}
 .cnt.zero{color:var(--ink-faint);font-weight:400}
 .res-detail{padding:7px 0 9px}
@@ -203,7 +203,7 @@ body[data-view="log"] #logSection{display:block}
 .res-item:last-of-type{border-bottom:none}
 .res-item:hover{background:rgba(22,50,79,.045)}
 .res-item .rd{flex:none;font-size:12.5px;color:var(--ink-faint);letter-spacing:.05em}
-.res-item .rt{font-size:14px;color:var(--ink);line-height:1.6;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.res-item .rt{font-size:14.5px;color:var(--ink);line-height:1.65;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .res-item:hover .rt{color:var(--navy)}
 .res-item .docno{color:var(--navy);font-weight:600;margin-right:6px}
 .res-empty{padding:9px 16px;font-size:13px;color:var(--ink-faint)}
@@ -215,7 +215,7 @@ body[data-view="log"] #logSection{display:block}
 
 /* 政策流 */
 .feed-head{display:flex;align-items:baseline;justify-content:flex-end;margin-bottom:14px}
-.feed-head .count{font-size:13.5px;color:var(--ink-faint);letter-spacing:.08em}
+.feed-head .count{font-size:14px;color:var(--ink-faint);letter-spacing:.06em}
 .feed{position:relative;padding-left:18px}
 .feed::before{content:"";position:absolute;left:4px;top:8px;bottom:8px;width:1px;background:var(--line)}
 .item{
@@ -253,11 +253,11 @@ select.filter.sel-active{border-color:var(--gold);color:#8a6f2f}
 .item h3.title{font-family:var(--serif);font-size:18px;font-weight:900;color:var(--ink);line-height:1.55;letter-spacing:.02em}
 .item h3.title a{color:inherit;text-decoration:none}
 .item h3.title a:hover{color:var(--navy)}
-.item .meta{font-size:13.5px;color:var(--ink-faint);margin:5px 0 8px;letter-spacing:.04em}
+.item .meta{font-size:14px;color:var(--ink-faint);margin:5px 0 8px;letter-spacing:.02em}
 .item .meta .docno{color:var(--navy);font-weight:600}
 .ops .op{text-decoration:none}
-.item .digest{font-size:15px;color:var(--ink-soft);line-height:1.8}
-.item .impact{margin-top:9px;padding:10px 13px;background:rgba(22,50,79,.045);border-left:3px solid var(--navy);font-size:14.5px;color:var(--ink-soft);line-height:1.75}
+.item .digest{font-size:15.5px;color:var(--ink-soft);line-height:1.82}
+.item .impact{margin-top:9px;padding:10px 13px;background:rgba(22,50,79,.045);border-left:3px solid var(--navy);font-size:15px;color:var(--ink-soft);line-height:1.78}
 .item .impact b{color:var(--navy-deep)}
 .item .impact .ref,.digest-card .watch .ref{display:block;margin-top:4px;font-size:12.5px;color:var(--ink-faint);letter-spacing:.02em}
 .ops{display:flex;gap:4px;flex-wrap:wrap;margin-top:10px;padding-top:8px;border-top:1px solid var(--line-soft)}
@@ -415,6 +415,10 @@ footer{border-top:6px double var(--line);margin-top:10px;padding:26px 0 40px;bac
   body{background:#fff;background-image:none}
   .wrap{max-width:none;padding:0}
   .digest,.digest-card,.side-card,.res-block,.res-block[open]{box-shadow:none}
+  .masthead{background:#fff!important;box-shadow:none}
+  .masthead .top-rule{background:var(--line)!important}
+  .brand h1,.masthead-right .date-line{color:#000!important}
+  .masthead-right .date-line .wk,.masthead-right .updated{color:#555!important;border-color:#ccc!important}
   .item,.digest-card{break-inside:avoid}
   a{color:inherit;text-decoration:none}
   .item h3.title a{color:#000}
