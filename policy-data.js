@@ -26,8 +26,8 @@
 /* 版头两字段：POLICY_UPDATED_AT 每次每日任务运行完成后刷新为本次运行时刻
    （无论有无新增，用于证明检索确已执行）；POLICY_UPDATED_COUNT 为本次新增
    条数（无新增置 0，修改/删除不计）。存量补录类手动入库不动两字段。 */
-window.POLICY_UPDATED_AT = '2026-11-18 14:30';
-window.POLICY_UPDATED_COUNT = 0;
+window.POLICY_UPDATED_AT = '2026-11-19 14:30';
+window.POLICY_UPDATED_COUNT = 1;
 window.POLICY_SEED = [
   {
     id:'s1', level:'national', field:'pricing', top:true,
@@ -1438,5 +1438,16 @@ window.POLICY_SEED = [
     ref:'发改能源〔2026〕1565号全文',
     status:'key',
     createdAt:'2026-11-14'
+  },
+  {
+    id:'d20261119-1', level:'national', field:'plan', top:true,
+    title:'国家能源局关于加快推动流域水风光一体化发展的指导意见',
+    docno:'国能发新能〔2026〕92号', org:'国家能源局', date:'2026-11-09',
+    url:'https://www.nea.gov.cn/20261118/86aabd24d92d4eeb93dafb535f819650/c.html',
+    digest:'国家能源局印发指导意见，提出到2030年雅砻江、金沙江上游等流域水风光一体化基地建设取得积极进展，单个基地带动新能源规模原则上不少于500万千瓦，落实一体化资源配置、规划布局、开发建设、联合调度、市场消纳、安全保障要求，培育水风光+新业态，优化项目核准备案、电网接入流程。',
+    impact:'国家层面确立水风光一体化开发模式与统一核准备案机制，为辽宁依托水电及抽水蓄能调节能力推进风光规模化开发、参与市场消纳提供政策依据。',
+    ref:'国能发新能〔2026〕92号全文',
+    status:'key',
+    createdAt:'2026-11-19'
   }
 ];
