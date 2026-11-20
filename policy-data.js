@@ -26,8 +26,8 @@
 /* 版头两字段：POLICY_UPDATED_AT 每次每日任务运行完成后刷新为本次运行时刻
    （无论有无新增，用于证明检索确已执行）；POLICY_UPDATED_COUNT 为本次新增
    条数（无新增置 0，修改/删除不计）。存量补录类手动入库不动两字段。 */
-window.POLICY_UPDATED_AT = '2026-11-19 14:30';
-window.POLICY_UPDATED_COUNT = 1;
+window.POLICY_UPDATED_AT = '2026-11-20 14:30';
+window.POLICY_UPDATED_COUNT = 2;
 window.POLICY_SEED = [
   {
     id:'s1', level:'national', field:'pricing', top:true,
@@ -1449,5 +1449,26 @@ window.POLICY_SEED = [
     ref:'国能发新能〔2026〕92号全文',
     status:'key',
     createdAt:'2026-11-19'
+  },
+  {
+    id:'d20261120-1', level:'national', field:'procedure', top:false,
+    stage:'other',
+    title:'2026年第44期电力业务许可公告',
+    docno:'', org:'国家能源局东北监管局', date:'2026-11-16',
+    url:'https://dbj.nea.gov.cn/dtyw/tzgg/202611/t20261119_312799.html',
+    digest:'东北监管局公告2026年11月9日至15日审查通过的告知承诺制企业名单：发电类许可审批企业19家，含通榆景通新能源新建42台风电机组准予许可、营口风力发电股份有限公司许可证准予延续、阜新市天阜太阳能发电有限公司法定代表人准予变更；承装（修、试）电力设施许可审批企业28家；重新核定许可等级企业1家。',
+    impact:'辽宁风电、太阳能发电企业电力业务许可获延续或变更，多家辽宁承装修试企业获准新领、升级或延续资质，为项目合法运营与电力设施施工提供许可保障。',
+    ref:'2026年第44期电力业务许可公告全文',
+    createdAt:'2026-11-20'
+  },
+  {
+    id:'d20261120-2', level:'national', field:'procedure', top:false,
+    stage:'other',
+    title:'2026年第43期电力业务许可公告',
+    docno:'', org:'国家能源局东北监管局', date:'2026-11-09',
+    url:'https://dbj.nea.gov.cn/dtyw/tzgg/202611/t20261119_312798.html',
+    digest:'东北能源监管局公告2026年11月2日至11月8日审查通过的告知承诺制企业。发电类电力业务许可10家，含塔河县国脉新能源#5-#6风电机组投运准予许可、华润新能源（法库）#F29风电机组准予变更、桓仁金山热电等3家准予延续；承装（修、试）许可32家，分别准予许可、变更、延续或注销。',
+    impact:'华润法库风机取得投运许可、辽宁多家电力施工企业资质获准延续，保障辽宁风电项目并网投运与电力设施建设施工的合规推进。',
+    createdAt:'2026-11-20'
   }
 ];
